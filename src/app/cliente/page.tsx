@@ -19,7 +19,18 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: string;
+}
+
+interface ApiAppointmentItem {
+  id: string;
+  data: string;
+  horario: string;
+  servico: string;
+  modelo_veiculo: string;
+  cor: string;
+  placa: string;
+  observacoes: string;
+  status: string;
 }
 
 export default function ClienteDashboardPage() {
@@ -109,7 +120,7 @@ export default function ClienteDashboardPage() {
 
         // Converte os dados da API para o formato do ServiceList
         const agendamentosFormatados: ServiceItem[] =
-          data.data?.map((item: any) => {
+          data.data?.map((item: ApiAppointmentItem) => {
             // ✅ Log para debug
             console.log("Item da API:", item);
 

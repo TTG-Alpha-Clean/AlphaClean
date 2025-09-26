@@ -104,9 +104,7 @@ export function EditAgendamentoForm({
     try {
       const res = await fetch(
         `${API_URL}/api/agendamentos/slots?data=${selectedDate}`,
-        {
-          
-        }
+        {}
       );
 
       if (!res.ok) throw new Error("Erro ao carregar horários");
@@ -203,7 +201,7 @@ export function EditAgendamentoForm({
       // ✅ Usa a nova rota PUT para edição completa
       const res = await fetch(`${API_URL}/api/agendamentos/${agendamento.id}`, {
         method: "PUT",
-        
+
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           modelo_veiculo,
@@ -225,11 +223,14 @@ export function EditAgendamentoForm({
       toast.success("Agendamento atualizado com sucesso!", { id: tid });
       onUpdated?.();
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Erro ao atualizar agendamento:", err);
-      toast.error(err?.message || "Erro ao atualizar agendamento.", {
-        id: tid,
-      });
+      toast.error(
+        err instanceof Error ? err.message : "Erro ao atualizar agendamento.",
+        {
+          id: tid,
+        }
+      );
     } finally {
       setSubmitting(false);
     }
@@ -247,8 +248,8 @@ export function EditAgendamentoForm({
             <span className="text-yellow-600">⚠️</span>
             <p className="text-sm text-yellow-800">
               <strong>Atenção:</strong> Este agendamento não pode ser editado
-              pois está com status "{agendamento.status}". Apenas agendamentos
-              com status "agendado" podem ser modificados.
+              pois está com status {agendamento.status}. Apenas agendamentos com
+              status agendado podem ser modificados.
             </p>
           </div>
         </div>

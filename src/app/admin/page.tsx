@@ -102,7 +102,7 @@ export default function AdminDashboardPage() {
           setUser(userData.user);
           setChecking(false);
         }
-      } catch (error) {
+      } catch {
         if (!cancel) {
           removeToken();
           router.replace("/login?next=/admin");

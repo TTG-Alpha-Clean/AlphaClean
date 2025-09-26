@@ -274,7 +274,7 @@ const ServiceCardDetailed: React.FC<{ service: Service; highlightLabel?: string 
   const { type, title, subtitle, price, time, description, image_url, informations } = service;
 
   // suporta preço riscado vindo junto no objeto
-  const originalPrice = (service as any)?.originalPrice as number | undefined;
+  const originalPrice = (service as Service & { originalPrice?: number })?.originalPrice;
 
   const MAX_VISIBLE_ITEMS = 4;
   const visible = Array.isArray(informations) ? informations.slice(0, MAX_VISIBLE_ITEMS) : [];
@@ -475,8 +475,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
       const res = await axios.get<Service[]>(endpoint, { timeout: 15000 });
       const data = Array.isArray(res.data) ? res.data : [];
       setServices(data);
-    } catch (e: any) {
-      setError(e?.message || "Erro ao carregar serviços");
+    } catch (e: unknown) {
+      setError((e instanceof Error ? e.message : "Erro ao carregar serviços"));
       setServices([]);
     } finally {
       setLoading(false);

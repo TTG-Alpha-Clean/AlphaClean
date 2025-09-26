@@ -10,7 +10,7 @@ import {
   Eye,
   Plus,
   Trash2,
-  X
+  X,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
@@ -37,26 +37,31 @@ interface ContentManagementProps {
 }
 
 export function ContentManagement({ onClose }: ContentManagementProps) {
-  const [activeTab, setActiveTab] = useState<'home' | 'services'>('home');
+  const [activeTab, setActiveTab] = useState<"home" | "services">("home");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
   // Estados para o conteúdo
   const [homeContent, setHomeContent] = useState<HomeContent>({
     heroTitle: "Cuidado Profissional para seu Veículo",
-    heroSubtitle: "Mais do que uma lavagem, oferecemos uma experiência completa de cuidado automotivo com produtos premium e técnicas especializadas.",
+    heroSubtitle:
+      "Mais do que uma lavagem, oferecemos uma experiência completa de cuidado automotivo com produtos premium e técnicas especializadas.",
     aboutTitle: "Sobre a Alpha Clean",
-    aboutDescription: "Mais do que um serviço, proporcionamos uma experiência: o cuidado de quem realmente entende e ama carros.",
+    aboutDescription:
+      "Mais do que um serviço, proporcionamos uma experiência: o cuidado de quem realmente entende e ama carros.",
     servicesTitle: "Nossos Serviços",
-    servicesDescription: "Oferecemos uma gama completa de serviços para manter seu veículo sempre impecável. Escolha o serviço que melhor atende suas necessidades.",
+    servicesDescription:
+      "Oferecemos uma gama completa de serviços para manter seu veículo sempre impecável. Escolha o serviço que melhor atende suas necessidades.",
     contactTitle: "Entre em Contato",
-    contactDescription: "Estamos prontos pra atender você! Entre em contato conosco para agendar seu serviço ou esclarecer qualquer dúvida."
+    contactDescription:
+      "Estamos prontos pra atender você! Entre em contato conosco para agendar seu serviço ou esclarecer qualquer dúvida.",
   });
 
   const [servicesContent, setServicesContent] = useState<ServicesPageContent>({
     title: "Nossos Serviços",
-    subtitle: "Escolha o serviço ideal para seu veículo. Todos executados com produtos profissionais e técnicas especializadas.",
-    buttonText: "Agendar Agora"
+    subtitle:
+      "Escolha o serviço ideal para seu veículo. Todos executados com produtos profissionais e técnicas especializadas.",
+    buttonText: "Agendar Agora",
   });
 
   // Carregar conteúdo atual (mock - em produção viria da API)
@@ -68,7 +73,7 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
     setLoading(true);
     try {
       // Simula carregamento da API
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Em produção, aqui faria as chamadas reais para a API
       // const homeResponse = await fetch('/api/content/home');
@@ -87,15 +92,15 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
     setSaving(true);
     try {
       // Simula salvamento na API
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Em produção, aqui faria as chamadas para salvar na API
-      if (activeTab === 'home') {
+      if (activeTab === "home") {
         // await fetch('/api/content/home', { method: 'PUT', body: JSON.stringify(homeContent) });
-        console.log('Salvando conteúdo da home:', homeContent);
+        console.log("Salvando conteúdo da home:", homeContent);
       } else {
         // await fetch('/api/content/services', { method: 'PUT', body: JSON.stringify(servicesContent) });
-        console.log('Salvando conteúdo dos serviços:', servicesContent);
+        console.log("Salvando conteúdo dos serviços:", servicesContent);
       }
 
       toast.success("Conteúdo salvo com sucesso!");
@@ -108,22 +113,27 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
   };
 
   const resetContent = () => {
-    if (activeTab === 'home') {
+    if (activeTab === "home") {
       setHomeContent({
         heroTitle: "Cuidado Profissional para seu Veículo",
-        heroSubtitle: "Mais do que uma lavagem, oferecemos uma experiência completa de cuidado automotivo com produtos premium e técnicas especializadas.",
+        heroSubtitle:
+          "Mais do que uma lavagem, oferecemos uma experiência completa de cuidado automotivo com produtos premium e técnicas especializadas.",
         aboutTitle: "Sobre a Alpha Clean",
-        aboutDescription: "Mais do que um serviço, proporcionamos uma experiência: o cuidado de quem realmente entende e ama carros.",
+        aboutDescription:
+          "Mais do que um serviço, proporcionamos uma experiência: o cuidado de quem realmente entende e ama carros.",
         servicesTitle: "Nossos Serviços",
-        servicesDescription: "Oferecemos uma gama completa de serviços para manter seu veículo sempre impecável. Escolha o serviço que melhor atende suas necessidades.",
+        servicesDescription:
+          "Oferecemos uma gama completa de serviços para manter seu veículo sempre impecável. Escolha o serviço que melhor atende suas necessidades.",
         contactTitle: "Entre em Contato",
-        contactDescription: "Estamos prontos pra atender você! Entre em contato conosco para agendar seu serviço ou esclarecer qualquer dúvida."
+        contactDescription:
+          "Estamos prontos pra atender você! Entre em contato conosco para agendar seu serviço ou esclarecer qualquer dúvida.",
       });
     } else {
       setServicesContent({
         title: "Nossos Serviços",
-        subtitle: "Escolha o serviço ideal para seu veículo. Todos executados com produtos profissionais e técnicas especializadas.",
-        buttonText: "Agendar Agora"
+        subtitle:
+          "Escolha o serviço ideal para seu veículo. Todos executados com produtos profissionais e técnicas especializadas.",
+        buttonText: "Agendar Agora",
       });
     }
     toast.success("Conteúdo resetado para os valores padrão");
@@ -135,7 +145,9 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
         <div className="bg-white rounded-2xl p-8 shadow-2xl">
           <div className="flex items-center space-x-3">
             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-            <span className="text-gray-700">Carregando gerenciador de conteúdo...</span>
+            <span className="text-gray-700">
+              Carregando gerenciador de conteúdo...
+            </span>
           </div>
         </div>
       </div>
@@ -152,8 +164,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
               <Edit3 className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Gerenciador de Conteúdo</h2>
-              <p className="text-sm text-gray-500">Edite os textos das páginas do site</p>
+              <h2 className="text-xl font-bold text-gray-900">
+                Gerenciador de Conteúdo
+              </h2>
+              <p className="text-sm text-gray-500">
+                Edite os textos das páginas do site
+              </p>
             </div>
           </div>
 
@@ -188,11 +204,11 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
         {/* Tabs */}
         <div className="flex border-b border-gray-200">
           <button
-            onClick={() => setActiveTab('home')}
+            onClick={() => setActiveTab("home")}
             className={`flex items-center space-x-2 px-6 py-4 text-sm font-medium transition-colors ${
-              activeTab === 'home'
-                ? 'border-b-2 border-blue-600 text-blue-600 bg-blue-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+              activeTab === "home"
+                ? "border-b-2 border-blue-600 text-blue-600 bg-blue-50"
+                : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
             }`}
           >
             <Home className="w-4 h-4" />
@@ -200,11 +216,11 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
           </button>
 
           <button
-            onClick={() => setActiveTab('services')}
+            onClick={() => setActiveTab("services")}
             className={`flex items-center space-x-2 px-6 py-4 text-sm font-medium transition-colors ${
-              activeTab === 'services'
-                ? 'border-b-2 border-blue-600 text-blue-600 bg-blue-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+              activeTab === "services"
+                ? "border-b-2 border-blue-600 text-blue-600 bg-blue-50"
+                : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
             }`}
           >
             <Settings className="w-4 h-4" />
@@ -214,13 +230,17 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
 
         {/* Content */}
         <div className="overflow-y-auto max-h-[calc(90vh-200px)]">
-          {activeTab === 'home' ? (
+          {activeTab === "home" ? (
             <div className="p-6 space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Conteúdo da Página Inicial</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Conteúdo da Página Inicial
+              </h3>
 
               {/* Seção Hero */}
               <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">Seção Principal (Hero)</h4>
+                <h4 className="font-medium text-gray-900 mb-3">
+                  Seção Principal (Hero)
+                </h4>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -229,7 +249,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     <input
                       type="text"
                       value={homeContent.heroTitle}
-                      onChange={(e) => setHomeContent(prev => ({ ...prev, heroTitle: e.target.value }))}
+                      onChange={(e) =>
+                        setHomeContent((prev) => ({
+                          ...prev,
+                          heroTitle: e.target.value,
+                        }))
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Digite o título principal"
                     />
@@ -241,7 +266,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     </label>
                     <textarea
                       value={homeContent.heroSubtitle}
-                      onChange={(e) => setHomeContent(prev => ({ ...prev, heroSubtitle: e.target.value }))}
+                      onChange={(e) =>
+                        setHomeContent((prev) => ({
+                          ...prev,
+                          heroSubtitle: e.target.value,
+                        }))
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                       placeholder="Digite o subtítulo"
@@ -261,7 +291,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     <input
                       type="text"
                       value={homeContent.aboutTitle}
-                      onChange={(e) => setHomeContent(prev => ({ ...prev, aboutTitle: e.target.value }))}
+                      onChange={(e) =>
+                        setHomeContent((prev) => ({
+                          ...prev,
+                          aboutTitle: e.target.value,
+                        }))
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Digite o título da seção sobre"
                     />
@@ -273,7 +308,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     </label>
                     <textarea
                       value={homeContent.aboutDescription}
-                      onChange={(e) => setHomeContent(prev => ({ ...prev, aboutDescription: e.target.value }))}
+                      onChange={(e) =>
+                        setHomeContent((prev) => ({
+                          ...prev,
+                          aboutDescription: e.target.value,
+                        }))
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                       placeholder="Digite a descrição da seção sobre"
@@ -284,7 +324,9 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
 
               {/* Seção Serviços */}
               <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">Seção Serviços</h4>
+                <h4 className="font-medium text-gray-900 mb-3">
+                  Seção Serviços
+                </h4>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -293,7 +335,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     <input
                       type="text"
                       value={homeContent.servicesTitle}
-                      onChange={(e) => setHomeContent(prev => ({ ...prev, servicesTitle: e.target.value }))}
+                      onChange={(e) =>
+                        setHomeContent((prev) => ({
+                          ...prev,
+                          servicesTitle: e.target.value,
+                        }))
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Digite o título da seção de serviços"
                     />
@@ -305,7 +352,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     </label>
                     <textarea
                       value={homeContent.servicesDescription}
-                      onChange={(e) => setHomeContent(prev => ({ ...prev, servicesDescription: e.target.value }))}
+                      onChange={(e) =>
+                        setHomeContent((prev) => ({
+                          ...prev,
+                          servicesDescription: e.target.value,
+                        }))
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                       placeholder="Digite a descrição da seção de serviços"
@@ -316,7 +368,9 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
 
               {/* Seção Contato */}
               <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">Seção Contato</h4>
+                <h4 className="font-medium text-gray-900 mb-3">
+                  Seção Contato
+                </h4>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -325,7 +379,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     <input
                       type="text"
                       value={homeContent.contactTitle}
-                      onChange={(e) => setHomeContent(prev => ({ ...prev, contactTitle: e.target.value }))}
+                      onChange={(e) =>
+                        setHomeContent((prev) => ({
+                          ...prev,
+                          contactTitle: e.target.value,
+                        }))
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Digite o título da seção de contato"
                     />
@@ -337,7 +396,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     </label>
                     <textarea
                       value={homeContent.contactDescription}
-                      onChange={(e) => setHomeContent(prev => ({ ...prev, contactDescription: e.target.value }))}
+                      onChange={(e) =>
+                        setHomeContent((prev) => ({
+                          ...prev,
+                          contactDescription: e.target.value,
+                        }))
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                       placeholder="Digite a descrição da seção de contato"
@@ -348,11 +412,15 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
             </div>
           ) : (
             <div className="p-6 space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Conteúdo da Página de Serviços</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Conteúdo da Página de Serviços
+              </h3>
 
               {/* Banner da página de serviços */}
               <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">Banner Principal</h4>
+                <h4 className="font-medium text-gray-900 mb-3">
+                  Banner Principal
+                </h4>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -361,7 +429,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     <input
                       type="text"
                       value={servicesContent.title}
-                      onChange={(e) => setServicesContent(prev => ({ ...prev, title: e.target.value }))}
+                      onChange={(e) =>
+                        setServicesContent((prev) => ({
+                          ...prev,
+                          title: e.target.value,
+                        }))
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Digite o título da página de serviços"
                     />
@@ -373,7 +446,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     </label>
                     <textarea
                       value={servicesContent.subtitle}
-                      onChange={(e) => setServicesContent(prev => ({ ...prev, subtitle: e.target.value }))}
+                      onChange={(e) =>
+                        setServicesContent((prev) => ({
+                          ...prev,
+                          subtitle: e.target.value,
+                        }))
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                       placeholder="Digite o subtítulo da página de serviços"
@@ -387,7 +465,12 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     <input
                       type="text"
                       value={servicesContent.buttonText}
-                      onChange={(e) => setServicesContent(prev => ({ ...prev, buttonText: e.target.value }))}
+                      onChange={(e) =>
+                        setServicesContent((prev) => ({
+                          ...prev,
+                          buttonText: e.target.value,
+                        }))
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Digite o texto do botão"
                     />
@@ -402,10 +485,15 @@ export function ContentManagement({ onClose }: ContentManagementProps) {
                     <Eye className="w-3 h-3 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-blue-900 mb-1">Nota sobre os serviços</h4>
+                    <h4 className="font-medium text-blue-900 mb-1">
+                      Nota sobre os serviços
+                    </h4>
                     <p className="text-sm text-blue-700">
-                      Os serviços exibidos na página são carregados dinamicamente do sistema de gerenciamento de serviços.
-                      Para editar os serviços individuais (nome, preço, descrição), use a seção "Gerenciar Serviços" no painel admin.
+                      Os serviços exibidos na página são carregados
+                      dinamicamente do sistema de gerenciamento de serviços.
+                      Para editar os serviços individuais (nome, preço,
+                      descrição), use a seção Gerenciar Serviços no painel
+                      admin.
                     </p>
                   </div>
                 </div>

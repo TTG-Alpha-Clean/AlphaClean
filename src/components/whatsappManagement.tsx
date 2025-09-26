@@ -12,7 +12,7 @@ import {
   X,
   CheckCircle,
   AlertTriangle,
-  RefreshCw
+  RefreshCw,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
@@ -26,9 +26,12 @@ interface WhatsAppManagementProps {
 }
 
 export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
-  const [status, setStatus] = useState<WhatsAppStatus>({ connected: false, message: 'Verificando...' });
+  const [status, setStatus] = useState<WhatsAppStatus>({
+    connected: false,
+    message: "Verificando...",
+  });
   const [loading, setLoading] = useState(false);
-  const [testPhone, setTestPhone] = useState('');
+  const [testPhone, setTestPhone] = useState("");
   const [sendingTest, setSendingTest] = useState(false);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -47,11 +50,14 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
       if (data.success) {
         setStatus(data.data);
       } else {
-        setStatus({ connected: false, message: 'Erro ao verificar status' });
+        setStatus({ connected: false, message: "Erro ao verificar status" });
       }
     } catch (error) {
-      console.error('Erro ao verificar status:', error);
-      setStatus({ connected: false, message: 'Erro de conexão com o servidor' });
+      console.error("Erro ao verificar status:", error);
+      setStatus({
+        connected: false,
+        message: "Erro de conexão com o servidor",
+      });
     } finally {
       setLoading(false);
     }
@@ -59,28 +65,33 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
   const initializeWhatsApp = async () => {
     setLoading(true);
-    const toastId = toast.loading('Inicializando WhatsApp...');
+    const toastId = toast.loading("Inicializando WhatsApp...");
 
     try {
       const response = await fetch(`${API_URL}/api/whatsapp/initialize`, {
-        method: 'POST',
+        method: "POST",
       });
 
       const data = await response.json();
 
       if (data.success) {
-        toast.success('WhatsApp inicializando! Verifique o console do servidor para o QR code.', { id: toastId });
+        toast.success(
+          "WhatsApp inicializando! Verifique o console do servidor para o QR code.",
+          { id: toastId }
+        );
 
         // Aguardar um pouco e verificar status novamente
         setTimeout(() => {
           checkStatus();
         }, 3000);
       } else {
-        toast.error(data.error || 'Erro ao inicializar WhatsApp', { id: toastId });
+        toast.error(data.error || "Erro ao inicializar WhatsApp", {
+          id: toastId,
+        });
       }
     } catch (error) {
-      console.error('Erro ao inicializar WhatsApp:', error);
-      toast.error('Erro de conexão', { id: toastId });
+      console.error("Erro ao inicializar WhatsApp:", error);
+      toast.error("Erro de conexão", { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -88,24 +99,26 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
   const disconnectWhatsApp = async () => {
     setLoading(true);
-    const toastId = toast.loading('Desconectando WhatsApp...');
+    const toastId = toast.loading("Desconectando WhatsApp...");
 
     try {
       const response = await fetch(`${API_URL}/api/whatsapp/disconnect`, {
-        method: 'POST',
+        method: "POST",
       });
 
       const data = await response.json();
 
       if (data.success) {
-        toast.success('WhatsApp desconectado com sucesso!', { id: toastId });
-        setStatus({ connected: false, message: 'WhatsApp desconectado' });
+        toast.success("WhatsApp desconectado com sucesso!", { id: toastId });
+        setStatus({ connected: false, message: "WhatsApp desconectado" });
       } else {
-        toast.error(data.error || 'Erro ao desconectar WhatsApp', { id: toastId });
+        toast.error(data.error || "Erro ao desconectar WhatsApp", {
+          id: toastId,
+        });
       }
     } catch (error) {
-      console.error('Erro ao desconectar WhatsApp:', error);
-      toast.error('Erro de conexão', { id: toastId });
+      console.error("Erro ao desconectar WhatsApp:", error);
+      toast.error("Erro de conexão", { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -113,35 +126,39 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
   const sendTestMessage = async () => {
     if (!testPhone.trim()) {
-      toast.error('Digite um número de telefone para teste');
+      toast.error("Digite um número de telefone para teste");
       return;
     }
 
     setSendingTest(true);
-    const toastId = toast.loading('Enviando mensagem de teste...');
+    const toastId = toast.loading("Enviando mensagem de teste...");
 
     try {
       const response = await fetch(`${API_URL}/api/whatsapp/send-test`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          phoneNumber: testPhone.trim()
+          phoneNumber: testPhone.trim(),
         }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        toast.success('Mensagem de teste enviada com sucesso!', { id: toastId });
-        setTestPhone('');
+        toast.success("Mensagem de teste enviada com sucesso!", {
+          id: toastId,
+        });
+        setTestPhone("");
       } else {
-        toast.error(data.error || 'Erro ao enviar mensagem de teste', { id: toastId });
+        toast.error(data.error || "Erro ao enviar mensagem de teste", {
+          id: toastId,
+        });
       }
     } catch (error) {
-      console.error('Erro ao enviar teste:', error);
-      toast.error('Erro de conexão', { id: toastId });
+      console.error("Erro ao enviar teste:", error);
+      toast.error("Erro de conexão", { id: toastId });
     } finally {
       setSendingTest(false);
     }
@@ -149,20 +166,20 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
   const formatPhoneNumber = (value: string) => {
     // Remove tudo que não é número
-    let cleaned = value.replace(/\D/g, '');
+    let cleaned = value.replace(/\D/g, "");
 
     // Limita a 13 dígitos (55 + 11 + 9 dígitos)
     cleaned = cleaned.substring(0, 13);
 
     // Formatar: (XX) XXXXX-XXXX
     if (cleaned.length >= 11) {
-      return cleaned.replace(/(\d{2})(\d{2})(\d{5})(\d{4})/, '+$1 ($2) $3-$4');
+      return cleaned.replace(/(\d{2})(\d{2})(\d{5})(\d{4})/, "+$1 ($2) $3-$4");
     } else if (cleaned.length >= 7) {
-      return cleaned.replace(/(\d{2})(\d{2})(\d{4,5})/, '+$1 ($2) $3');
+      return cleaned.replace(/(\d{2})(\d{2})(\d{4,5})/, "+$1 ($2) $3");
     } else if (cleaned.length >= 4) {
-      return cleaned.replace(/(\d{2})(\d{2})/, '+$1 ($2)');
+      return cleaned.replace(/(\d{2})(\d{2})/, "+$1 ($2)");
     } else if (cleaned.length >= 2) {
-      return cleaned.replace(/(\d{2})/, '+$1');
+      return cleaned.replace(/(\d{2})/, "+$1");
     }
 
     return cleaned;
@@ -183,8 +200,12 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
               <MessageCircle className="w-5 h-5 text-green-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">WhatsApp Manager</h2>
-              <p className="text-sm text-gray-500">Gerenciar conexão e envio de mensagens</p>
+              <h2 className="text-xl font-bold text-gray-900">
+                WhatsApp Manager
+              </h2>
+              <p className="text-sm text-gray-500">
+                Gerenciar conexão e envio de mensagens
+              </p>
             </div>
           </div>
 
@@ -201,13 +222,17 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
           {/* Status atual */}
           <div className="bg-gray-50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">Status da Conexão</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Status da Conexão
+              </h3>
               <button
                 onClick={checkStatus}
                 disabled={loading}
                 className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-lg transition-colors disabled:opacity-50"
               >
-                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                <RefreshCw
+                  className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
+                />
                 <span>Atualizar</span>
               </button>
             </div>
@@ -237,8 +262,10 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                   <div className="text-sm text-yellow-800">
                     <p className="font-medium mb-1">Como conectar:</p>
                     <ol className="list-decimal list-inside space-y-1">
-                      <li>Clique em "Conectar WhatsApp"</li>
-                      <li>Verifique o console do servidor para ver o QR code</li>
+                      <li>Clique em Conectar WhatsApp</li>
+                      <li>
+                        Verifique o console do servidor para ver o QR code
+                      </li>
                       <li>Escaneie o QR code with seu WhatsApp</li>
                       <li>Aguarde a confirmação de conexão</li>
                     </ol>
@@ -257,7 +284,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                 className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
               >
                 <Power className="w-4 h-4" />
-                <span>{loading ? 'Conectando...' : 'Conectar WhatsApp'}</span>
+                <span>{loading ? "Conectando..." : "Conectar WhatsApp"}</span>
               </button>
             ) : (
               <button
@@ -266,7 +293,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                 className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
               >
                 <PowerOff className="w-4 h-4" />
-                <span>{loading ? 'Desconectando...' : 'Desconectar'}</span>
+                <span>{loading ? "Desconectando..." : "Desconectar"}</span>
               </button>
             )}
           </div>
@@ -292,7 +319,8 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Digite apenas números. A formatação será aplicada automaticamente.
+                    Digite apenas números. A formatação será aplicada
+                    automaticamente.
                   </p>
                 </div>
 
@@ -302,7 +330,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                   className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
                 >
                   <Send className="w-4 h-4" />
-                  <span>{sendingTest ? 'Enviando...' : 'Enviar Teste'}</span>
+                  <span>{sendingTest ? "Enviando..." : "Enviar Teste"}</span>
                 </button>
               </div>
             </div>
@@ -310,23 +338,35 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
           {/* Informações importantes */}
           <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">ℹ️ Informações Importantes</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              ℹ️ Informações Importantes
+            </h3>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start space-x-2">
                 <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span>As notificações são enviadas automaticamente quando um serviço é finalizado</span>
+                <span>
+                  As notificações são enviadas automaticamente quando um serviço
+                  é finalizado
+                </span>
               </li>
               <li className="flex items-start space-x-2">
                 <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span>O WhatsApp deve permanecer conectado no servidor para funcionar</span>
+                <span>
+                  O WhatsApp deve permanecer conectado no servidor para
+                  funcionar
+                </span>
               </li>
               <li className="flex items-start space-x-2">
                 <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span>Use apenas para notificações relacionadas aos serviços</span>
+                <span>
+                  Use apenas para notificações relacionadas aos serviços
+                </span>
               </li>
               <li className="flex items-start space-x-2">
                 <AlertTriangle className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
-                <span>Não envie spam ou mensagens não relacionadas ao negócio</span>
+                <span>
+                  Não envie spam ou mensagens não relacionadas ao negócio
+                </span>
               </li>
             </ul>
           </div>

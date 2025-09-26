@@ -78,8 +78,8 @@ export function RowActions({
       if (onCanceled) {
         onCanceled();
       }
-    } catch (error: any) {
-      toast.error(error.message || "Erro ao cancelar agendamento", { id: tid });
+    } catch (error: unknown) {
+      toast.error((error instanceof Error ? error.message : "Erro ao cancelar agendamento"), { id: tid });
     } finally {
       setCanceling(false);
       setShowConfirm(false);

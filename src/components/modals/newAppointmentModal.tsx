@@ -58,7 +58,7 @@ export function NewAppointmentModal({ onCreated }: { onCreated?: () => void }) {
           >
             <NewAgendamentoForm
               onClose={() => setOpen(false)}
-              onCreated={onCreated}
+              onCreated={onCreated || (() => {})}
             />
           </div>
         </Dialog.Content>

@@ -107,8 +107,8 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
     const loadServicos = async () => {
       setLoadingServicos(true);
       try {
-        const data = await apiGet("/api/servicos");
-        setServicos(data.data || []);
+        const data = await apiGet("/api/servicos") as { data?: ServicoOption[] };
+        setServicos(Array.isArray(data.data) ? data.data : []);
       } catch (error) {
         console.error("Erro ao carregar serviços:", error);
         toast.error("Erro ao carregar serviços disponíveis");
@@ -127,8 +127,8 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
 
     setLoadingSlots(true);
     try {
-      const data = await apiGet(`/api/agendamentos/slots?data=${selectedDate}`);
-      setSlots(data.slots || []);
+      const data = await apiGet(`/api/agendamentos/slots?data=${selectedDate}`) as { slots?: SlotInfo[] };
+      setSlots(Array.isArray(data.slots) ? data.slots : []);
     } catch (error) {
       console.error("Erro ao carregar slots:", error);
       toast.error("Erro ao carregar horários disponíveis");

@@ -141,8 +141,8 @@ export function ServiceList({ items, onRefresh }: ServiceListProps) {
 
       // Chama o refresh para recarregar a lista
       onRefresh?.();
-    } catch (err: any) {
-      toast.error(err?.message || "Erro ao cancelar agendamento.", { id: tid });
+    } catch (err: unknown) {
+      toast.error((err instanceof Error ? err.message : "Erro ao cancelar agendamento."), { id: tid });
     } finally {
       setShowDeleteDialog(null);
     }

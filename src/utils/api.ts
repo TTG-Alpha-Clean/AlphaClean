@@ -27,7 +27,7 @@ export function removeToken(): void {
     }
 }
 
-export async function apiPost<T = any>(path: string, body: unknown): Promise<T> {
+export async function apiPost<T = unknown>(path: string, body: unknown): Promise<T> {
     const token = getToken();
     const headers: Record<string, string> = {
         "Content-Type": "application/json"
@@ -45,21 +45,28 @@ export async function apiPost<T = any>(path: string, body: unknown): Promise<T> 
     });
 
     // tenta ler json mesmo em erro:
-    let data: any = null;
+    let data: unknown = null;
     try {
         data = await res.json();
     } catch {
         // ignore
     }
 
+    interface ErrorResponse {
+        error?: string;
+        message?: string;
+        [key: string]: unknown;
+    }
+
     if (!res.ok) {
-        const msg = data?.error || data?.message || `Erro ${res.status}`;
+        const errData = data as ErrorResponse;
+        const msg = errData?.error || errData?.message || `Erro ${res.status}`;
         throw new Error(msg);
     }
     return data as T;
 }
 
-export async function apiGet<T = any>(path: string): Promise<T> {
+export async function apiGet<T = unknown>(path: string): Promise<T> {
     const token = getToken();
     const headers: Record<string, string> = {};
 
@@ -73,7 +80,8 @@ export async function apiGet<T = any>(path: string): Promise<T> {
         // Não usar credentials com bearer tokens
     });
 
-    let data: any = null;
+    type ErrorData = { error?: string; message?: string;[key: string]: unknown };
+    let data: ErrorData = {};
     try {
         data = await res.json();
     } catch {
@@ -87,7 +95,7 @@ export async function apiGet<T = any>(path: string): Promise<T> {
     return data as T;
 }
 
-export async function apiDelete<T = any>(path: string): Promise<T> {
+export async function apiDelete<T = unknown>(path: string): Promise<T> {
     const token = getToken();
     const headers: Record<string, string> = {};
 
@@ -101,7 +109,8 @@ export async function apiDelete<T = any>(path: string): Promise<T> {
         // Não usar credentials com bearer tokens
     });
 
-    let data: any = null;
+    type ErrorData = { error?: string; message?: string;[key: string]: unknown };
+    let data: ErrorData = {};
     try {
         data = await res.json();
     } catch {
@@ -115,7 +124,7 @@ export async function apiDelete<T = any>(path: string): Promise<T> {
     return data as T;
 }
 
-export async function apiPatch<T = any>(path: string, body: unknown): Promise<T> {
+export async function apiPatch<T = unknown>(path: string, body: unknown): Promise<T> {
     const token = getToken();
     const headers: Record<string, string> = {
         "Content-Type": "application/json"
@@ -132,7 +141,8 @@ export async function apiPatch<T = any>(path: string, body: unknown): Promise<T>
         // Não usar credentials com bearer tokens
     });
 
-    let data: any = null;
+    type ErrorData = { error?: string; message?: string;[key: string]: unknown };
+    let data: ErrorData = {};
     try {
         data = await res.json();
     } catch {
@@ -146,7 +156,7 @@ export async function apiPatch<T = any>(path: string, body: unknown): Promise<T>
     return data as T;
 }
 
-export async function apiPut<T = any>(path: string, body: unknown): Promise<T> {
+export async function apiPut<T = unknown>(path: string, body: unknown): Promise<T> {
     const token = getToken();
     const headers: Record<string, string> = {
         "Content-Type": "application/json"
@@ -163,7 +173,8 @@ export async function apiPut<T = any>(path: string, body: unknown): Promise<T> {
         // Não usar credentials com bearer tokens
     });
 
-    let data: any = null;
+    type ErrorData = { error?: string; message?: string;[key: string]: unknown };
+    let data: ErrorData = {};
     try {
         data = await res.json();
     } catch {
