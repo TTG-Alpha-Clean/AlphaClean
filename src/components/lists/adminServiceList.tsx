@@ -11,7 +11,7 @@ import DeleteButton from "@/components/ui/deleteButton";
 import { formatDatePtBr, formatHour } from "@/lib/date";
 import { toast } from "react-hot-toast";
 import { CompleteServiceModal } from "@/components/modals/completeServiceModal";
-import { User, Car, Phone, CheckCircle } from "lucide-react";
+import { User, Car, Phone, CheckCircle, X } from "lucide-react";
 
 export type AdminServiceItem = {
   id: string;
@@ -110,15 +110,49 @@ function formatHourSafe(dateInput: string | Date): string {
 
 export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState<string | null>(null);
+  const [showCancelDialog, setShowCancelDialog] = useState<string | null>(null);
   const [showCompleteModal, setShowCompleteModal] = useState<AdminServiceItem | null>(null);
 
   const handleDeleteConfirm = async (id: string) => {
+    const tid = toast.loading("Excluindo agendamento...");
+
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/api/agendamentos/${id}`, {
+        method: "DELETE",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+
+      if (!res.ok) {
+        const error = await res.json().catch(() => null);
+        throw new Error(error?.error || "Erro ao excluir agendamento");
+      }
+
+      toast.success("Agendamento excluído com sucesso!", { id: tid });
+      onRefresh?.();
+    } catch (err: unknown) {
+      const errorMessage =
+        err && typeof err === "object" && "message" in err
+          ? (err as { message?: string }).message
+          : "Erro ao excluir agendamento.";
+      toast.error(errorMessage || "Erro ao excluir agendamento.", { id: tid });
+    } finally {
+      setShowDeleteDialog(null);
+    }
+  };
+
+  const handleCancelConfirm = async (id: string) => {
     const tid = toast.loading("Cancelando agendamento...");
 
     try {
-      const res = await fetch(`${API_URL}/api/agendamentos/${id}`, {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/api/agendamentos/${id}/cancel`, {
         method: "DELETE",
-        
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
       });
 
       if (!res.ok) {
@@ -135,12 +169,16 @@ export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
           : "Erro ao cancelar agendamento.";
       toast.error(errorMessage || "Erro ao cancelar agendamento.", { id: tid });
     } finally {
-      setShowDeleteDialog(null);
+      setShowCancelDialog(null);
     }
   };
 
   const handleDeleteClick = (id: string) => {
     setShowDeleteDialog(id);
+  };
+
+  const handleCancelClick = (id: string) => {
+    setShowCancelDialog(id);
   };
 
   const formatCurrency = (value: number) => {
@@ -236,9 +274,19 @@ export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
                 </button>
               )}
 
-              {/* Botão de deletar */}
-              {(item.status === "agendado" ||
-                item.status === "em_andamento") && (
+              {/* Botão de cancelar serviço */}
+              {(item.status === "agendado" || item.status === "em_andamento") && (
+                <button
+                  onClick={() => handleCancelClick(item.id)}
+                  className="flex items-center space-x-1 px-3 py-2 bg-red-600 text-white text-xs sm:text-sm rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  <X size={16} />
+                  <span>Cancelar</span>
+                </button>
+              )}
+
+              {/* Botão de deletar - só para serviços finalizados/cancelados */}
+              {(item.status === "finalizado" || item.status === "cancelado") && (
                 <DeleteButton onClick={() => handleDeleteClick(item.id)} />
               )}
             </div>
@@ -262,20 +310,47 @@ export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
       {showDeleteDialog && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white p-6 rounded-xl shadow-xl max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold mb-4">Cancelar Agendamento</h3>
+            <h3 className="text-lg font-semibold mb-4">Excluir Agendamento</h3>
             <p className="text-gray-600 mb-6">
-              Tem certeza que deseja cancelar este agendamento? Esta ação não
-              pode ser desfeita.
+              Tem certeza que deseja excluir este agendamento permanentemente?
+              Esta ação não pode ser desfeita.
             </p>
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowDeleteDialog(null)}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
               >
-                Não, manter
+                Cancelar
               </button>
               <button
                 onClick={() => handleDeleteConfirm(showDeleteDialog)}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              >
+                Sim, excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Dialog de confirmação de cancelamento */}
+      {showCancelDialog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white p-6 rounded-xl shadow-xl max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold mb-4">Cancelar Agendamento</h3>
+            <p className="text-gray-600 mb-6">
+              Tem certeza que deseja cancelar este agendamento? O serviço será
+              marcado como cancelado.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowCancelDialog(null)}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                Não, manter
+              </button>
+              <button
+                onClick={() => handleCancelConfirm(showCancelDialog)}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
               >
                 Sim, cancelar
