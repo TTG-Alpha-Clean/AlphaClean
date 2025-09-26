@@ -10,7 +10,8 @@ import {
 import DeleteButton from "@/components/ui/deleteButton";
 import { formatDatePtBr, formatHour } from "@/lib/date";
 import { toast } from "react-hot-toast";
-import { User, Car, Phone } from "lucide-react";
+import { CompleteServiceModal } from "@/components/modals/completeServiceModal";
+import { User, Car, Phone, CheckCircle } from "lucide-react";
 
 export type AdminServiceItem = {
   id: string;
@@ -109,6 +110,7 @@ function formatHourSafe(dateInput: string | Date): string {
 
 export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState<string | null>(null);
+  const [showCompleteModal, setShowCompleteModal] = useState<AdminServiceItem | null>(null);
 
   const handleDeleteConfirm = async (id: string) => {
     const tid = toast.loading("Cancelando agendamento...");
@@ -221,9 +223,20 @@ export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
               )}
             </div>
 
-            {/* Direita: ações - APENAS BOTÃO DE DELETAR */}
+            {/* Direita: ações */}
             <div className="flex flex-col gap-2 lg:items-end">
-              {/* Apenas botão de deletar */}
+              {/* Botão de finalizar serviço */}
+              {(item.status === "agendado" || item.status === "em_andamento") && (
+                <button
+                  onClick={() => setShowCompleteModal(item)}
+                  className="flex items-center space-x-1 px-3 py-2 bg-green-600 text-white text-xs sm:text-sm rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <CheckCircle size={16} />
+                  <span>Finalizar</span>
+                </button>
+              )}
+
+              {/* Botão de deletar */}
               {(item.status === "agendado" ||
                 item.status === "em_andamento") && (
                 <DeleteButton onClick={() => handleDeleteClick(item.id)} />
@@ -232,6 +245,18 @@ export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
           </div>
         ))}
       </div>
+
+      {/* Modal de finalizar serviço */}
+      {showCompleteModal && (
+        <CompleteServiceModal
+          appointment={showCompleteModal}
+          onClose={() => setShowCompleteModal(null)}
+          onComplete={() => {
+            onRefresh?.();
+            setShowCompleteModal(null);
+          }}
+        />
+      )}
 
       {/* Dialog de confirmação de exclusão */}
       {showDeleteDialog && (

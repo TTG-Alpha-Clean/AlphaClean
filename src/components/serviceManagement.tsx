@@ -234,7 +234,7 @@ export function ServicosManagement({
             {servicos.map((servico) => (
               <div
                 key={servico.id}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50
+                className="flex items-start justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50
                            transition-colors gap-4"
               >
                 {editingId === servico.id ? (

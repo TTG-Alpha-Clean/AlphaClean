@@ -11,6 +11,9 @@ import {
   DollarSign,
   Clock,
   Settings,
+  List,
+  Edit3,
+  MessageCircle,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken } from "@/utils/api";
@@ -21,6 +24,9 @@ import {
 } from "@/components/lists/adminServiceList";
 import { CarLogo } from "@/components/ui/carLogo";
 import { ServicosManagement } from "@/components/serviceManagement";
+import { AdminCalendar } from "@/components/adminCalendar";
+import { ContentManagement } from "@/components/contentManagement";
+import { WhatsAppManagement } from "@/components/whatsappManagement";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
@@ -49,6 +55,10 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
   const [showServicos, setShowServicos] = useState(false);
+  const [showContent, setShowContent] = useState(false);
+  const [showWhatsApp, setShowWhatsApp] = useState(false);
+  const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
+  const [calendarDate, setCalendarDate] = useState(new Date());
 
   // Função para forçar refresh da lista
   const handleRefresh = () => {
@@ -181,6 +191,7 @@ export default function AdminDashboardPage() {
           usuario_id: string;
           usuario_nome?: string;
           usuario_email?: string;
+          usuario_telefone?: string;
           created_at: string;
           updated_at: string;
         }
@@ -220,7 +231,7 @@ export default function AdminDashboardPage() {
                 id: item.usuario_id,
                 nome: item.usuario_nome || "Cliente não encontrado",
                 email: item.usuario_email || "",
-                telefone: "",
+                telefone: item.usuario_telefone || "",
               },
               created_at: item.created_at,
               updated_at: item.updated_at,
@@ -336,6 +347,25 @@ export default function AdminDashboardPage() {
 
             <div className="flex items-center space-x-2 sm:space-x-3">
               <button
+                onClick={() => setShowWhatsApp(!showWhatsApp)}
+                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
+                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                <MessageCircle size={16} />
+                <span className="hidden sm:inline">WhatsApp</span>
+              </button>
+
+              <button
+                onClick={() => setShowContent(!showContent)}
+                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
+                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                <Edit3 size={16} />
+                <span className="hidden sm:inline">Editar Conteúdo</span>
+                <span className="sm:hidden">Conteúdo</span>
+              </button>
+
+              <button
                 onClick={() => setShowServicos(!showServicos)}
                 className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
@@ -360,7 +390,15 @@ export default function AdminDashboardPage() {
 
       {/* Conteúdo Principal */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        {showServicos ? (
+        {showWhatsApp ? (
+          <WhatsAppManagement
+            onClose={() => setShowWhatsApp(false)}
+          />
+        ) : showContent ? (
+          <ContentManagement
+            onClose={() => setShowContent(false)}
+          />
+        ) : showServicos ? (
           <ServicosManagement
             servicos={servicos}
             onServicoChange={() => setRefreshKey((prev) => prev + 1)}
@@ -489,19 +527,48 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            {/* Lista de Agendamentos */}
+            {/* Controles de Visualização */}
             <div className="mt-8">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                 <h2 className="text-xl font-semibold text-[var(--foreground)]">
                   Todos os Agendamentos ({agendamentos.length})
                 </h2>
-                <button
-                  onClick={handleRefresh}
-                  className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={loading}
-                >
-                  {loading ? "Carregando..." : "Atualizar"}
-                </button>
+
+                <div className="flex items-center space-x-3">
+                  {/* Toggle de visualização */}
+                  <div className="flex items-center bg-[var(--muted)] rounded-lg p-1">
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`flex items-center space-x-1 px-3 py-2 rounded-md text-xs sm:text-sm transition-colors ${
+                        viewMode === 'list'
+                          ? 'bg-[var(--background)] text-[var(--foreground)] shadow-sm'
+                          : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                      }`}
+                    >
+                      <List size={16} />
+                      <span className="hidden sm:inline">Lista</span>
+                    </button>
+                    <button
+                      onClick={() => setViewMode('calendar')}
+                      className={`flex items-center space-x-1 px-3 py-2 rounded-md text-xs sm:text-sm transition-colors ${
+                        viewMode === 'calendar'
+                          ? 'bg-[var(--background)] text-[var(--foreground)] shadow-sm'
+                          : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                      }`}
+                    >
+                      <Calendar size={16} />
+                      <span className="hidden sm:inline">Calendário</span>
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={handleRefresh}
+                    className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={loading}
+                  >
+                    {loading ? "Carregando..." : "Atualizar"}
+                  </button>
+                </div>
               </div>
 
               {loading ? (
@@ -513,6 +580,16 @@ export default function AdminDashboardPage() {
                     </p>
                   </div>
                 </div>
+              ) : viewMode === 'calendar' ? (
+                <AdminCalendar
+                  agendamentos={agendamentos}
+                  currentDate={calendarDate}
+                  onDateChange={setCalendarDate}
+                  onDayClick={(date, dayAgendamentos) => {
+                    // Opcional: mostrar detalhes dos agendamentos do dia
+                    console.log('Day clicked:', date, dayAgendamentos);
+                  }}
+                />
               ) : (
                 <AdminServiceList
                   items={agendamentos}
