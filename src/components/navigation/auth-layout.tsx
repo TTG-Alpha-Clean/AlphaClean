@@ -78,84 +78,47 @@ export default function AuthLayout({
       />
 
       {/* Container principal */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 py-6 mt-12">
-        {/* Header with back button and brand aligned */}
-        <div className="flex items-start justify-between mb-8">
-          {/* Back button */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Header só com botão voltar animado */}
+        <div className="px-6 py-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-3 text-white/80 hover:text-white transition-colors group"
+            className="inline-flex items-center gap-3 text-white/80 hover:text-white transition-all duration-300 group hover:scale-105"
           >
-            <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur flex items-center justify-center group-hover:bg-[#9BD60C]/20 transition-colors">
-              <span className="text-lg">←</span>
-            </div>
-            <span className="font-medium">Voltar ao site</span>
-          </Link>
-
-          {/* Brand centered */}
-          <div className="flex flex-col items-center flex-1">
-            <div className="flex items-center gap-4 mb-3">
-              {/* Logo mais elaborado */}
-              <div className="relative">
-                <div
-                  className="h-12 w-16 rounded-lg relative overflow-hidden"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, #9BD60C 0%, #c4ff57 50%, #9BD60C 100%)",
-                  }}
-                >
-                  {/* Reflexo no logo */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent" />
-                  {/* Detalhes automotivos no logo */}
-                  <div className="absolute bottom-2 left-2 w-2 h-2 bg-white/40 rounded-full" />
-                  <div className="absolute top-2 right-2 w-1 h-1 bg-white/60 rounded-full" />
-                </div>
-                {/* Glow effect */}
-                <div className="absolute -inset-1 bg-[#9BD60C]/20 rounded-lg blur-md -z-10" />
+            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-[#9BD60C]/20 group-hover:to-[#9BD60C]/10 group-hover:border-[#9BD60C]/30 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#9BD60C]/20">
+              <div className="w-full h-full flex items-center justify-center">
+                <span className="text-lg font-bold group-hover:text-[#9BD60C] transition-colors duration-300 group-hover:scale-110 transform leading-none">←</span>
               </div>
-
-              <div className="text-3xl font-bold text-white">Alpha Clean</div>
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-300"></div>
             </div>
-
-            <div className="text-center">
-              <p className="text-[#9BD60C] font-semibold text-lg tracking-wide">
-                PREMIUM AUTO CARE
-              </p>
-              <p className="text-white/60 text-sm mt-1 tracking-wider">
-                Acesse sua área do cliente
-              </p>
-            </div>
-          </div>
-
-          {/* Spacer for symmetry */}
-          <div className="w-[140px]"></div>
+            <span className="font-semibold hidden sm:block group-hover:text-[#9BD60C] transition-colors duration-300">Voltar ao site</span>
+          </Link>
         </div>
 
-        {/* Card container */}
-        <div className="max-w-md mx-auto">
-          <div className="relative">
-            {/* Glow effect do card */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#9BD60C]/20 to-[#c4ff57]/20 rounded-2xl blur opacity-60" />
+        {/* Forms bem próximos do topo */}
+        <div className="px-4">
+          <div className="w-full max-w-lg mx-auto">
 
-            {/* Card principal */}
-            <div className="relative rounded-2xl bg-white/95 backdrop-blur-xl shadow-2xl border border-white/20">
-              {children}
+            {/* Card principal com melhor proporção */}
+            <div className="relative">
+              {/* Glow effect mais sutil */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#9BD60C]/15 to-[#c4ff57]/15 rounded-3xl blur-xl opacity-60" />
+
+              {/* Card principal */}
+              <div className="relative rounded-3xl bg-white/98 backdrop-blur-xl shadow-2xl border border-white/30 overflow-hidden">
+                {children}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Elementos decorativos inferiores */}
-        <div className="mt-8 flex justify-center">
-          <div className="flex items-center gap-2 text-white/40 text-xs">
-            <div className="w-1 h-1 bg-[#9BD60C] rounded-full animate-pulse" />
-            <span>Proteção de dados SSL</span>
-            <div
-              className="w-1 h-1 bg-[#9BD60C] rounded-full animate-pulse"
-              style={{ animationDelay: "0.5s" }}
-            />
+        {/* Footer minimalista */}
+        <div className="mt-auto pb-6 flex justify-center">
+          <div className="flex items-center gap-2 text-white/30 text-xs">
+            <div className="w-1 h-1 bg-[#9BD60C]/50 rounded-full animate-pulse" />
             <span>Sistema seguro</span>
             <div
-              className="w-1 h-1 bg-[#9BD60C] rounded-full animate-pulse"
+              className="w-1 h-1 bg-[#9BD60C]/50 rounded-full animate-pulse"
               style={{ animationDelay: "1s" }}
             />
           </div>

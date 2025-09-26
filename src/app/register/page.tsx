@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "../../components/ui/toggle";
 import DeleteButton from "../../components/ui/deleteButton";
+import Link from "next/link";
+import { User, Mail, Lock, Phone, Check } from "lucide-react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
@@ -71,132 +73,168 @@ export default function RegisterPage() {
 
   return (
     <AuthLayout>
-      <div className="p-8">
-        <h1 className="text-center text-xl font-semibold">Criar Conta</h1>
-
-        <form onSubmit={onSubmit} className="mt-6 grid gap-4">
-          {/* Nome */}
-          <div>
-            <Label className="mb-1 block">Nome</Label>
-            <Input
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C]"
-              required
-            />
-          </div>
-
-          {/* Email */}
-          <div>
-            <Label className="mb-1 block">Email</Label>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C]"
-              required
-            />
-          </div>
-
-          {/* Senhas */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <Label className="mb-1 block">Senha</Label>
-              <Input
-                type="password"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C]"
-                required
-                minLength={6}
-              />
-            </div>
-            <div>
-              <Label className="mb-1 block">Confirmar senha</Label>
-              <Input
-                type="password"
-                value={confirm}
-                onChange={(e) => setConfirm(e.target.value)}
-                className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C]"
-                required
-                minLength={6}
-              />
+      {/* Card Header */}
+      <div className="px-8 pt-6 pb-4 border-b border-gray-100/50">
+        <div className="text-center">
+          <div className="mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9BD60C]/10 to-[#9BD60C]/5 border border-[#9BD60C]/20">
+              <User className="w-8 h-8 text-[#9BD60C]" />
             </div>
           </div>
+          <div className="text-2xl font-bold text-[#022744] mb-3">Alpha Clean</div>
+          <h1 className="text-xl font-semibold text-[#022744] mb-2">Criar sua conta</h1>
+          <p className="text-[#022744]/60 text-sm">Cadastre-se para agendar seus serviços</p>
+        </div>
+      </div>
 
-          {/* Telefones */}
+      {/* Form Section - Mais compacto */}
+      <div className="px-8 py-3 max-h-[65vh] overflow-y-auto">
+        <form onSubmit={onSubmit} className="space-y-4">
+          {/* Informações pessoais - Compactas */}
           <div className="space-y-3">
-            <Label className="block">Telefones (opcional)</Label>
+            <div>
+              <Label className="text-xs font-medium text-[#022744] mb-1 block">Nome completo</Label>
+              <Input
+                placeholder="Seu nome completo"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
+                required
+              />
+            </div>
 
-            {/* DDD menor + Número ocupa o resto */}
-            <div className="grid w-full grid-cols-[90px_1fr] gap-4">
+            <div>
+              <Label className="text-xs font-medium text-[#022744] mb-1 block">Email</Label>
+              <Input
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
+                required
+              />
+            </div>
+
+            {/* Senhas em uma linha */}
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="mb-1 block text-xs">DDD</Label>
+                <Label className="text-xs font-medium text-[#022744] mb-1 block">Senha</Label>
                 <Input
-                  value={ddd}
-                  onChange={(e) => setDDD(e.target.value)}
-                  placeholder="71"
-                  className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C]"
+                  type="password"
+                  placeholder="Min. 6 caracteres"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
+                  required
+                  minLength={6}
                 />
               </div>
-              <div className="min-w-0">
-                <Label className="mb-1 block text-xs">Número</Label>
+              <div>
+                <Label className="text-xs font-medium text-[#022744] mb-1 block">Confirmar</Label>
                 <Input
-                  value={numero}
-                  onChange={(e) => setNumero(e.target.value)}
-                  placeholder="999661709"
-                  className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C]"
+                  type="password"
+                  placeholder="Repita a senha"
+                  value={confirm}
+                  onChange={(e) => setConfirm(e.target.value)}
+                  className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
+                  required
+                  minLength={6}
                 />
               </div>
             </div>
-
-            {/* Toggle WhatsApp + Botão Adicionar */}
-            <div className="grid grid-cols-2 gap-4">
-              <Toggle checked={whats} onChange={setWhats} label="WhatsApp" />
-              <button
-                type="button"
-                onClick={addPhone}
-                className="h-10 px-4 rounded-lg bg-[#022744] text-white hover:opacity-90"
-              >
-                Adicionar
-              </button>
-            </div>
-
-            {/* Lista de telefones adicionados */}
-            {telefones.length > 0 && (
-              <ul className="mt-1 space-y-2">
-                {telefones.map((t, i) => (
-                  <li
-                    key={`${t.ddd}-${t.numero}-${i}`}
-                    className="flex items-center justify-between rounded-lg border border-[#022744]/10 bg-[#022744]/[0.03] px-3 py-2"
-                  >
-                    <span className="text-sm">
-                      ({t.ddd}) {t.numero} {t.is_whatsapp ? "- WhatsApp" : ""}
-                    </span>
-                    <DeleteButton onClick={() => removePhone(i)} />
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
 
-          {/* Botões */}
-          <div className="mt-2 flex gap-3">
-            <a
-              href="/login"
-              className="h-10 flex-1 grid place-items-center rounded-lg border border-[#022744]/15 hover:bg-[#022744]/[0.03]"
-            >
-              Já tenho conta
-            </a>
+          {/* Telefones - Seção compacta */}
+          <div className="border-t border-gray-100/50 pt-3">
+            <Label className="text-xs font-medium text-[#022744] mb-2 block">
+              Telefone <span className="text-[#022744]/50 font-normal">(opcional)</span>
+            </Label>
+
+            <div className="space-y-2">
+              {/* Input de telefone compacto */}
+              <div className="flex gap-2 items-end">
+                <div className="w-16">
+                  <Input
+                    value={ddd}
+                    onChange={(e) => setDDD(e.target.value)}
+                    placeholder="71"
+                    className="h-9 border-[#022744]/15 rounded focus:ring-1 focus:ring-[#9BD60C] text-center text-sm"
+                  />
+                </div>
+                <div className="flex-1">
+                  <Input
+                    value={numero}
+                    onChange={(e) => setNumero(e.target.value)}
+                    placeholder="999661709"
+                    className="h-9 border-[#022744]/15 rounded focus:ring-1 focus:ring-[#9BD60C] text-sm"
+                  />
+                </div>
+                <div className="flex items-center gap-1 h-9">
+                  <Toggle checked={whats} onChange={setWhats} label="" />
+                  <span className="text-xs text-[#022744]/60 whitespace-nowrap">WhatsApp</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={addPhone}
+                  className="h-9 px-3 text-xs rounded bg-[#9BD60C]/10 text-[#9BD60C] font-medium hover:bg-[#9BD60C]/20 transition-colors flex items-center justify-center"
+                >
+                  +
+                </button>
+              </div>
+
+              {/* Lista de telefones compacta */}
+              {telefones.length > 0 && (
+                <div className="space-y-1">
+                  {telefones.map((t, i) => (
+                    <div
+                      key={`${t.ddd}-${t.numero}-${i}`}
+                      className="flex items-center justify-between p-2 rounded bg-gray-50/80 border border-gray-100"
+                    >
+                      <span className="text-xs font-medium">
+                        ({t.ddd}) {t.numero}
+                        {t.is_whatsapp && <span className="ml-1 text-green-600">📱</span>}
+                      </span>
+                      <DeleteButton onClick={() => removePhone(i)} />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Botão de cadastro */}
+          <div className="pt-3">
             <button
               type="submit"
               disabled={loading}
-              className="h-10 flex-1 rounded-lg bg-[#9BD60C] text-[#022744] font-medium hover:opacity-90 disabled:opacity-60"
+              className="w-full h-11 rounded-xl bg-gradient-to-r from-[#9BD60C] to-[#7fa00a] text-[#022744] font-semibold hover:shadow-lg hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100 transition-all duration-200 shadow-md"
             >
-              {loading ? "Cadastrando..." : "Cadastrar"}
+              {loading ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-[#022744]/30 border-t-[#022744] rounded-full animate-spin"></div>
+                  <span>Criando conta...</span>
+                </div>
+              ) : (
+                "Criar minha conta"
+              )}
             </button>
           </div>
         </form>
+      </div>
+
+      {/* Footer Section */}
+      <div className="px-8 pb-8 pt-4 border-t border-gray-100/50">
+        <div className="text-center">
+          <p className="text-[#022744]/60 text-sm mb-3">
+            Já possui uma conta?
+          </p>
+          <Link
+            href="/login"
+            className="inline-flex items-center justify-center w-full h-11 rounded-xl border-2 border-[#022744]/20 text-[#022744] font-semibold hover:bg-[#022744]/5 hover:border-[#022744]/40 transition-all duration-200"
+          >
+            Fazer login
+          </Link>
+        </div>
       </div>
     </AuthLayout>
   );

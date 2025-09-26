@@ -78,59 +78,92 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
-      <div className="p-8">
-        <h1 className="text-center text-xl font-semibold">Fazer Login</h1>
-
-        <form onSubmit={onSubmit} className="mt-6 space-y-4">
-          <div>
-            <Label className="mb-1 block">Email</Label>
-            <Input
-              type="email"
-              placeholder="Digite seu email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C]"
-              required
-            />
+      {/* Card Header com melhor visual */}
+      <div className="px-8 pt-8 pb-6 border-b border-gray-100/50">
+        <div className="text-center">
+          <div className="mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9BD60C]/10 to-[#9BD60C]/5 border border-[#9BD60C]/20">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#9BD60C] to-[#7fa00a] shadow-lg"></div>
+            </div>
           </div>
+          <div className="text-2xl font-bold text-[#022744] mb-3">Alpha Clean</div>
+          <h1 className="text-xl font-semibold text-[#022744] mb-2">Bem-vindo de volta</h1>
+          <p className="text-[#022744]/60 text-sm">Entre em sua conta para acessar seus agendamentos</p>
+        </div>
+      </div>
 
-          <div>
-            <Label className="mb-1 block">Senha</Label>
-            <div className="relative">
+      {/* Form Section */}
+      <div className="px-8 py-6">
+        <form onSubmit={onSubmit} className="space-y-5">
+          <div className="space-y-4">
+            <div>
+              <Label className="text-sm font-medium text-[#022744] mb-2 block">Email</Label>
               <Input
-                type={showPassword ? "text" : "password"}
-                placeholder="Digite sua senha"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C] pr-10"
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-12 border-[#022744]/15 rounded-xl focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
                 required
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#022744]/60 hover:text-[#022744] transition-colors"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
+            </div>
+
+            <div>
+              <Label className="text-sm font-medium text-[#022744] mb-2 block">Senha</Label>
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Digite sua senha"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  className="h-12 border-[#022744]/15 rounded-xl focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] pr-12 transition-all duration-200"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#022744]/50 hover:text-[#022744] transition-colors"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full h-10 rounded-lg bg-[#022744] text-white font-medium hover:opacity-90 disabled:opacity-60 transition-colors"
-          >
-            {loading ? "Entrando..." : "Entrar"}
-          </button>
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#022744] to-[#033a5c] text-white font-semibold hover:shadow-lg hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100 transition-all duration-200 shadow-md"
+            >
+              {loading ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span>Entrando...</span>
+                </div>
+              ) : (
+                "Entrar na minha conta"
+              )}
+            </button>
+          </div>
         </form>
+      </div>
 
-        <div className="text-center mt-4">
-          <Link href="/register" className="text-[#9BD60C] hover:underline">
-            Não tem conta? Cadastre-se
+      {/* Footer Section */}
+      <div className="px-8 pb-8 pt-4 border-t border-gray-100/50">
+        <div className="text-center">
+          <p className="text-[#022744]/60 text-sm mb-3">
+            Ainda não tem uma conta?
+          </p>
+          <Link
+            href="/register"
+            className="inline-flex items-center justify-center w-full h-11 rounded-xl border-2 border-[#9BD60C]/20 text-[#9BD60C] font-semibold hover:bg-[#9BD60C]/5 hover:border-[#9BD60C]/40 transition-all duration-200"
+          >
+            Criar nova conta
           </Link>
         </div>
       </div>

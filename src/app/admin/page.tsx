@@ -213,7 +213,7 @@ export default function AdminDashboardPage() {
                 (item.servico_nome && s.nome === item.servico_nome)
             );
             // Usa o valor do backend se disponível, senão busca na lista de serviços, senão usa valor padrão
-            const valor = item.servico_valor || servicoInfo?.valor || 50;
+            const valor = Number(item.servico_valor) || Number(servicoInfo?.valor) || 50;
 
             return {
               id: item.id,
@@ -312,13 +312,13 @@ export default function AdminDashboardPage() {
   // No arquivo admin/page.tsx
   const receitaHoje = agendamentos
     .filter((a) => a.status === "finalizado" && a.data === hoje) // Mudança aqui
-    .reduce((sum, a) => sum + (a.valor || 0), 0);
+    .reduce((sum, a) => sum + Number(a.valor || 0), 0);
 
   // Receita do mês atual
   const mesAtual = new Date().toISOString().substring(0, 7); // YYYY-MM
   const receitaMes = agendamentos
     .filter((a) => a.status === "finalizado" && a.data?.startsWith(mesAtual)) // Mudança aqui
-    .reduce((sum, a) => sum + (a.valor || 0), 0);
+    .reduce((sum, a) => sum + Number(a.valor || 0), 0);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
