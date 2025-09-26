@@ -182,6 +182,7 @@ export default function AdminDashboardPage() {
           horario: string;
           servico: string;
           servico_nome?: string;
+          servico_valor?: number;
           modelo_veiculo: string;
           cor: string;
           placa: string;
@@ -211,7 +212,8 @@ export default function AdminDashboardPage() {
                 s.nome === item.servico ||
                 (item.servico_nome && s.nome === item.servico_nome)
             );
-            const valor = servicoInfo?.valor || 50; // Valor padrão
+            // Usa o valor do backend se disponível, senão busca na lista de serviços, senão usa valor padrão
+            const valor = item.servico_valor || servicoInfo?.valor || 50;
 
             return {
               id: item.id,
