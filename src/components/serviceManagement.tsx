@@ -234,19 +234,19 @@ export function ServicosManagement({
             {servicos.map((servico) => (
               <div
                 key={servico.id}
-                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 
-                           transition-colors"
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50
+                           transition-colors gap-4"
               >
                 {editingId === servico.id ? (
                   // Modo de edição
-                  <div className="flex items-center gap-4 flex-1">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-1">
                     <input
                       type="text"
                       value={formData.nome}
                       onChange={(e) =>
                         setFormData({ ...formData, nome: e.target.value })
                       }
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2
                                  focus:ring-blue-500 focus:border-blue-500"
                     />
                     <input
@@ -257,15 +257,15 @@ export function ServicosManagement({
                       onChange={(e) =>
                         setFormData({ ...formData, valor: e.target.value })
                       }
-                      className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 
+                      className="w-full sm:w-32 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2
                                  focus:ring-blue-500 focus:border-blue-500"
                     />
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <button
                         onClick={() => handleEdit(servico)}
                         disabled={loading}
-                        className="flex items-center gap-1 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 
-                                   disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="flex items-center gap-1 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700
+                                   disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full sm:w-auto"
                       >
                         <Save size={16} />
                         Salvar
@@ -273,8 +273,8 @@ export function ServicosManagement({
                       <button
                         onClick={cancelEditing}
                         disabled={loading}
-                        className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 
-                                   disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50
+                                   disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full sm:w-auto"
                       >
                         <X size={16} />
                         Cancelar
@@ -300,12 +300,12 @@ export function ServicosManagement({
                         </span>
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <button
                         onClick={() => startEditing(servico)}
                         disabled={loading || isCreating}
-                        className="flex items-center gap-1 px-3 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 
-                                   rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="flex items-center gap-1 px-3 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50
+                                   rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full sm:w-auto"
                       >
                         <Edit size={16} />
                         Editar
@@ -313,8 +313,8 @@ export function ServicosManagement({
                       <button
                         onClick={() => handleDelete(servico)}
                         disabled={loading || isCreating}
-                        className="flex items-center gap-1 px-3 py-2 text-red-600 hover:text-red-800 hover:bg-red-50 
-                                   rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="flex items-center gap-1 px-3 py-2 text-red-600 hover:text-red-800 hover:bg-red-50
+                                   rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full sm:w-auto"
                       >
                         <Trash2 size={16} />
                         Excluir
