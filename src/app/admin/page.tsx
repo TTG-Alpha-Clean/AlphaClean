@@ -259,7 +259,7 @@ export default function AdminDashboardPage() {
       removeToken();
       toast.success("Logout realizado com sucesso!", { id: toastId });
 
-      router.push("/home");
+      router.push("/login");
     } catch (error) {
       console.error("Erro no logout:", error);
       toast.error("Erro ao fazer logout", { id: toastId });
@@ -320,35 +320,38 @@ export default function AdminDashboardPage() {
       <header className="border-b border-[var(--border)] bg-[var(--card)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <CarLogo />
               <div>
-                <h1 className="text-xl font-semibold text-[var(--foreground)]">
-                  Alpha Clean - Administração
+                <h1 className="text-lg sm:text-xl font-semibold text-[var(--foreground)]">
+                  <span className="hidden sm:inline">Alpha Clean - Administração</span>
+                  <span className="sm:hidden">Alpha Clean</span>
                 </h1>
-                <p className="text-sm text-[var(--muted-foreground)]">
-                  Bem-vindo, {user.nome}!
+                <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
+                  <span className="hidden sm:inline">Bem-vindo, {user.nome}!</span>
+                  <span className="sm:hidden">Admin</span>
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <button
                 onClick={() => setShowServicos(!showServicos)}
-                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)] 
+                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
                 <Settings size={16} />
-                <span>Gerenciar Serviços</span>
+                <span className="hidden sm:inline">Gerenciar Serviços</span>
+                <span className="sm:hidden">Serviços</span>
               </button>
 
               <button
                 onClick={handleLogout}
-                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)] 
+                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
                 <LogOut size={16} />
-                <span>Sair</span>
+                <span className="hidden sm:inline">Sair</span>
               </button>
             </div>
           </div>
@@ -368,65 +371,65 @@ export default function AdminDashboardPage() {
             {/* ✅ ESTATÍSTICAS - LAYOUT 2 LINHAS: 4 + 3 CARDS */}
             <div className="space-y-4 mb-8">
               {/* Primeira linha - 4 cards */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-[var(--card-bg)] rounded-xl p-4 shadow-sm border border-[var(--card-border)]">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <Calendar className="w-5 h-5 text-blue-600" />
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                     </div>
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">
+                      <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                         Total
                       </p>
-                      <p className="text-2xl font-bold text-[var(--foreground)]">
+                      <p className="text-lg sm:text-2xl font-bold text-[var(--foreground)]">
                         {stats.total}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[var(--card-bg)] rounded-xl p-4 shadow-sm border border-[var(--card-border)]">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                      <Clock className="w-5 h-5 text-yellow-600" />
+                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                      <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600" />
                     </div>
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">
+                      <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                         Agendados
                       </p>
-                      <p className="text-2xl font-bold text-[var(--foreground)]">
+                      <p className="text-lg sm:text-2xl font-bold text-[var(--foreground)]">
                         {stats.agendados}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[var(--card-bg)] rounded-xl p-4 shadow-sm border border-[var(--card-border)]">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                      <TrendingUp className="w-5 h-5 text-orange-600" />
+                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                      <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
                     </div>
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">
-                        Em Andamento
+                      <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
+                        Andamento
                       </p>
-                      <p className="text-2xl font-bold text-[var(--foreground)]">
+                      <p className="text-lg sm:text-2xl font-bold text-[var(--foreground)]">
                         {stats.em_andamento}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[var(--card-bg)] rounded-xl p-4 shadow-sm border border-[var(--card-border)]">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                      <Users className="w-5 h-5 text-green-600" />
+                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                      <Users className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
                     </div>
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">
+                      <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                         Concluídos
                       </p>
-                      <p className="text-2xl font-bold text-[var(--foreground)]">
+                      <p className="text-lg sm:text-2xl font-bold text-[var(--foreground)]">
                         {stats.concluidos}
                       </p>
                     </div>
@@ -435,49 +438,49 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* Segunda linha - 3 cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-[var(--card-bg)] rounded-xl p-4 shadow-sm border border-[var(--card-border)]">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                      <Users className="w-5 h-5 text-red-600" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4">
+                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                      <Users className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
                     </div>
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">
+                      <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                         Cancelados
                       </p>
-                      <p className="text-2xl font-bold text-[var(--foreground)]">
+                      <p className="text-lg sm:text-2xl font-bold text-[var(--foreground)]">
                         {stats.cancelados}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[var(--card-bg)] rounded-xl p-4 shadow-sm border border-[var(--card-border)]">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                      <DollarSign className="w-5 h-5 text-green-600" />
+                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                      <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
                     </div>
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">
+                      <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                         Receita Hoje
                       </p>
-                      <p className="text-xl font-bold text-[var(--foreground)]">
+                      <p className="text-base sm:text-xl font-bold text-[var(--foreground)]">
                         {formatCurrency(receitaHoje)}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[var(--card-bg)] rounded-xl p-4 shadow-sm border border-[var(--card-border)]">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                      <DollarSign className="w-5 h-5 text-emerald-600" />
+                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                      <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
                     </div>
                     <div>
-                      <p className="text-sm text-[var(--muted-foreground)]">
+                      <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                         Receita Mês
                       </p>
-                      <p className="text-xl font-bold text-[var(--foreground)]">
+                      <p className="text-base sm:text-xl font-bold text-[var(--foreground)]">
                         {formatCurrency(receitaMes)}
                       </p>
                     </div>
