@@ -105,7 +105,7 @@ export function EditAgendamentoForm({
       const res = await fetch(
         `${API_URL}/api/agendamentos/slots?data=${selectedDate}`,
         {
-          credentials: "include",
+          
         }
       );
 
@@ -203,7 +203,7 @@ export function EditAgendamentoForm({
       // ✅ Usa a nova rota PUT para edição completa
       const res = await fetch(`${API_URL}/api/agendamentos/${agendamento.id}`, {
         method: "PUT",
-        credentials: "include",
+        
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           modelo_veiculo,

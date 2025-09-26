@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import * as Dialog from "@radix-ui/react-dialog";
 import { LogOut } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { getToken, removeToken } from "@/utils/api";
 
 import { ActionCard } from "@/components/cards/actionCard";
 import { ServiceList, type ServiceItem } from "@/components/lists/serviceList";
@@ -43,8 +44,15 @@ export default function ClienteDashboardPage() {
 
     const checkAuth = async () => {
       try {
-        const res = await fetch(`${API_URL}/auth/me`, {
-          credentials: "include",
+        const token = getToken();
+        if (!token) {
+          throw new Error("No token found");
+        }
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVICES_API_URL}/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (!res.ok) throw new Error("unauthorized");
@@ -56,9 +64,7 @@ export default function ClienteDashboardPage() {
         }
       } catch {
         if (!cancel) {
-          // Limpa cookies de sessão
-          document.cookie = "has_session=; Max-Age=0; Path=/; SameSite=Lax";
-          document.cookie = "role=; Max-Age=0; Path=/; SameSite=Lax";
+          removeToken();
           router.replace("/login?next=/cliente");
         }
       }
@@ -78,10 +84,16 @@ export default function ClienteDashboardPage() {
       try {
         setLoading(true);
 
+        const token = getToken();
+        const headers: HeadersInit = {};
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
         const res = await fetch(
           `${API_URL}/api/agendamentos?page=1&page_size=50`,
           {
-            credentials: "include",
+            headers,
           }
         );
 
@@ -141,9 +153,17 @@ export default function ClienteDashboardPage() {
     const toastId = toast.loading("Fazendo logout...");
 
     try {
+      const token = getToken();
+      const headers: HeadersInit = {
+        "Content-Type": "application/json"
+      };
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
       await fetch(`${API_URL}/auth/logout`, {
         method: "POST",
-        credentials: "include",
+        headers,
       });
 
       toast.success("Logout realizado com sucesso!", { id: toastId });

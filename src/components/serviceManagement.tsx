@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Plus, Edit, Trash2, Save, X, DollarSign } from "lucide-react";
+import { apiPost, apiDelete, apiPut } from "@/utils/api";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
@@ -56,20 +57,10 @@ export function ServicosManagement({
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/servicos`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nome: formData.nome.trim(),
-          valor: parseFloat(formData.valor),
-        }),
+      await apiPost("/api/servicos", {
+        nome: formData.nome.trim(),
+        valor: parseFloat(formData.valor),
       });
-
-      if (!res.ok) {
-        const error: ApiError = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Erro ao criar serviço");
-      }
 
       toast.success("Serviço criado com sucesso!");
       setFormData({ nome: "", valor: "" });
@@ -92,20 +83,10 @@ export function ServicosManagement({
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/servicos/${servico.id}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nome: formData.nome.trim(),
-          valor: parseFloat(formData.valor),
-        }),
+      await apiPut(`/api/servicos/${servico.id}`, {
+        nome: formData.nome.trim(),
+        valor: parseFloat(formData.valor),
       });
-
-      if (!res.ok) {
-        const error: ApiError = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Erro ao editar serviço");
-      }
 
       toast.success("Serviço atualizado com sucesso!");
       setEditingId(null);
@@ -129,15 +110,7 @@ export function ServicosManagement({
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/servicos/${servico.id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        const error: ApiError = await res.json().catch(() => ({}));
-        throw new Error(error?.error || "Erro ao excluir serviço");
-      }
+      await apiDelete(`/api/servicos/${servico.id}`);
 
       toast.success("Serviço removido com sucesso!");
       onServicoChange();

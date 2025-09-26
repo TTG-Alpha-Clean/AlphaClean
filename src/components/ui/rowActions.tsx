@@ -64,7 +64,7 @@ export function RowActions({
     try {
       const res = await fetch(`${API_URL}/api/agendamentos/${id}`, {
         method: "DELETE",
-        credentials: "include",
+        
       });
 
       if (!res.ok) {

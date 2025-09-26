@@ -3,12 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 // públicas
 const PUBLIC_PATHS = ["/home", "/login", "/register"];
 
-// Lê qualquer indicador de sessão válida (token/access_token httpOnly no mesmo domínio
-// ou cookie-espelho has_session = "1" setado pelo front após login)
+// Lê indicador de sessão válida através de cookie-espelho has_session = "1"
+// setado pelo front após login (o token real fica no localStorage)
 function isLogged(req: NextRequest) {
-    const token = req.cookies.get("token")?.value || req.cookies.get("access_token")?.value;
     const mirror = req.cookies.get("has_session")?.value === "1";
-    return Boolean(token || mirror);
+    return Boolean(mirror);
 }
 
 // Lê role de um cookie leve (espelho) setado após login

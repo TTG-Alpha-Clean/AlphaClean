@@ -6,7 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { setToken } from "@/utils/api";
 import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
@@ -27,6 +29,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,17 +39,21 @@ export default function LoginPage() {
     try {
       const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
-        credentials: "include", // Importante para cookies
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha }),
+        body: JSON.stringify({ email: email, senha: senha }),
       });
 
-      const data: { error?: string } = await res.json().catch(() => ({}));
+      const data: LoginResponse & { error?: string } = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || "Erro ao entrar.");
+
+      // Salvar token no localStorage e cookies espelho
+      if (data.token) {
+        setToken(data.token, data.user.role);
+      }
 
       toast.success("Bem-vindo!", { id: tid });
 
-      const role = (data as LoginResponse).user.role;
+      const role = data.user.role;
 
       // Verifica se há uma página para redirecionar
       const nextUrl = searchParams.get("next");
@@ -89,14 +96,27 @@ export default function LoginPage() {
 
           <div>
             <Label className="mb-1 block">Senha</Label>
-            <Input
-              type="password"
-              placeholder="Digite sua senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C]"
-              required
-            />
+            <div className="relative">
+              <Input
+                type={showPassword ? "text" : "password"}
+                placeholder="Digite sua senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                className="h-10 border-[#022744]/15 focus:ring-2 focus:ring-[#9BD60C] pr-10"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#022744]/60 hover:text-[#022744] transition-colors"
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            </div>
           </div>
 
           <button

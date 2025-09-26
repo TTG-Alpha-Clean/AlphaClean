@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Clock } from "lucide-react";
+import { apiGet, apiPost } from "@/utils/api";
 
 interface Props {
   onClose: () => void;
@@ -106,13 +107,7 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
     const loadServicos = async () => {
       setLoadingServicos(true);
       try {
-        const res = await fetch(`${API_URL}/api/servicos`, {
-          credentials: "include",
-        });
-
-        if (!res.ok) throw new Error("Erro ao carregar serviços");
-
-        const data = await res.json();
+        const data = await apiGet("/api/servicos");
         setServicos(data.data || []);
       } catch (error) {
         console.error("Erro ao carregar serviços:", error);
@@ -132,16 +127,7 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
 
     setLoadingSlots(true);
     try {
-      const res = await fetch(
-        `${API_URL}/api/agendamentos/slots?data=${selectedDate}`,
-        {
-          credentials: "include",
-        }
-      );
-
-      if (!res.ok) throw new Error("Erro ao carregar horários");
-
-      const data = await res.json();
+      const data = await apiGet(`/api/agendamentos/slots?data=${selectedDate}`);
       setSlots(data.slots || []);
     } catch (error) {
       console.error("Erro ao carregar slots:", error);
@@ -194,27 +180,15 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
     const tid = toast.loading("Agendando serviço...");
 
     try {
-      const res = await fetch(`${API_URL}/api/agendamentos`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          modelo_veiculo,
-          cor: cor || null,
-          placa,
-          servico_id,
-          data,
-          horario,
-          observacoes: observacoes || null,
-        }),
+      await apiPost("/api/agendamentos", {
+        modelo_veiculo,
+        cor: cor || null,
+        placa,
+        servico_id,
+        data,
+        horario,
+        observacoes: observacoes || null,
       });
-
-      if (!res.ok) {
-        const d = await res.json().catch(() => null);
-        const errorMessage = d?.error || "Erro ao criar agendamento.";
-        console.error("Erro do servidor:", errorMessage);
-        throw new Error(errorMessage);
-      }
 
       toast.success("Agendamento criado com sucesso!", { id: tid });
       onCreated?.();

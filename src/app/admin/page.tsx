@@ -13,6 +13,7 @@ import {
   Settings,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { getToken, removeToken } from "@/utils/api";
 
 import {
   AdminServiceList,
@@ -60,8 +61,15 @@ export default function AdminDashboardPage() {
 
     const checkAuth = async () => {
       try {
-        const res = await fetch(`${API_URL}/auth/me`, {
-          credentials: "include",
+        const token = getToken();
+        if (!token) {
+          throw new Error("No token found");
+        }
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVICES_API_URL}/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (!res.ok) {
@@ -86,8 +94,7 @@ export default function AdminDashboardPage() {
         }
       } catch (error) {
         if (!cancel) {
-          document.cookie = "has_session=; Max-Age=0; Path=/; SameSite=Lax";
-          document.cookie = "role=; Max-Age=0; Path=/; SameSite=Lax";
+          removeToken();
           router.replace("/login?next=/admin");
         }
       }
@@ -103,8 +110,14 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     const fetchServicos = async () => {
       try {
+        const token = getToken();
+        const headers: Record<string, string> = {};
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
         const res = await fetch(`${API_URL}/api/servicos`, {
-          credentials: "include",
+          headers,
         });
 
         if (res.ok) {
@@ -129,10 +142,16 @@ export default function AdminDashboardPage() {
       try {
         setLoading(true);
 
+        const token = getToken();
+        const headers: Record<string, string> = {};
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
         const res = await fetch(
           `${API_URL}/api/agendamentos?page=1&page_size=100`,
           {
-            credentials: "include",
+            headers,
           }
         );
 
@@ -226,15 +245,19 @@ export default function AdminDashboardPage() {
     const toastId = toast.loading("Fazendo logout...");
 
     try {
+      const token = getToken();
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
       await fetch(`${API_URL}/auth/logout`, {
         method: "POST",
-        credentials: "include",
+        headers,
       });
 
+      removeToken();
       toast.success("Logout realizado com sucesso!", { id: toastId });
-
-      document.cookie = "has_session=; Max-Age=0; Path=/; SameSite=Lax";
-      document.cookie = "role=; Max-Age=0; Path=/; SameSite=Lax";
 
       router.push("/home");
     } catch (error) {

@@ -18,7 +18,8 @@ export default function Home() {
           Sobre a Alpha Clean
         </h1>
         <p className="text-lg text-[var(--primary)] max-w-3xl">
-          Mais do que um serviço, proporcionamos uma experiência: o cuidado de quem realmente entende e ama carros.
+          Mais do que um serviço, proporcionamos uma experiência: o cuidado de
+          quem realmente entende e ama carros.
         </p>
       </div>
 
@@ -29,15 +30,17 @@ export default function Home() {
           Nossos Serviços
         </h2>
         <p className="text-lg text-[var(--muted-foreground)] max-w-3xl mx-auto">
-          Oferecemos uma gama completa de serviços para manter seu veículo sempre impecável. Escolha o serviço que melhor atende suas necessidades.
+          Oferecemos uma gama completa de serviços para manter seu veículo
+          sempre impecável. Escolha o serviço que melhor atende suas
+          necessidades.
         </p>
-         <section className="container mx-auto px-4 py-10">
-        <ServicesSection
-          variant="compact"
-          endpoint="http://localhost:3001/services"
-          className="mt-12"
-        />
-      </section>
+        <section className="container mx-auto px-4 py-10">
+          <ServicesSection
+            variant="compact"
+            endpoint="http://localhost:3002/services"
+            className="mt-12"
+          />
+        </section>
       </div>
 
       <ServiceBanner />

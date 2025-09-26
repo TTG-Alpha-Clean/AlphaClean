@@ -83,7 +83,7 @@ export function AdminEditAgendamentoModal({
     try {
       const res = await fetch(`${API_URL}/api/agendamentos/${agendamento.id}`, {
         method: "PUT",
-        credentials: "include",
+        
         headers: {
           "Content-Type": "application/json",
         },
@@ -109,7 +109,7 @@ export function AdminEditAgendamentoModal({
           `${API_URL}/api/agendamentos/${agendamento.id}/status`,
           {
             method: "PATCH",
-            credentials: "include",
+            
             headers: {
               "Content-Type": "application/json",
             },

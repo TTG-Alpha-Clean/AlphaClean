@@ -129,7 +129,7 @@ export function ServiceList({ items, onRefresh }: ServiceListProps) {
       // ✅ Rota correta: DELETE /:id (não /cancel)
       const res = await fetch(`${API_URL}/api/agendamentos/${id}`, {
         method: "DELETE",
-        credentials: "include",
+        
       });
 
       if (!res.ok) {

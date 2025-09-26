@@ -31,7 +31,7 @@ export default function SessionPage() {
       <section className="container mx-auto px-4 py-10">
         <ServicesSection
           variant="detailed"
-          endpoint="http://localhost:3001/services"
+          endpoint="http://localhost:3002/services"
           className="mt-12"
         />
       </section>
