@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   MessageCircle,
   Wifi,
@@ -13,8 +13,10 @@ import {
   CheckCircle,
   AlertTriangle,
   RefreshCw,
+  QrCode,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import QRCode from "qrcode";
 
 interface WhatsAppStatus {
   connected: boolean;
@@ -33,8 +35,12 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   const [loading, setLoading] = useState(false);
   const [testPhone, setTestPhone] = useState("");
   const [sendingTest, setSendingTest] = useState(false);
+  const [qrCode, setQrCode] = useState<string | null>(null);
+  const [loadingQR, setLoadingQR] = useState(false);
+  const qrCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const WHATSAPP_SERVICE_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL;
 
   // Verificar status ao carregar
   useEffect(() => {
@@ -63,6 +69,50 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
     }
   };
 
+  const fetchQRCode = async () => {
+    setLoadingQR(true);
+    try {
+      const response = await fetch(`${WHATSAPP_SERVICE_URL}/whatsapp/qr`);
+      const data = await response.json();
+
+      if (data.success && data.qrCode) {
+        setQrCode(data.qrCode);
+        renderQRCode(data.qrCode);
+      } else {
+        setQrCode(null);
+        toast.error(data.message || "QR Code não disponível");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar QR code:", error);
+      toast.error("Erro ao carregar QR Code");
+      setQrCode(null);
+    } finally {
+      setLoadingQR(false);
+    }
+  };
+
+  const renderQRCode = async (qrData: string) => {
+    if (!qrCanvasRef.current) return;
+
+    try {
+      const canvas = qrCanvasRef.current;
+      canvas.width = 256;
+      canvas.height = 256;
+
+      await QRCode.toCanvas(canvas, qrData, {
+        width: 256,
+        margin: 2,
+        color: {
+          dark: "#000000",
+          light: "#ffffff",
+        },
+      });
+    } catch (error) {
+      console.error("Erro ao renderizar QR code:", error);
+      toast.error("Erro ao gerar QR Code");
+    }
+  };
+
   const initializeWhatsApp = async () => {
     setLoading(true);
     const toastId = toast.loading("Inicializando WhatsApp...");
@@ -76,12 +126,13 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
       if (data.success) {
         toast.success(
-          "WhatsApp inicializando! Verifique o console do servidor para o QR code.",
+          "WhatsApp inicializando! Escaneie o QR code abaixo.",
           { id: toastId }
         );
 
-        // Aguardar um pouco e verificar status novamente
+        // Aguardar um pouco e buscar QR code
         setTimeout(() => {
+          fetchQRCode();
           checkStatus();
         }, 3000);
       } else {
@@ -255,7 +306,32 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
             <p className="text-sm text-gray-600 mt-2">{status.message}</p>
 
-            {!status.connected && (
+            {/* QR Code Display */}
+            {!status.connected && qrCode && (
+              <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg text-center">
+                <div className="flex flex-col items-center space-y-3">
+                  <QrCode className="w-6 h-6 text-green-600" />
+                  <h4 className="font-medium text-gray-900">QR Code para Conexão</h4>
+                  <canvas
+                    ref={qrCanvasRef}
+                    className="border border-gray-300 rounded-lg"
+                  />
+                  <p className="text-sm text-gray-600">
+                    Escaneie este QR code com seu WhatsApp
+                  </p>
+                  <button
+                    onClick={fetchQRCode}
+                    disabled={loadingQR}
+                    className="flex items-center space-x-2 px-3 py-2 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
+                  >
+                    <RefreshCw className={`w-4 h-4 ${loadingQR ? "animate-spin" : ""}`} />
+                    <span>Atualizar QR Code</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {!status.connected && !qrCode && (
               <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <div className="flex items-start space-x-2">
                   <AlertTriangle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
@@ -263,10 +339,8 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                     <p className="font-medium mb-1">Como conectar:</p>
                     <ol className="list-decimal list-inside space-y-1">
                       <li>Clique em Conectar WhatsApp</li>
-                      <li>
-                        Verifique o console do servidor para ver o QR code
-                      </li>
-                      <li>Escaneie o QR code with seu WhatsApp</li>
+                      <li>Aguarde o QR code aparecer aqui</li>
+                      <li>Escaneie o QR code com seu WhatsApp</li>
                       <li>Aguarde a confirmação de conexão</li>
                     </ol>
                   </div>
@@ -276,16 +350,27 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
           </div>
 
           {/* Controles de conexão */}
-          <div className="flex space-x-3">
+          <div className="flex flex-wrap gap-3">
             {!status.connected ? (
-              <button
-                onClick={initializeWhatsApp}
-                disabled={loading}
-                className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
-              >
-                <Power className="w-4 h-4" />
-                <span>{loading ? "Conectando..." : "Conectar WhatsApp"}</span>
-              </button>
+              <>
+                <button
+                  onClick={initializeWhatsApp}
+                  disabled={loading}
+                  className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
+                >
+                  <Power className="w-4 h-4" />
+                  <span>{loading ? "Conectando..." : "Conectar WhatsApp"}</span>
+                </button>
+
+                <button
+                  onClick={fetchQRCode}
+                  disabled={loadingQR}
+                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                >
+                  <QrCode className="w-4 h-4" />
+                  <span>{loadingQR ? "Carregando..." : "Buscar QR Code"}</span>
+                </button>
+              </>
             ) : (
               <button
                 onClick={disconnectWhatsApp}
