@@ -7,7 +7,6 @@ import { toast } from "react-hot-toast";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "../../components/ui/toggle";
-import DeleteButton from "../../components/ui/deleteButton";
 import Link from "next/link";
 import { User, Mail, Lock, Phone, Check } from "lucide-react";
 
@@ -27,21 +26,9 @@ export default function RegisterPage() {
   const [ddd, setDDD] = useState("");
   const [numero, setNumero] = useState("");
   const [whats, setWhats] = useState(false);
-  const [telefones, setTelefones] = useState<PhoneInput[]>([]);
 
   const [loading, setLoading] = useState(false);
 
-  function addPhone() {
-    if (!ddd || !numero) return toast.error("Informe DDD e número.");
-    setTelefones((p) => [...p, { ddd, numero, is_whatsapp: whats }]);
-    setDDD("");
-    setNumero("");
-    setWhats(false);
-  }
-
-  function removePhone(i: number) {
-    setTelefones((p) => p.filter((_, idx) => idx !== i));
-  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -55,7 +42,13 @@ export default function RegisterPage() {
       const res = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, email, senha, role, telefones }),
+        body: JSON.stringify({
+          nome,
+          email,
+          senha,
+          role,
+          telefones: ddd && numero ? [{ ddd, numero, is_whatsapp: whats }] : []
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || "Erro ao cadastrar.");
@@ -151,13 +144,14 @@ export default function RegisterPage() {
             </Label>
 
             <div className="space-y-2">
-              {/* Input de telefone compacto */}
+              {/* Input de telefone simples */}
               <div className="flex gap-2 items-end">
                 <div className="w-16">
                   <Input
                     value={ddd}
                     onChange={(e) => setDDD(e.target.value)}
                     placeholder="71"
+                    maxLength={2}
                     className="h-9 border-[#022744]/15 rounded focus:ring-1 focus:ring-[#9BD60C] text-center text-sm"
                   />
                 </div>
@@ -166,6 +160,7 @@ export default function RegisterPage() {
                     value={numero}
                     onChange={(e) => setNumero(e.target.value)}
                     placeholder="999661709"
+                    maxLength={9}
                     className="h-9 border-[#022744]/15 rounded focus:ring-1 focus:ring-[#9BD60C] text-sm"
                   />
                 </div>
@@ -173,32 +168,7 @@ export default function RegisterPage() {
                   <Toggle checked={whats} onChange={setWhats} label="" />
                   <span className="text-xs text-[#022744]/60 whitespace-nowrap">WhatsApp</span>
                 </div>
-                <button
-                  type="button"
-                  onClick={addPhone}
-                  className="h-9 px-3 text-xs rounded bg-[#9BD60C]/10 text-[#9BD60C] font-medium hover:bg-[#9BD60C]/20 transition-colors flex items-center justify-center"
-                >
-                  +
-                </button>
               </div>
-
-              {/* Lista de telefones compacta */}
-              {telefones.length > 0 && (
-                <div className="space-y-1">
-                  {telefones.map((t, i) => (
-                    <div
-                      key={`${t.ddd}-${t.numero}-${i}`}
-                      className="flex items-center justify-between p-2 rounded bg-gray-50/80 border border-gray-100"
-                    >
-                      <span className="text-xs font-medium">
-                        ({t.ddd}) {t.numero}
-                        {t.is_whatsapp && <span className="ml-1 text-green-600">📱</span>}
-                      </span>
-                      <DeleteButton onClick={() => removePhone(i)} />
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
 

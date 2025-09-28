@@ -28,6 +28,10 @@ export function CompleteServiceModal({
   const [notes, setNotes] = useState('');
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const WHATSAPP_SERVICE_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL;
+
+  // Verificar se o WhatsApp está disponível (apenas em desenvolvimento local)
+  const isWhatsAppAvailable = !!WHATSAPP_SERVICE_URL && WHATSAPP_SERVICE_URL.includes('localhost');
 
   const handleComplete = async () => {
     setCompleting(true);
@@ -56,11 +60,11 @@ export function CompleteServiceModal({
       const responseData = await completeResponse.json();
 
       // Exibir toast baseado na resposta do backend
-      if (sendWhatsApp) {
+      if (sendWhatsApp && isWhatsAppAvailable) {
         if (responseData.whatsappSent) {
           toast.success('Serviço finalizado e notificação WhatsApp enviada!', { id: toastId });
         } else {
-          toast.success(responseData.message || 'Serviço finalizado! (Notificação WhatsApp falhou)', { id: toastId });
+          toast.success('Serviço finalizado! (Problema no envio da notificação)', { id: toastId });
         }
       } else {
         toast.success('Serviço finalizado com sucesso!', { id: toastId });
@@ -83,7 +87,7 @@ export function CompleteServiceModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center space-x-3">
@@ -182,32 +186,34 @@ export function CompleteServiceModal({
             />
           </div>
 
-          {/* Opção WhatsApp */}
-          <div className="bg-green-50 rounded-lg p-4">
-            <label className="flex items-start space-x-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={sendWhatsApp}
-                onChange={(e) => setSendWhatsApp(e.target.checked)}
-                disabled={completing}
-                className="mt-1 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
-              />
-              <div>
-                <div className="flex items-center space-x-2">
-                  <MessageCircle className="w-4 h-4 text-green-600" />
-                  <span className="font-medium text-gray-900">Enviar notificação por WhatsApp</span>
-                </div>
-                <p className="text-sm text-gray-600 mt-1">
-                  O cliente receberá uma mensagem confirmando a conclusão do serviço
-                </p>
-                {!appointment.cliente.telefone && (
-                  <p className="text-sm text-red-600 mt-1 font-medium">
-                    ⚠️ Cliente não possui telefone cadastrado
+          {/* Opção WhatsApp - só aparece se disponível */}
+          {isWhatsAppAvailable && (
+            <div className="bg-green-50 rounded-lg p-4">
+              <label className="flex items-start space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={sendWhatsApp}
+                  onChange={(e) => setSendWhatsApp(e.target.checked)}
+                  disabled={completing}
+                  className="mt-1 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                />
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <MessageCircle className="w-4 h-4 text-green-600" />
+                    <span className="font-medium text-gray-900">Enviar notificação por WhatsApp</span>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-1">
+                    O cliente receberá uma mensagem confirmando a conclusão do serviço
                   </p>
-                )}
-              </div>
-            </label>
-          </div>
+                  {!appointment.cliente.telefone && (
+                    <p className="text-sm text-red-600 mt-1 font-medium">
+                      ⚠️ Cliente não possui telefone cadastrado
+                    </p>
+                  )}
+                </div>
+              </label>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
