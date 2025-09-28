@@ -18,9 +18,9 @@ export default function ContactSection() {
               <h4 className="font-semibold text-[var(--primary)]">Endereço</h4>
             </div>
             <div className="text-[var(--muted-foreground)] space-y-1">
-              <p>Rua das Palmeiras, 123</p>
-              <p>Centro - Caetité/BA</p>
-              <p>CEP: 12.345-678</p>
+              <p>Rod. BA 099 Estrada do Côco</p>
+              <p>S/N, Posto BR - Loja 02, Abrantes</p>
+              <p>CEP: 42.822-394</p>
             </div>
           </div>
 
@@ -33,7 +33,7 @@ export default function ContactSection() {
               <h4 className="font-semibold text-[var(--primary)]">Telefone</h4>
             </div>
             <div className="text-[var(--muted-foreground)] space-y-1">
-              <p className="text-[var(--accent)] font-medium">(11) 1234-5678</p>
+              <p className="text-[var(--accent)] font-medium">(71) 98358-4393</p>
               <p className="text-sm">WhatsApp disponível</p>
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function ContactSection() {
               <h4 className="font-semibold text-[var(--primary)]">Horários</h4>
             </div>
             <div className="text-[var(--muted-foreground)] space-y-1">
-              <p>Segunda a Sexta: 08:00 - 18:00</p>
+              <p>Segunda a Sexta: 08:00 - 17:00</p>
               <p>Sábado: 08:00 - 17:00</p>
               <p>Domingo: 08:00 - 12:00</p>
             </div>
@@ -80,7 +80,7 @@ export default function ContactSection() {
             </div>
             <div className="w-full h-64 sm:h-80 lg:h-96 rounded-lg overflow-hidden border border-gray-200">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3897.123456789!2d-42.123456!3d-14.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDA3JzI0LjQiUyA0MsKwMDcnMjQuNCJX!5e0!3m2!1spt-BR!2sbr!4v1234567890123!5m2!1spt-BR!2sbr"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.2131189488905!2d-38.272144425351826!3d-12.82950058747295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7163f0009da5b41%3A0xf63cc231d7571166!2sAlpha%20Clean%20%7C%20Est%C3%A9tica%20automotiva!5e0!3m2!1spt-BR!2sbr!4v1759099437031!5m2!1spt-BR!2sbr"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -95,7 +95,7 @@ export default function ContactSection() {
               </p>
 
               <a
-                href="https://maps.google.com/?q=Rua+das+Palmeiras,+123+Centro+Caetité+BA"
+                href="https://maps.app.goo.gl/MjNu595NEbXfNuks8"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--accent)] text-[var(--primary)] rounded-lg font-medium hover:bg-[var(--accent)]/90 transition-colors"

@@ -16,7 +16,7 @@ const Footer: FC = () => {
               Alpha Clean
             </h2>
             <p className="mt-3 text-sm leading-relaxed">
-              Lava jato profissional com mais de 10 anos de experiência,
+              Lava jato profissional com mais de 2 anos de experiência,
               oferecendo serviços de qualidade para seu veículo.
             </p>
 
@@ -46,11 +46,12 @@ const Footer: FC = () => {
           <nav aria-label="Nossos Serviços" className="min-w-0">
             <h2 className="text-base font-semibold">Nossos Serviços</h2>
             <ul className="mt-3 space-y-2 text-sm">
-              <li>Lavagem Simples</li>
-              <li>Lavagem Completa</li>
-              <li>Limpeza Interna</li>
+              <li>Lavagem</li>
+              <li>Polimento</li>
+              <li>Vitrificação</li>
+              <li>Revitalização</li>
               <li>Enceramento</li>
-              <li>Detalhamento</li>
+              <li>Higienização</li>
             </ul>
           </nav>
 
@@ -61,15 +62,15 @@ const Footer: FC = () => {
               <li className="flex items-start gap-3">
                 <MapPin className="shrink-0 text-[var(--accent)]" />
                 <address className="not-italic">
-                  Rua das Palmeiras, 123
+                  Rod. BA 099 Estrada do Côco, S/N, Posto BR - Loja 02, Abrantes
                   <br />
-                  Centro - Cidade/UF
+                  Camaçari - CEP: 42.822.394
                 </address>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="shrink-0 text-[var(--accent)]" />
-                <a href="tel:+551199998888" className="hover:underline">
-                  (11) 9999-8888
+                <a href="tel:+5571983584393" className="hover:underline">
+                  (71) 98358-4393
                 </a>
               </li>
               <li className="flex items-center gap-3">
