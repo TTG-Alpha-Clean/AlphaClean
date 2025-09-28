@@ -42,12 +42,24 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const WHATSAPP_SERVICE_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL;
 
+  // Verificar se o WhatsApp está disponível (apenas em desenvolvimento local)
+  const isWhatsAppAvailable = !!WHATSAPP_SERVICE_URL && WHATSAPP_SERVICE_URL.includes('localhost');
+
   // Verificar status ao carregar
   useEffect(() => {
-    checkStatus();
-  }, []);
+    if (isWhatsAppAvailable) {
+      checkStatus();
+    } else {
+      setStatus({
+        connected: false,
+        message: "WhatsApp disponível apenas em desenvolvimento local"
+      });
+    }
+  }, [isWhatsAppAvailable]);
 
   const checkStatus = async () => {
+    if (!isWhatsAppAvailable) return;
+
     setLoading(true);
     try {
       const response = await fetch(`${WHATSAPP_SERVICE_URL}/whatsapp/status`);
@@ -69,6 +81,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   };
 
   const fetchQRCode = async () => {
+    if (!isWhatsAppAvailable) return;
     setLoadingQR(true);
     try {
       const response = await fetch(`${WHATSAPP_SERVICE_URL}/whatsapp/qr`);
@@ -113,6 +126,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   };
 
   const initializeWhatsApp = async () => {
+    if (!isWhatsAppAvailable) return;
     setLoading(true);
     const toastId = toast.loading("Inicializando WhatsApp...");
 
@@ -148,6 +162,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   };
 
   const disconnectWhatsApp = async () => {
+    if (!isWhatsAppAvailable) return;
     setLoading(true);
     const toastId = toast.loading("Desconectando WhatsApp...");
 
@@ -174,6 +189,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   };
 
   const sendTestMessage = async () => {
+    if (!isWhatsAppAvailable) return;
     if (!testPhone.trim()) {
       toast.error("Digite um número de telefone para teste");
       return;
@@ -238,6 +254,85 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
     const formatted = formatPhoneNumber(e.target.value);
     setTestPhone(formatted);
   };
+
+  // Se WhatsApp não estiver disponível, mostrar tela de demonstração
+  if (!isWhatsAppAvailable) {
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+          {/* Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                <MessageCircle className="w-5 h-5 text-orange-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">
+                  WhatsApp Integration
+                </h2>
+                <p className="text-sm text-gray-500">
+                  Funcionalidade Premium
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Content */}
+          <div className="p-6 space-y-6">
+            <div className="text-center py-8">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageCircle className="w-8 h-8 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Integração WhatsApp - Funcionalidade Premium
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                Esta funcionalidade permite envio automático de notificações via WhatsApp quando serviços são concluídos.
+              </p>
+
+              <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-6 mb-6">
+                <h4 className="font-semibold text-gray-900 mb-3">Funcionalidades incluídas:</h4>
+                <ul className="text-left space-y-2 text-gray-700">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                    Notificações automáticas de conclusão de serviços
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                    Lembretes de agendamentos personalizados
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                    Mensagens de confirmação para clientes
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                    Interface de gerenciamento completa
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-blue-800 font-medium">
+                  💡 Esta funcionalidade está disponível para demonstração em ambiente local
+                </p>
+                <p className="text-blue-600 text-sm mt-1">
+                  Entre em contato para incluir no plano premium
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
