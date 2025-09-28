@@ -50,19 +50,18 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   const checkStatus = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/api/whatsapp/status`);
+      const response = await fetch(`${WHATSAPP_SERVICE_URL}/whatsapp/status`);
       const data = await response.json();
 
-      if (data.success) {
-        setStatus(data.data);
-      } else {
-        setStatus({ connected: false, message: "Erro ao verificar status" });
-      }
+      setStatus({
+        connected: data.connected || false,
+        message: data.message || "Status desconhecido"
+      });
     } catch (error) {
       console.error("Erro ao verificar status:", error);
       setStatus({
         connected: false,
-        message: "Erro de conexão com o servidor",
+        message: "WhatsApp Service indisponível",
       });
     } finally {
       setLoading(false);
@@ -118,13 +117,13 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
     const toastId = toast.loading("Inicializando WhatsApp...");
 
     try {
-      const response = await fetch(`${API_URL}/api/whatsapp/initialize`, {
+      const response = await fetch(`${WHATSAPP_SERVICE_URL}/whatsapp/connect`, {
         method: "POST",
       });
 
       const data = await response.json();
 
-      if (data.success) {
+      if (response.ok) {
         toast.success(
           "WhatsApp inicializando! Escaneie o QR code abaixo.",
           { id: toastId }
@@ -136,7 +135,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
           checkStatus();
         }, 3000);
       } else {
-        toast.error(data.error || "Erro ao inicializar WhatsApp", {
+        toast.error(data.message || "Erro ao inicializar WhatsApp", {
           id: toastId,
         });
       }
@@ -153,17 +152,16 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
     const toastId = toast.loading("Desconectando WhatsApp...");
 
     try {
-      const response = await fetch(`${API_URL}/api/whatsapp/disconnect`, {
+      const response = await fetch(`${WHATSAPP_SERVICE_URL}/whatsapp/disconnect`, {
         method: "POST",
       });
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response.ok) {
         toast.success("WhatsApp desconectado com sucesso!", { id: toastId });
         setStatus({ connected: false, message: "WhatsApp desconectado" });
       } else {
-        toast.error(data.error || "Erro ao desconectar WhatsApp", {
+        const data = await response.json();
+        toast.error(data.message || "Erro ao desconectar WhatsApp", {
           id: toastId,
         });
       }
@@ -185,7 +183,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
     const toastId = toast.loading("Enviando mensagem de teste...");
 
     try {
-      const response = await fetch(`${API_URL}/api/whatsapp/send-test`, {
+      const response = await fetch(`${WHATSAPP_SERVICE_URL}/whatsapp/test`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -203,7 +201,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
         });
         setTestPhone("");
       } else {
-        toast.error(data.error || "Erro ao enviar mensagem de teste", {
+        toast.error(data.message || "Erro ao enviar mensagem de teste", {
           id: toastId,
         });
       }
