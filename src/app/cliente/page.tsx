@@ -17,8 +17,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 interface User {
   id: string;
-  name: string;
+  nome: string;
   email: string;
+  role: string;
+  active: boolean;
 }
 
 interface ApiAppointmentItem {
@@ -70,7 +72,7 @@ export default function ClienteDashboardPage() {
 
         const userData = await res.json();
         if (!cancel) {
-          setUser(userData);
+          setUser(userData.user); // A API retorna { user: {...} }
           setChecking(false);
         }
       } catch {
@@ -256,7 +258,7 @@ export default function ClienteDashboardPage() {
 
           <div className="flex items-center gap-6">
             <div className="hidden text-right sm:block">
-              <p className="text-sm font-medium">{user?.name || "Cliente"}</p>
+              <p className="text-sm font-medium">{user?.nome || "Cliente"}</p>
               <p className="text-xs text-[color:var(--muted-foreground)]">
                 {user?.email || "cliente@exemplo.com"}
               </p>
@@ -277,7 +279,7 @@ export default function ClienteDashboardPage() {
         {/* Cabeçalho */}
         <div className="mb-10">
           <h1 className="text-3xl font-extrabold leading-tight tracking-tight">
-            Bem-vindo, {user?.name?.split(" ")[0] || "Cliente"}!
+            Bem-vindo, {user?.nome?.split(" ")[0] || "Cliente"}!
           </h1>
           <p className="mt-1 max-w-2xl text-[15px] text-[color:var(--muted-foreground)]">
             Gerencie seus agendamentos e acompanhe o histórico de serviços.
@@ -285,7 +287,7 @@ export default function ClienteDashboardPage() {
         </div>
 
         {/* Ações principais */}
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {/* Card que abre o modal de novo agendamento */}
           <Dialog.Root open={modalOpen} onOpenChange={setModalOpen}>
             <Dialog.Trigger asChild>
@@ -330,6 +332,16 @@ export default function ClienteDashboardPage() {
               </Dialog.Content>
             </Dialog.Portal>
           </Dialog.Root>
+
+          {/* Card de Meus Carros */}
+          <ActionCard
+            variant="outline"
+            iconName="Car"
+            title="Meus Carros"
+            subtitle="Gerencie seus veículos cadastrados"
+            ctaLabel="Ver Carros"
+            onClick={() => router.push("/cliente/carros")}
+          />
 
           {/* Card de Contato */}
           <ActionCard

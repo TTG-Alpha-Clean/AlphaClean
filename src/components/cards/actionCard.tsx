@@ -1,7 +1,7 @@
-import { Plus, Phone, MapPin } from "lucide-react";
+import { Plus, Phone, MapPin, Car } from "lucide-react";
 import type { ComponentProps } from "react";
 
-const icons = { Plus, Phone, MapPin } as const;
+const icons = { Plus, Phone, MapPin, Car } as const;
 
 export type ActionCardProps = {
   iconName: keyof typeof icons;

@@ -12,8 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Clock } from "lucide-react";
+import { Clock, Car as CarIcon, Plus } from "lucide-react";
 import { apiGet, apiPost } from "@/utils/api";
+import { useCars, Car } from "@/hooks/useCars";
 
 interface Props {
   onClose: () => void;
@@ -35,7 +36,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 const PLACA_REGEX_MERCOSUL = /^[A-Z]{3}\d[A-Z]\d{2}$/;
 
 function normalizePlacaMercosul(v: string): string {
-  const raw = v.toUpperCase().replace(/[^A-Z0-9]/g, "");
+  const raw = v.toUpperCase().replace(/[^A-Za-z0-9]/g, "");
 
   let formatted = "";
   for (let i = 0; i < raw.length && i < 7; i++) {
@@ -94,6 +95,7 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
   const [data, setData] = useState(todayISO());
   const [horario, setHorario] = useState("");
   const [observacoes, setObservacoes] = useState("");
+  const [selectedCarId, setSelectedCarId] = useState<string>("");
 
   // Estados para serviços e slots
   const [servicos, setServicos] = useState<ServicoOption[]>([]);
@@ -101,6 +103,24 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
   const [loadingServicos, setLoadingServicos] = useState(false);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  // Hook para carros
+  const { cars, loading: loadingCars, getDefaultCar } = useCars();
+
+  // Carregar carro padrão ao abrir o formulário
+  useEffect(() => {
+    const loadDefaultCar = async () => {
+      if (!loadingCars && cars.length > 0) {
+        const defaultCar = await getDefaultCar();
+        if (defaultCar) {
+          setSelectedCarId(defaultCar.id);
+          fillCarData(defaultCar);
+        }
+      }
+    };
+
+    loadDefaultCar();
+  }, [loadingCars, cars, getDefaultCar]);
 
   // Carregar serviços disponíveis
   useEffect(() => {
@@ -120,6 +140,31 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
 
     loadServicos();
   }, []);
+
+  // Função para preencher dados do carro
+  const fillCarData = (car: Car) => {
+    setModelo(car.modelo_veiculo);
+    setCor(car.cor || "");
+    setPlaca(car.placa);
+  };
+
+  // Função para lidar com mudança de carro selecionado
+  const handleCarSelection = (carId: string) => {
+    setSelectedCarId(carId);
+
+    if (carId === "manual") {
+      // Limpa os campos para preenchimento manual
+      setModelo("");
+      setCor("");
+      setPlaca("");
+    } else if (carId) {
+      // Preenche com dados do carro selecionado
+      const car = cars.find(c => c.id === carId);
+      if (car) {
+        fillCarData(car);
+      }
+    }
+  };
 
   // Função para carregar slots disponíveis
   const loadSlots = async (selectedDate: string) => {
@@ -207,6 +252,71 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Seleção de Carro */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <CarIcon className="h-5 w-5 text-blue-600" />
+          <Label className="text-blue-900 font-medium">Selecionar Veículo</Label>
+        </div>
+
+        {loadingCars ? (
+          <div className="h-10 flex items-center px-3 border border-blue-300 rounded-lg bg-blue-100">
+            <span className="text-sm text-blue-700">Carregando carros...</span>
+          </div>
+        ) : cars.length > 0 ? (
+          <div className="space-y-3">
+            <Select
+              value={selectedCarId}
+              onValueChange={handleCarSelection}
+              disabled={submitting}
+            >
+              <SelectTrigger className="bg-white border-blue-300">
+                <SelectValue placeholder="Escolha um carro salvo ou preencha manualmente" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="manual">
+                  <div className="flex items-center gap-2">
+                    <Plus className="h-4 w-4" />
+                    <span>Preencher manualmente</span>
+                  </div>
+                </SelectItem>
+                {cars.filter(car => car.ativo).map((car) => (
+                  <SelectItem key={car.id} value={car.id}>
+                    <div className="flex items-center gap-2">
+                      <CarIcon className="h-4 w-4" />
+                      <div>
+                        <span className="font-medium">{car.modelo_veiculo}</span>
+                        {car.is_default && (
+                          <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">
+                            Padrão
+                          </span>
+                        )}
+                        <div className="text-sm text-gray-500">
+                          {car.placa} {car.cor && `• ${car.cor}`}
+                        </div>
+                      </div>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {selectedCarId && selectedCarId !== "manual" && (
+              <div className="text-sm text-blue-700 bg-blue-100 p-2 rounded">
+                ✓ Dados do veículo preenchidos automaticamente
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-sm text-blue-700 bg-blue-100 p-3 rounded">
+            <div className="flex items-center gap-2">
+              <CarIcon className="h-4 w-4" />
+              <span>Nenhum carro cadastrado. Preencha os dados manualmente.</span>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Veículo */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
