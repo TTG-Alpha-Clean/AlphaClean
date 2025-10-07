@@ -96,19 +96,8 @@ export default function RootLayout({
         {/* ❌ REMOVER: Apple Touch Icons */}
         {/* ❌ REMOVER: link rel="manifest" */}
 
-        {/* Manter apenas ícones básicos */}
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
+        {/* Basic favicon only */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
