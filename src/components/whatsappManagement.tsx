@@ -42,8 +42,8 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const WHATSAPP_SERVICE_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL;
 
-  // Verificar se o WhatsApp está disponível (apenas em desenvolvimento local)
-  const isWhatsAppAvailable = !!WHATSAPP_SERVICE_URL && WHATSAPP_SERVICE_URL.includes('localhost');
+  // Verificar se o WhatsApp está disponível
+  const isWhatsAppAvailable = !!WHATSAPP_SERVICE_URL;
 
   // Verificar status ao carregar
   useEffect(() => {
@@ -52,7 +52,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
     } else {
       setStatus({
         connected: false,
-        message: "WhatsApp disponível apenas em desenvolvimento local"
+        message: "WhatsApp Service não configurado"
       });
     }
   }, [isWhatsAppAvailable]);
