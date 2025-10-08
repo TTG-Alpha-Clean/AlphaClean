@@ -336,9 +336,9 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
               <MessageCircle className="w-5 h-5 text-green-600" />
@@ -362,7 +362,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-6 overflow-y-auto flex-1">
           {/* Status atual */}
           <div className="bg-gray-50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
@@ -551,7 +551,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 p-6 bg-gray-50">
+        <div className="border-t border-gray-200 p-6 bg-gray-50 flex-shrink-0">
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500">
               Sistema de notificações WhatsApp - Alpha Clean
