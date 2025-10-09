@@ -531,8 +531,8 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Layout de duas colunas: Agendamentos + Clientes */}
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Coluna de Agendamentos (2/3 da largura) */}
+            <div className="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-6">
+              {/* Coluna de Agendamentos (2/5 da largura) */}
               <div className="lg:col-span-2">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                   <h2 className="text-xl font-semibold text-[var(--foreground)]">
@@ -603,8 +603,8 @@ export default function AdminDashboardPage() {
                 )}
               </div>
 
-              {/* Coluna de Clientes (1/3 da largura) */}
-              <div className="lg:col-span-1">
+              {/* Coluna de Clientes (3/5 da largura) */}
+              <div className="lg:col-span-3">
                 <ClientsList />
               </div>
             </div>
