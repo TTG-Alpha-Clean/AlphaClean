@@ -27,7 +27,6 @@ import { ServicosManagement } from "@/components/serviceManagement";
 import { AdminCalendar } from "@/components/adminCalendar";
 import { ContentManagement } from "@/components/contentManagement";
 import { WhatsAppManagement } from "@/components/whatsappManagement";
-import { ClientsList } from "@/components/clientsList";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
@@ -350,6 +349,15 @@ export default function AdminDashboardPage() {
 
             <div className="flex items-center space-x-2 sm:space-x-3">
               <button
+                onClick={() => router.push('/admin/clientes')}
+                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
+                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                <Users size={16} />
+                <span className="hidden sm:inline">Clientes</span>
+              </button>
+
+              <button
                 onClick={() => setShowWhatsApp(!showWhatsApp)}
                 className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
@@ -530,84 +538,73 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            {/* Layout de duas colunas: Agendamentos + Clientes */}
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-6">
-              {/* Coluna de Agendamentos (2/5 da largura) */}
-              <div className="lg:col-span-2">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-                  <h2 className="text-xl font-semibold text-[var(--foreground)]">
-                    Todos os Agendamentos ({agendamentos.length})
-                  </h2>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+              <h2 className="text-xl font-semibold text-[var(--foreground)]">
+                Todos os Agendamentos ({agendamentos.length})
+              </h2>
 
-                  <div className="flex items-center space-x-3">
-                    {/* Toggle de visualização */}
-                    <div className="flex items-center bg-[var(--muted)] rounded-lg p-1">
-                      <button
-                        onClick={() => setViewMode('list')}
-                        className={`flex items-center space-x-1 px-3 py-2 rounded-md text-xs sm:text-sm transition-colors ${
-                          viewMode === 'list'
-                            ? 'bg-[var(--background)] text-[var(--foreground)] shadow-sm'
-                            : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-                        }`}
-                      >
-                        <List size={16} />
-                        <span className="hidden sm:inline">Lista</span>
-                      </button>
-                      <button
-                        onClick={() => setViewMode('calendar')}
-                        className={`flex items-center space-x-1 px-3 py-2 rounded-md text-xs sm:text-sm transition-colors ${
-                          viewMode === 'calendar'
-                            ? 'bg-[var(--background)] text-[var(--foreground)] shadow-sm'
-                            : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-                        }`}
-                      >
-                        <Calendar size={16} />
-                        <span className="hidden sm:inline">Calendário</span>
-                      </button>
-                    </div>
-
-                    <button
-                      onClick={handleRefresh}
-                      className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={loading}
-                    >
-                      {loading ? "Carregando..." : "Atualizar"}
-                    </button>
-                  </div>
+              <div className="flex items-center space-x-3">
+                {/* Toggle de visualização */}
+                <div className="flex items-center bg-[var(--muted)] rounded-lg p-1">
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`flex items-center space-x-1 px-3 py-2 rounded-md text-xs sm:text-sm transition-colors ${
+                      viewMode === 'list'
+                        ? 'bg-[var(--background)] text-[var(--foreground)] shadow-sm'
+                        : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                    }`}
+                  >
+                    <List size={16} />
+                    <span className="hidden sm:inline">Lista</span>
+                  </button>
+                  <button
+                    onClick={() => setViewMode('calendar')}
+                    className={`flex items-center space-x-1 px-3 py-2 rounded-md text-xs sm:text-sm transition-colors ${
+                      viewMode === 'calendar'
+                        ? 'bg-[var(--background)] text-[var(--foreground)] shadow-sm'
+                        : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                    }`}
+                  >
+                    <Calendar size={16} />
+                    <span className="hidden sm:inline">Calendário</span>
+                  </button>
                 </div>
 
-                {loading ? (
-                  <div className="flex items-center justify-center py-12">
-                    <div className="text-center">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)] mx-auto mb-4"></div>
-                      <p className="text-[var(--muted-foreground)]">
-                        Carregando agendamentos...
-                      </p>
-                    </div>
-                  </div>
-                ) : viewMode === 'calendar' ? (
-                  <AdminCalendar
-                    agendamentos={agendamentos}
-                    currentDate={calendarDate}
-                    onDateChange={setCalendarDate}
-                    onDayClick={(date, dayAgendamentos) => {
-                      // Opcional: mostrar detalhes dos agendamentos do dia
-                      console.log('Day clicked:', date, dayAgendamentos);
-                    }}
-                  />
-                ) : (
-                  <AdminServiceList
-                    items={agendamentos}
-                    onRefresh={handleRefresh}
-                  />
-                )}
-              </div>
-
-              {/* Coluna de Clientes (3/5 da largura) */}
-              <div className="lg:col-span-3">
-                <ClientsList />
+                <button
+                  onClick={handleRefresh}
+                  className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={loading}
+                >
+                  {loading ? "Carregando..." : "Atualizar"}
+                </button>
               </div>
             </div>
+
+            {loading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)] mx-auto mb-4"></div>
+                  <p className="text-[var(--muted-foreground)]">
+                    Carregando agendamentos...
+                  </p>
+                </div>
+              </div>
+            ) : viewMode === 'calendar' ? (
+              <AdminCalendar
+                agendamentos={agendamentos}
+                currentDate={calendarDate}
+                onDateChange={setCalendarDate}
+                onDayClick={(date, dayAgendamentos) => {
+                  // Opcional: mostrar detalhes dos agendamentos do dia
+                  console.log('Day clicked:', date, dayAgendamentos);
+                }}
+              />
+            ) : (
+              <AdminServiceList
+                items={agendamentos}
+                onRefresh={handleRefresh}
+              />
+            )}
           </>
         )}
       </section>
