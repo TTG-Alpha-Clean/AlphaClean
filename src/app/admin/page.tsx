@@ -349,6 +349,15 @@ export default function AdminDashboardPage() {
 
             <div className="flex items-center space-x-2 sm:space-x-3">
               <button
+                onClick={() => router.push('/admin/clientes')}
+                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
+                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                <Users size={16} />
+                <span className="hidden sm:inline">Clientes</span>
+              </button>
+
+              <button
                 onClick={() => setShowWhatsApp(!showWhatsApp)}
                 className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
