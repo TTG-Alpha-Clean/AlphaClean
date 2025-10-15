@@ -129,16 +129,16 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
     const loadServicos = async () => {
       setLoadingServicos(true);
       try {
-        const data = await apiGet("/api/services") as { data?: any[] };
+        const data = await apiGet("/api/services") as { data?: Record<string, unknown>[] };
 
         // Mapear dados de services para o formato esperado pelo formulário
         const servicosMapeados: ServicoOption[] = Array.isArray(data.data)
-          ? data.data.map(service => ({
-              id: service.id || service.service_id,
-              nome: service.title || service.nome,
-              title: service.title,
-              valor: service.price || service.valor || 0,
-              price: service.price || service.valor
+          ? data.data.map((service: Record<string, unknown>) => ({
+              id: Number(service.id || service.service_id || 0),
+              nome: String(service.title || service.nome || ""),
+              title: String(service.title || ""),
+              valor: Number(service.price || service.valor || 0),
+              price: Number(service.price || service.valor || 0)
             }))
           : [];
 

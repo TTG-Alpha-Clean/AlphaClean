@@ -170,9 +170,10 @@ export function ServiceFormModal({ service, onClose, onSuccess }: ServiceFormMod
       );
 
       onSuccess();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Erro ao salvar serviço:", error);
-      toast.error(error.message || "Erro ao salvar serviço", { id: toastId });
+      const errorMessage = error instanceof Error ? error.message : "Erro ao salvar serviço";
+      toast.error(errorMessage, { id: toastId });
     } finally {
       setSubmitting(false);
     }

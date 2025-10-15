@@ -11,7 +11,6 @@ import {
   DollarSign,
   Clock,
   List,
-  Edit3,
   MessageCircle,
   Briefcase,
   Menu,
@@ -60,7 +59,7 @@ export default function AdminDashboardPage() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [showWhatsApp, setShowWhatsApp] = useState(false);
-  const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
+  const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -138,14 +137,16 @@ export default function AdminDashboardPage() {
           const data = await res.json();
 
           // Mapear dados de services para o formato esperado
-          const servicosMapeados = (data.data || []).map((service: any) => ({
-            id: service.id || service.service_id,
-            nome: service.title || service.nome,
-            title: service.title,
-            valor: Number(service.price || service.valor || 0),
-            price: service.price || service.valor,
-            ativo: true // services são sempre ativos
-          }));
+          const servicosMapeados = (data.data || []).map(
+            (service: Record<string, unknown>) => ({
+              id: service.id || service.service_id,
+              nome: service.title || service.nome,
+              title: service.title,
+              valor: Number(service.price || service.valor || 0),
+              price: service.price || service.valor,
+              ativo: true, // services são sempre ativos
+            })
+          );
 
           setServicos(servicosMapeados);
         }
@@ -230,7 +231,11 @@ export default function AdminDashboardPage() {
                 s.title === item.servico_nome
             );
             // Usa o valor do backend se disponível, senão busca na lista de serviços, senão usa valor padrão
-            const valor = Number(item.servico_valor) || Number(servicoInfo?.valor) || Number(servicoInfo?.price) || 50;
+            const valor =
+              Number(item.servico_valor) ||
+              Number(servicoInfo?.valor) ||
+              Number(servicoInfo?.price) ||
+              50;
 
             return {
               id: item.id,
@@ -366,7 +371,7 @@ export default function AdminDashboardPage() {
             {/* Menu Desktop (hidden em mobile) */}
             <div className="hidden md:flex items-center space-x-3">
               <button
-                onClick={() => router.push('/admin/clientes')}
+                onClick={() => router.push("/admin/clientes")}
                 className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
@@ -375,7 +380,7 @@ export default function AdminDashboardPage() {
               </button>
 
               <button
-                onClick={() => router.push('/admin/relatorios')}
+                onClick={() => router.push("/admin/relatorios")}
                 className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
@@ -393,7 +398,7 @@ export default function AdminDashboardPage() {
               </button>
 
               <button
-                onClick={() => router.push('/admin/servicos-site')}
+                onClick={() => router.push("/admin/servicos-site")}
                 className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
@@ -426,7 +431,7 @@ export default function AdminDashboardPage() {
               <div className="flex flex-col space-y-2">
                 <button
                   onClick={() => {
-                    router.push('/admin/clientes');
+                    router.push("/admin/clientes");
                     setMobileMenuOpen(false);
                   }}
                   className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
@@ -438,7 +443,7 @@ export default function AdminDashboardPage() {
 
                 <button
                   onClick={() => {
-                    router.push('/admin/relatorios');
+                    router.push("/admin/relatorios");
                     setMobileMenuOpen(false);
                   }}
                   className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
@@ -462,7 +467,7 @@ export default function AdminDashboardPage() {
 
                 <button
                   onClick={() => {
-                    router.push('/admin/servicos-site');
+                    router.push("/admin/servicos-site");
                     setMobileMenuOpen(false);
                   }}
                   className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
@@ -492,13 +497,9 @@ export default function AdminDashboardPage() {
       {/* Conteúdo Principal */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         {showWhatsApp ? (
-          <WhatsAppManagement
-            onClose={() => setShowWhatsApp(false)}
-          />
+          <WhatsAppManagement onClose={() => setShowWhatsApp(false)} />
         ) : showContent ? (
-          <ContentManagement
-            onClose={() => setShowContent(false)}
-          />
+          <ContentManagement onClose={() => setShowContent(false)} />
         ) : (
           <>
             {/* ✅ ESTATÍSTICAS - LAYOUT 2 LINHAS: 4 + 3 CARDS */}
@@ -631,22 +632,22 @@ export default function AdminDashboardPage() {
                 {/* Toggle de visualização */}
                 <div className="flex items-center bg-[var(--muted)] rounded-lg p-1">
                   <button
-                    onClick={() => setViewMode('list')}
+                    onClick={() => setViewMode("list")}
                     className={`flex items-center space-x-1 px-3 py-2 rounded-md text-xs sm:text-sm transition-colors ${
-                      viewMode === 'list'
-                        ? 'bg-[var(--background)] text-[var(--foreground)] shadow-sm'
-                        : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                      viewMode === "list"
+                        ? "bg-[var(--background)] text-[var(--foreground)] shadow-sm"
+                        : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                     }`}
                   >
                     <List size={16} />
                     <span className="hidden sm:inline">Lista</span>
                   </button>
                   <button
-                    onClick={() => setViewMode('calendar')}
+                    onClick={() => setViewMode("calendar")}
                     className={`flex items-center space-x-1 px-3 py-2 rounded-md text-xs sm:text-sm transition-colors ${
-                      viewMode === 'calendar'
-                        ? 'bg-[var(--background)] text-[var(--foreground)] shadow-sm'
-                        : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                      viewMode === "calendar"
+                        ? "bg-[var(--background)] text-[var(--foreground)] shadow-sm"
+                        : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                     }`}
                   >
                     <Calendar size={16} />
@@ -673,14 +674,14 @@ export default function AdminDashboardPage() {
                   </p>
                 </div>
               </div>
-            ) : viewMode === 'calendar' ? (
+            ) : viewMode === "calendar" ? (
               <AdminCalendar
                 agendamentos={agendamentos}
                 currentDate={calendarDate}
                 onDateChange={setCalendarDate}
                 onDayClick={(date, dayAgendamentos) => {
                   // Opcional: mostrar detalhes dos agendamentos do dia
-                  console.log('Day clicked:', date, dayAgendamentos);
+                  console.log("Day clicked:", date, dayAgendamentos);
                 }}
               />
             ) : (

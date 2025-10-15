@@ -173,10 +173,10 @@ export default function RelatoriosPage() {
           apiGet(`/api/reports/stats?year=${selectedYear}`),
         ]);
 
-        setMonthlyData(monthly.data || []);
-        setTopServices(services.data || []);
-        setTopClients(clients.data || []);
-        setStats(generalStats.data || null);
+        setMonthlyData((monthly as { data: MonthlyData[] }).data || []);
+        setTopServices((services as { data: ServiceData[] }).data || []);
+        setTopClients((clients as { data: ClientData[] }).data || []);
+        setStats((generalStats as { data: GeneralStats }).data || null);
       } catch (error) {
         console.error("Erro ao carregar relatórios:", error);
         toast.error("Erro ao carregar relatórios");

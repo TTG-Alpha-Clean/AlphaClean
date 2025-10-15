@@ -44,18 +44,6 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   // Verificar se o WhatsApp está disponível
   const isWhatsAppAvailable = !!WHATSAPP_SERVICE_URL;
 
-  // Verificar status ao carregar
-  useEffect(() => {
-    if (isWhatsAppAvailable) {
-      checkStatus();
-    } else {
-      setStatus({
-        connected: false,
-        message: "WhatsApp Service não configurado",
-      });
-    }
-  }, [isWhatsAppAvailable]);
-
   const checkStatus = async () => {
     if (!isWhatsAppAvailable) return;
 
@@ -78,6 +66,18 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
       setLoading(false);
     }
   };
+
+  // Verificar status ao carregar
+  useEffect(() => {
+    if (isWhatsAppAvailable) {
+      checkStatus();
+    } else {
+      setStatus({
+        connected: false,
+        message: "WhatsApp Service não configurado",
+      });
+    }
+  }, [isWhatsAppAvailable]);
 
   const fetchQRCode = async () => {
     if (!isWhatsAppAvailable) return;

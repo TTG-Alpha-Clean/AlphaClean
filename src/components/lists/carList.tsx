@@ -8,8 +8,8 @@ interface CarListProps {
   cars: Car[];
   loading: boolean;
   onEditCar: (car: Car) => void;
-  onDeleteCar: (carId: string) => void;
-  onSetDefault: (carId: string) => void;
+  onDeleteCar: (carId: number) => void;
+  onSetDefault: (carId: number) => void;
 }
 
 export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }: CarListProps) {

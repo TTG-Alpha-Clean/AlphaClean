@@ -47,7 +47,7 @@ export default function CarrosPage() {
     }
   };
 
-  const handleDeleteCar = async (carId: string) => {
+  const handleDeleteCar = async (carId: number) => {
     const carToDelete = cars.find(car => car.id === carId);
     if (!carToDelete) return;
 
@@ -60,7 +60,7 @@ export default function CarrosPage() {
     }
   };
 
-  const handleSetDefault = async (carId: string) => {
+  const handleSetDefault = async (carId: number) => {
     await setDefaultCar(carId);
   };
 
@@ -125,9 +125,9 @@ export default function CarrosPage() {
           <div className="bg-white rounded-lg border border-gray-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Carros Ativos</p>
+                <p className="text-sm font-medium text-gray-600">Carros Cadastrados</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {cars.filter(car => car.ativo).length}
+                  {cars.length}
                 </p>
               </div>
               <div className="p-3 bg-green-100 rounded-lg">

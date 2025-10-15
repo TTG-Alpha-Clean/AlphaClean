@@ -568,7 +568,10 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get<any>(endpoint, { timeout: 15000 });
+      interface ApiResponse {
+        data?: unknown[];
+      }
+      const res = await axios.get<ApiResponse>(endpoint, { timeout: 15000 });
       // Backend retorna { data: services }
       const rawData = Array.isArray(res.data?.data)
         ? res.data.data
@@ -577,16 +580,16 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
         : [];
 
       // Mapear dados do backend para o formato esperado
-      let data: Service[] = rawData.map((item: any) => ({
-        id: item.service_id || item.id,
-        type: item.type || "",
-        title: item.title || "",
-        subtitle: item.subtitle || "",
+      let data: Service[] = (rawData as Record<string, unknown>[]).map((item) => ({
+        id: Number(item.service_id || item.id || 0),
+        type: String(item.type || ""),
+        title: String(item.title || ""),
+        subtitle: String(item.subtitle || ""),
         price: Number(item.price || item.valor || 0),
         time: Number(item.time || item.time_minutes || 0),
-        description: item.description || item.service_description || "",
-        image_url: item.image_url || "",
-        informations: item.informations || [],
+        description: String(item.description || item.service_description || ""),
+        image_url: String(item.image_url || ""),
+        informations: Array.isArray(item.informations) ? item.informations as Information[] : [],
       }));
 
       // Se tiver limit, pegar os últimos N serviços (ordenados por ID decrescente)

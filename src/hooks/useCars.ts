@@ -29,8 +29,7 @@ export interface CreateCarData {
   is_default?: boolean;
 }
 
-export interface UpdateCarData extends Partial<CreateCarData> {
-}
+export type UpdateCarData = Partial<CreateCarData>;
 
 interface CarsResponse {
   data: Car[];
@@ -193,7 +192,7 @@ export function useCars() {
         throw new Error(errorData.message || 'Erro ao definir carro padrão');
       }
 
-      const updatedCar: Car = await response.json();
+      await response.json();
       setCars(prev => prev.map(car => ({
         ...car,
         is_default: car.id === carId
