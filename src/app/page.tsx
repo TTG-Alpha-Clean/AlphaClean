@@ -11,7 +11,7 @@ import ServicesSection from "@/components/sections/servicesSection";
 export default function Home() {
   return (
     <main className="flex flex-col items-center justify-center w-full">
-      <Header />
+      <Header currentPage="home" />
       <HeroSection />
       <div className="flex flex-col w-full justify-center items-center text-center pt-16">
         <h1 className="text-[var(--primary)] text-4xl font-semibold mb-4">

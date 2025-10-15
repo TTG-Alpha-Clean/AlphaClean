@@ -7,7 +7,7 @@ import Header from "../../components/navigation/header"
 export default function SessionPage() {
   return (
     <main className="w-full">
-      <Header />
+      <Header currentPage="servicos" />
       <section className=" mt-20 relative isolate bg-[var(--primary)] text-[var(--primary-foreground)]">
   <div className="pointer-events-none absolute inset-0 opacity-60 [background:radial-gradient(80%_60%_at_50%_0%,rgba(255,255,255,.06),transparent_60%)]" />
 
