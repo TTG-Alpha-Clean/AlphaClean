@@ -56,7 +56,7 @@ export default function HeroSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 2xl:gap-4 max-w-xl 2xl:max-w-2xl mx-auto lg:mx-0">
             <div className="flex flex-col items-center justify-center text-center">
               <span className="text-[var(--accent)] text-2xl sm:text-3xl 2xl:text-4xl font-bold px-3 sm:px-4 2xl:px-6 rounded-lg">
-                5+
+                2+
               </span>
               <p className="text-white font-medium text-sm sm:text-base 2xl:text-lg mt-1 2xl:mt-2">
                 Anos de experiência

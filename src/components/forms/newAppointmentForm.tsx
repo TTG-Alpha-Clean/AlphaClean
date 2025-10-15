@@ -22,9 +22,11 @@ interface Props {
 }
 
 interface ServicoOption {
-  id: string;
+  id: number;
   nome: string;
+  title?: string;
   valor: number | string;
+  price?: number | string;
 }
 
 interface SlotInfo {
@@ -91,11 +93,11 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
   const [modelo_veiculo, setModelo] = useState("");
   const [cor, setCor] = useState("");
   const [placa, setPlaca] = useState("");
-  const [servico_id, setServicoId] = useState("");
+  const [servico_id, setServicoId] = useState<number | null>(null);
   const [data, setData] = useState(todayISO());
   const [horario, setHorario] = useState("");
   const [observacoes, setObservacoes] = useState("");
-  const [selectedCarId, setSelectedCarId] = useState<string>("");
+  const [selectedCarId, setSelectedCarId] = useState<number | string>("");
 
   // Estados para serviços e slots
   const [servicos, setServicos] = useState<ServicoOption[]>([]);
@@ -127,8 +129,20 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
     const loadServicos = async () => {
       setLoadingServicos(true);
       try {
-        const data = await apiGet("/api/servicos") as { data?: ServicoOption[] };
-        setServicos(Array.isArray(data.data) ? data.data : []);
+        const data = await apiGet("/api/services") as { data?: any[] };
+
+        // Mapear dados de services para o formato esperado pelo formulário
+        const servicosMapeados: ServicoOption[] = Array.isArray(data.data)
+          ? data.data.map(service => ({
+              id: service.id || service.service_id,
+              nome: service.title || service.nome,
+              title: service.title,
+              valor: service.price || service.valor || 0,
+              price: service.price || service.valor
+            }))
+          : [];
+
+        setServicos(servicosMapeados);
       } catch (error) {
         console.error("Erro ao carregar serviços:", error);
         toast.error("Erro ao carregar serviços disponíveis");
@@ -150,16 +164,17 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
 
   // Função para lidar com mudança de carro selecionado
   const handleCarSelection = (carId: string) => {
-    setSelectedCarId(carId);
-
     if (carId === "manual") {
+      setSelectedCarId("manual");
       // Limpa os campos para preenchimento manual
       setModelo("");
       setCor("");
       setPlaca("");
-    } else if (carId) {
+    } else {
+      const numericId = parseInt(carId, 10);
+      setSelectedCarId(numericId);
       // Preenche com dados do carro selecionado
-      const car = cars.find(c => c.id === carId);
+      const car = cars.find(c => c.id === numericId);
       if (car) {
         fillCarData(car);
       }
@@ -266,7 +281,7 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
         ) : cars.length > 0 ? (
           <div className="space-y-3">
             <Select
-              value={selectedCarId}
+              value={selectedCarId.toString()}
               onValueChange={handleCarSelection}
               disabled={submitting}
             >
@@ -280,8 +295,8 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
                     <span>Preencher manualmente</span>
                   </div>
                 </SelectItem>
-                {cars.filter(car => car.ativo).map((car) => (
-                  <SelectItem key={car.id} value={car.id}>
+                {cars.map((car) => (
+                  <SelectItem key={car.id} value={car.id.toString()}>
                     <div className="flex items-center gap-2">
                       <CarIcon className="h-4 w-4" />
                       <div>
@@ -366,8 +381,8 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
             </div>
           ) : (
             <Select
-              value={servico_id}
-              onValueChange={setServicoId}
+              value={servico_id?.toString() || ""}
+              onValueChange={(value) => setServicoId(parseInt(value, 10))}
               disabled={submitting}
             >
               <SelectTrigger>
@@ -375,7 +390,7 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
               </SelectTrigger>
               <SelectContent>
                 {servicos.map((servico) => (
-                  <SelectItem key={servico.id} value={servico.id}>
+                  <SelectItem key={servico.id} value={servico.id.toString()}>
                     {servico.nome} - R$ {safeToFixed(servico.valor)}
                   </SelectItem>
                 ))}

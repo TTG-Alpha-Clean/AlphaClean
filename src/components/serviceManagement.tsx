@@ -6,8 +6,6 @@ import { toast } from "react-hot-toast";
 import { Plus, Edit, Trash2, Save, X, DollarSign } from "lucide-react";
 import { apiPost, apiDelete, apiPut } from "@/utils/api";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-
 interface Servico {
   id: string;
   nome: string;
@@ -21,10 +19,6 @@ interface Props {
   servicos: Servico[];
   onServicoChange: () => void;
   onClose: () => void;
-}
-
-interface ApiError {
-  error?: string;
 }
 
 interface FormData {

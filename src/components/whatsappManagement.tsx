@@ -39,7 +39,6 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   const [loadingQR, setLoadingQR] = useState(false);
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const WHATSAPP_SERVICE_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL;
 
   // Verificar se o WhatsApp está disponível
@@ -52,7 +51,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
     } else {
       setStatus({
         connected: false,
-        message: "WhatsApp Service não configurado"
+        message: "WhatsApp Service não configurado",
       });
     }
   }, [isWhatsAppAvailable]);
@@ -67,7 +66,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
       setStatus({
         connected: data.connected || false,
-        message: data.message || "Status desconhecido"
+        message: data.message || "Status desconhecido",
       });
     } catch (error) {
       console.error("Erro ao verificar status:", error);
@@ -138,10 +137,9 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success(
-          "WhatsApp inicializando! Escaneie o QR code abaixo.",
-          { id: toastId }
-        );
+        toast.success("WhatsApp inicializando! Escaneie o QR code abaixo.", {
+          id: toastId,
+        });
 
         // Aguardar um pouco e buscar QR code
         setTimeout(() => {
@@ -167,9 +165,12 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
     const toastId = toast.loading("Desconectando WhatsApp...");
 
     try {
-      const response = await fetch(`${WHATSAPP_SERVICE_URL}/whatsapp/disconnect`, {
-        method: "POST",
-      });
+      const response = await fetch(
+        `${WHATSAPP_SERVICE_URL}/whatsapp/disconnect`,
+        {
+          method: "POST",
+        }
+      );
 
       if (response.ok) {
         toast.success("WhatsApp desconectado com sucesso!", { id: toastId });
@@ -270,9 +271,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                 <h2 className="text-xl font-bold text-gray-900">
                   WhatsApp Integration
                 </h2>
-                <p className="text-sm text-gray-500">
-                  Funcionalidade Premium
-                </p>
+                <p className="text-sm text-gray-500">Funcionalidade Premium</p>
               </div>
             </div>
 
@@ -294,11 +293,14 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                 Integração WhatsApp - Funcionalidade Premium
               </h3>
               <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                Esta funcionalidade permite envio automático de notificações via WhatsApp quando serviços são concluídos.
+                Esta funcionalidade permite envio automático de notificações via
+                WhatsApp quando serviços são concluídos.
               </p>
 
               <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-6 mb-6">
-                <h4 className="font-semibold text-gray-900 mb-3">Funcionalidades incluídas:</h4>
+                <h4 className="font-semibold text-gray-900 mb-3">
+                  Funcionalidades incluídas:
+                </h4>
                 <ul className="text-left space-y-2 text-gray-700">
                   <li className="flex items-center">
                     <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
@@ -321,7 +323,8 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-blue-800 font-medium">
-                  💡 Esta funcionalidade está disponível para demonstração em ambiente local
+                  💡 Esta funcionalidade está disponível para demonstração em
+                  ambiente local
                 </p>
                 <p className="text-blue-600 text-sm mt-1">
                   Entre em contato para incluir no plano premium
@@ -404,7 +407,9 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
               <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg text-center">
                 <div className="flex flex-col items-center space-y-3">
                   <QrCode className="w-6 h-6 text-green-600" />
-                  <h4 className="font-medium text-gray-900">QR Code para Conexão</h4>
+                  <h4 className="font-medium text-gray-900">
+                    QR Code para Conexão
+                  </h4>
                   <canvas
                     ref={qrCanvasRef}
                     className="border border-gray-300 rounded-lg"
@@ -417,7 +422,9 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                     disabled={loadingQR}
                     className="flex items-center space-x-2 px-3 py-2 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
                   >
-                    <RefreshCw className={`w-4 h-4 ${loadingQR ? "animate-spin" : ""}`} />
+                    <RefreshCw
+                      className={`w-4 h-4 ${loadingQR ? "animate-spin" : ""}`}
+                    />
                     <span>Atualizar QR Code</span>
                   </button>
                 </div>

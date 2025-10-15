@@ -18,9 +18,9 @@ export default function ContactSection() {
               <h4 className="font-semibold text-[var(--primary)]">Endereço</h4>
             </div>
             <div className="text-[var(--muted-foreground)] space-y-1">
-              <p>Rua das Palmeiras, 123</p>
-              <p>Centro - Caetité/BA</p>
-              <p>CEP: 12.345-678</p>
+              <p>Estrada do coco, Posto Br, Alphaville Litoral Norte 2</p>
+              <p>BA-099 - Abrantes, Camaçari</p>
+              <p>CEP: 42840-000</p>
             </div>
           </div>
 
@@ -33,25 +33,25 @@ export default function ContactSection() {
               <h4 className="font-semibold text-[var(--primary)]">Telefone</h4>
             </div>
             <div className="text-[var(--muted-foreground)] space-y-1">
-              <p className="text-[var(--accent)] font-medium">(11) 1234-5678</p>
+              <p className="text-[var(--accent)] font-medium">
+                (71) 98358-4393
+              </p>
               <p className="text-sm">WhatsApp disponível</p>
             </div>
           </div>
 
           {/* Email */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 bg-[var(--primary)]/90 rounded-full flex items-center justify-center">
-                <Mail size={18} color="#9bd60c" />
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-[var(--primary)]/90 rounded-full flex items-center justify-center">
+                <Mail size={20} color="#9bd60c" />
               </div>
-              <h4 className="font-semibold text-[var(--primary)] text-sm">Email</h4>
+              <h4 className="font-semibold text-[var(--primary)]">Email</h4>
             </div>
-            <div className="text-[var(--muted-foreground)] text-sm break-words">
-              <p>contato@alphaclean.com.br</p>
+            <div className="text-[var(--muted-foreground)] space-y-1 ">
+              <p className="font-medium">alphaclean335@gmail.com</p>
             </div>
-        </div>
-
-
+          </div>
 
           {/* Horários */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -62,8 +62,7 @@ export default function ContactSection() {
               <h4 className="font-semibold text-[var(--primary)]">Horários</h4>
             </div>
             <div className="text-[var(--muted-foreground)] space-y-1">
-              <p>Segunda a Sexta: 08:00 - 18:00</p>
-              <p>Sábado: 08:00 - 17:00</p>
+              <p>Segunda a Sábado: 08:00 - 17:00</p>
               <p>Domingo: 08:00 - 12:00</p>
             </div>
           </div>
@@ -80,7 +79,7 @@ export default function ContactSection() {
             </div>
             <div className="w-full h-64 sm:h-80 lg:h-96 rounded-lg overflow-hidden border border-gray-200">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3897.123456789!2d-42.123456!3d-14.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDA3JzI0LjQiUyA0MsKwMDcnMjQuNCJX!5e0!3m2!1spt-BR!2sbr!4v1234567890123!5m2!1spt-BR!2sbr"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.21320032589!2d-38.2744404236078!3d-12.829495324642114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7163f0009da5b41%3A0xf63cc231d7571166!2sAlpha%20Clean%20%7C%20Est%C3%A9tica%20automotiva!5e0!3m2!1spt-BR!2sbr!4v1760460347305!5m2!1spt-BR!2sbr"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -95,7 +94,7 @@ export default function ContactSection() {
               </p>
 
               <a
-                href="https://maps.google.com/?q=Rua+das+Palmeiras,+123+Centro+Caetité+BA"
+                href="https://www.google.com/maps/place/Alpha+Clean+%7C+Estética+automotiva/@-12.8294953,-38.2744404,17z/data=!3m1!4b1!4m6!3m5!1s0x7163f0009da5b41:0xf63cc231d7571166!8m2!3d-12.8295006!4d-38.2695695!16s%2Fg%2F11w1x10frr?entry=ttu&g_ep=EgoyMDI1MTAwOC4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--accent)] text-[var(--primary)] rounded-lg font-medium hover:bg-[var(--accent)]/90 transition-colors"

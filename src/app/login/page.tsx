@@ -43,7 +43,9 @@ function LoginForm() {
         body: JSON.stringify({ email: email, senha: senha }),
       });
 
-      const data: LoginResponse & { error?: string } = await res.json().catch(() => ({}));
+      const data: LoginResponse & { error?: string } = await res
+        .json()
+        .catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || "Erro ao entrar.");
 
       // Salvar token no localStorage e cookies espelho
@@ -81,14 +83,16 @@ function LoginForm() {
       {/* Card Header com melhor visual */}
       <div className="px-8 pt-8 pb-6 border-b border-gray-100/50">
         <div className="text-center">
-          <div className="mb-4">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9BD60C]/10 to-[#9BD60C]/5 border border-[#9BD60C]/20">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#9BD60C] to-[#7fa00a] shadow-lg"></div>
-            </div>
+          <div className="mb-4"></div>
+          <div className="text-2xl font-bold text-[#022744] mb-3">
+            Alpha Clean
           </div>
-          <div className="text-2xl font-bold text-[#022744] mb-3">Alpha Clean</div>
-          <h1 className="text-xl font-semibold text-[#022744] mb-2">Bem-vindo de volta</h1>
-          <p className="text-[#022744]/60 text-sm">Entre em sua conta para acessar seus agendamentos</p>
+          <h1 className="text-xl font-semibold text-[#022744] mb-2">
+            Bem-vindo de volta
+          </h1>
+          <p className="text-[#022744]/60 text-sm">
+            Entre em sua conta para acessar seus agendamentos
+          </p>
         </div>
       </div>
 
@@ -97,7 +101,9 @@ function LoginForm() {
         <form onSubmit={onSubmit} className="space-y-5">
           <div className="space-y-4">
             <div>
-              <Label className="text-sm font-medium text-[#022744] mb-2 block">Email</Label>
+              <Label className="text-sm font-medium text-[#022744] mb-2 block">
+                Email
+              </Label>
               <Input
                 type="email"
                 placeholder="seu@email.com"
@@ -109,7 +115,9 @@ function LoginForm() {
             </div>
 
             <div>
-              <Label className="text-sm font-medium text-[#022744] mb-2 block">Senha</Label>
+              <Label className="text-sm font-medium text-[#022744] mb-2 block">
+                Senha
+              </Label>
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
@@ -173,15 +181,17 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={
-      <AuthLayout>
-        <div className="px-8 py-8">
-          <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#9BD60C]"></div>
+    <Suspense
+      fallback={
+        <AuthLayout>
+          <div className="px-8 py-8">
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#9BD60C]"></div>
+            </div>
           </div>
-        </div>
-      </AuthLayout>
-    }>
+        </AuthLayout>
+      }
+    >
       <LoginForm />
     </Suspense>
   );

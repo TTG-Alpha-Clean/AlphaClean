@@ -36,9 +36,10 @@ export default function Home() {
         </p>
         <section className="container mx-auto px-4 py-10">
           <ServicesSection
-            variant="compact"
-            endpoint={`${process.env.NEXT_PUBLIC_SERVICES_API_URL || 'http://localhost:3002'}/services`}
+            variant="detailed"
+            endpoint={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/services`}
             className="mt-12"
+            limit={3}
           />
         </section>
       </div>

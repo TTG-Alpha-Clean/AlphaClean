@@ -8,11 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "../../components/ui/toggle";
 import Link from "next/link";
-import { User, Mail, Lock, Phone, Check } from "lucide-react";
+import { User } from "lucide-react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-
-type PhoneInput = { ddd: string; numero: string; is_whatsapp?: boolean };
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -28,7 +26,6 @@ export default function RegisterPage() {
   const [whats, setWhats] = useState(false);
 
   const [loading, setLoading] = useState(false);
-
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -47,7 +44,7 @@ export default function RegisterPage() {
           email,
           senha,
           role,
-          telefones: ddd && numero ? [{ ddd, numero, is_whatsapp: whats }] : []
+          telefones: ddd && numero ? [{ ddd, numero, is_whatsapp: whats }] : [],
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -74,9 +71,15 @@ export default function RegisterPage() {
               <User className="w-8 h-8 text-[#9BD60C]" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-[#022744] mb-3">Alpha Clean</div>
-          <h1 className="text-xl font-semibold text-[#022744] mb-2">Criar sua conta</h1>
-          <p className="text-[#022744]/60 text-sm">Cadastre-se para agendar seus serviços</p>
+          <div className="text-2xl font-bold text-[#022744] mb-3">
+            Alpha Clean
+          </div>
+          <h1 className="text-xl font-semibold text-[#022744] mb-2">
+            Criar sua conta
+          </h1>
+          <p className="text-[#022744]/60 text-sm">
+            Cadastre-se para agendar seus serviços
+          </p>
         </div>
       </div>
 
@@ -86,7 +89,9 @@ export default function RegisterPage() {
           {/* Informações pessoais - Compactas */}
           <div className="space-y-3">
             <div>
-              <Label className="text-xs font-medium text-[#022744] mb-1 block">Nome completo</Label>
+              <Label className="text-xs font-medium text-[#022744] mb-1 block">
+                Nome completo
+              </Label>
               <Input
                 placeholder="Seu nome completo"
                 value={nome}
@@ -97,7 +102,9 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <Label className="text-xs font-medium text-[#022744] mb-1 block">Email</Label>
+              <Label className="text-xs font-medium text-[#022744] mb-1 block">
+                Email
+              </Label>
               <Input
                 type="email"
                 placeholder="seu@email.com"
@@ -111,7 +118,9 @@ export default function RegisterPage() {
             {/* Senhas em uma linha */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs font-medium text-[#022744] mb-1 block">Senha</Label>
+                <Label className="text-xs font-medium text-[#022744] mb-1 block">
+                  Senha
+                </Label>
                 <Input
                   type="password"
                   placeholder="Min. 6 caracteres"
@@ -123,7 +132,9 @@ export default function RegisterPage() {
                 />
               </div>
               <div>
-                <Label className="text-xs font-medium text-[#022744] mb-1 block">Confirmar</Label>
+                <Label className="text-xs font-medium text-[#022744] mb-1 block">
+                  Confirmar
+                </Label>
                 <Input
                   type="password"
                   placeholder="Repita a senha"
@@ -140,7 +151,8 @@ export default function RegisterPage() {
           {/* Telefones - Seção compacta */}
           <div className="border-t border-gray-100/50 pt-3">
             <Label className="text-xs font-medium text-[#022744] mb-2 block">
-              Telefone <span className="text-[#022744]/50 font-normal">(opcional)</span>
+              Telefone{" "}
+              <span className="text-[#022744]/50 font-normal">(opcional)</span>
             </Label>
 
             <div className="space-y-2">
@@ -166,7 +178,9 @@ export default function RegisterPage() {
                 </div>
                 <div className="flex items-center gap-1 h-9">
                   <Toggle checked={whats} onChange={setWhats} label="" />
-                  <span className="text-xs text-[#022744]/60 whitespace-nowrap">WhatsApp</span>
+                  <span className="text-xs text-[#022744]/60 whitespace-nowrap">
+                    WhatsApp
+                  </span>
                 </div>
               </div>
             </div>
@@ -195,9 +209,7 @@ export default function RegisterPage() {
       {/* Footer Section */}
       <div className="px-8 pb-8 pt-4 border-t border-gray-100/50">
         <div className="text-center">
-          <p className="text-[#022744]/60 text-sm mb-3">
-            Já possui uma conta?
-          </p>
+          <p className="text-[#022744]/60 text-sm mb-3">Já possui uma conta?</p>
           <Link
             href="/login"
             className="inline-flex items-center justify-center w-full h-11 rounded-xl border-2 border-[#022744]/20 text-[#022744] font-semibold hover:bg-[#022744]/5 hover:border-[#022744]/40 transition-all duration-200"

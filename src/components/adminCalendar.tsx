@@ -5,10 +5,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Calendar as CalendarIcon,
-  Clock,
-  DollarSign,
 } from "lucide-react";
 import { AdminServiceItem } from "@/components/lists/adminServiceList";
+import { DayAppointmentsModal } from "@/components/modals/dayAppointmentsModal";
 
 interface AdminCalendarProps {
   agendamentos: AdminServiceItem[];
@@ -39,6 +38,8 @@ export function AdminCalendar({
   onDayClick,
 }: AdminCalendarProps) {
   const [hoveredDate, setHoveredDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [modalAppointments, setModalAppointments] = useState<AdminServiceItem[]>([]);
 
   // ✅ PROTEÇÃO: Garantir que currentDate sempre seja uma Date válida
   const safeCurrentDate =
@@ -65,6 +66,17 @@ export function AdminCalendar({
 
   const goToToday = () => {
     onDateChange(new Date());
+  };
+
+  const handleDayClick = (date: string, dayAgendamentos: AdminServiceItem[]) => {
+    setSelectedDate(date);
+    setModalAppointments(dayAgendamentos);
+    onDayClick?.(date, dayAgendamentos);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedDate(null);
+    setModalAppointments([]);
   };
 
   // Dados do calendário
@@ -161,19 +173,6 @@ export function AdminCalendar({
       style: "currency",
       currency: "BRL",
     }).format(value);
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "agendado":
-        return "bg-blue-500";
-      case "finalizado":
-        return "bg-green-500";
-      case "cancelado":
-        return "bg-red-500";
-      default:
-        return "bg-gray-500";
-    }
   };
 
   const monthNames = [
@@ -282,7 +281,7 @@ export function AdminCalendar({
           {calendarData.map((dayData, index) => (
             <div
               key={index}
-              onClick={() => onDayClick?.(dayData.date, dayData.agendamentos)}
+              onClick={() => handleDayClick(dayData.date, dayData.agendamentos)}
               onMouseEnter={() => setHoveredDate(dayData.date)}
               onMouseLeave={() => setHoveredDate(null)}
               className={`
@@ -427,6 +426,16 @@ export function AdminCalendar({
           </div>
         </div>
       </div>
+
+      {/* Modal de Agendamentos do Dia */}
+      {selectedDate && (
+        <DayAppointmentsModal
+          isOpen={!!selectedDate}
+          onClose={handleCloseModal}
+          date={selectedDate}
+          appointments={modalAppointments}
+        />
+      )}
     </div>
   );
 }

@@ -8,7 +8,7 @@ interface CardProps {
 
 export default function Card({ title, description, icon: Icon }: CardProps) {
   return (
-    <div className="border border-white/20 py-3 2xl:py-10 pl-8 2xl:pl-10 pr-28 2xl:pr-56 rounded-xl bg-white/10 backdrop-blur-md">
+    <div className="border border-white/20 py-3 lg:py-8 2xl:py-10 pl-8 2xl:pl-10 pr-28 2xl:pr-56 rounded-xl bg-white/10 backdrop-blur-md">
       <div className="flex items-center gap-4 2xl:gap-5 justify-start">
         <div className="bg-[var(--accent)] p-3 2xl:p-4 rounded-lg text-[var(--primary)] flex items-center justify-center">
           <Icon size={24} className="2xl:w-7 2xl:h-7" />

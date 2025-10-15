@@ -1,5 +1,6 @@
 // src/components/Footer.tsx
 import { FC } from "react";
+import Image from "next/image";
 import { Instagram, Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
 
 const Footer: FC = () => {
@@ -8,15 +9,15 @@ const Footer: FC = () => {
       role="contentinfo"
       className="w-full bg-[var(--primary)] text-white"
     >
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+      <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10">
           {/* Coluna 1 - Alpha Clean */}
           <div className="min-w-0">
             <h2 className="text-[var(--accent)] text-xl font-semibold">
               Alpha Clean
             </h2>
             <p className="mt-3 text-sm leading-relaxed">
-              Lava jato profissional com mais de 10 anos de experiência,
+              Lava jato profissional com mais de 2 anos de experiência,
               oferecendo serviços de qualidade para seu veículo.
             </p>
 
@@ -61,24 +62,24 @@ const Footer: FC = () => {
               <li className="flex items-start gap-3">
                 <MapPin className="shrink-0 text-[var(--accent)]" />
                 <address className="not-italic">
-                  Rua das Palmeiras, 123
+                  Estrada do coco, Posto Br, Alphaville Litoral Norte 2
                   <br />
-                  Centro - Cidade/UF
+                  BA-099 - Abrantes, Camaçari
                 </address>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="shrink-0 text-[var(--accent)]" />
-                <a href="tel:+551199998888" className="hover:underline">
-                  (11) 9999-8888
+                <a href="tel:+5571983584393" className="hover:underline">
+                  (71) 98358-4393
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="shrink-0 text-[var(--accent)]" />
                 <a
-                  href="mailto:contato@alphaclean.com.br"
+                  href="mailto:alphaclean335@gmail.com"
                   className="hover:underline break-all"
                 >
-                  contato@alphaclean.com.br
+                  alphaclean335@gmail.com
                 </a>
               </li>
             </ul>
@@ -93,14 +94,7 @@ const Footer: FC = () => {
               <li className="flex items-start gap-3">
                 <Clock className="shrink-0 text-[var(--accent)]" />
                 <div>
-                  <div>Segunda a Sexta</div>
-                  <div className="opacity-90">08:00 - 18:00</div>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Clock className="shrink-0 text-[var(--accent)]" />
-                <div>
-                  <div>Sábados</div>
+                  <div>Segunda a Sábado</div>
                   <div className="opacity-90">08:00 - 17:00</div>
                 </div>
               </li>
@@ -113,6 +107,12 @@ const Footer: FC = () => {
               </li>
             </ul>
           </div>
+          <Image
+            src={"/cimatec.PNG"}
+            alt={"Logo da Cimatec"}
+            width={200}
+            height={100}
+          />
         </div>
 
         {/* Linha final */}

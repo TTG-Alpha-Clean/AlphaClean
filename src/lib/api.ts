@@ -1,5 +1,4 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-const SERVICES_API_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL || "http://localhost:3002";
 
 export const register = async (data: { nome: string; email: string; senha: string }) => {
     const response = await fetch(`${API_URL}/auth/register`, {

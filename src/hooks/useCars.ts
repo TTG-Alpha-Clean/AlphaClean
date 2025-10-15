@@ -6,8 +6,8 @@ import { getToken } from '@/utils/api';
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export interface Car {
-  id: string;
-  usuario_id: string;
+  id: number;
+  usuario_id: number;
   modelo_veiculo: string;
   cor?: string | null;
   placa: string;
@@ -15,7 +15,6 @@ export interface Car {
   marca?: string | null;
   observacoes?: string | null;
   is_default: boolean;
-  ativo: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -31,7 +30,6 @@ export interface CreateCarData {
 }
 
 export interface UpdateCarData extends Partial<CreateCarData> {
-  ativo?: boolean;
 }
 
 interface CarsResponse {
@@ -115,7 +113,7 @@ export function useCars() {
     }
   }, []);
 
-  const updateCar = useCallback(async (carId: string, carData: UpdateCarData): Promise<Car | null> => {
+  const updateCar = useCallback(async (carId: number, carData: UpdateCarData): Promise<Car | null> => {
     try {
       const token = getToken();
       if (!token) {
@@ -147,7 +145,7 @@ export function useCars() {
     }
   }, []);
 
-  const deleteCar = useCallback(async (carId: string): Promise<boolean> => {
+  const deleteCar = useCallback(async (carId: number): Promise<boolean> => {
     try {
       const token = getToken();
       if (!token) {
@@ -176,7 +174,7 @@ export function useCars() {
     }
   }, []);
 
-  const setDefaultCar = useCallback(async (carId: string): Promise<boolean> => {
+  const setDefaultCar = useCallback(async (carId: number): Promise<boolean> => {
     try {
       const token = getToken();
       if (!token) {

@@ -10,10 +10,13 @@ import {
   TrendingUp,
   DollarSign,
   Clock,
-  Settings,
   List,
   Edit3,
   MessageCircle,
+  Briefcase,
+  Menu,
+  X,
+  BarChart3,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken } from "@/utils/api";
@@ -23,7 +26,6 @@ import {
   type AdminServiceItem,
 } from "@/components/lists/adminServiceList";
 import { CarLogo } from "@/components/ui/carLogo";
-import { ServicosManagement } from "@/components/serviceManagement";
 import { AdminCalendar } from "@/components/adminCalendar";
 import { ContentManagement } from "@/components/contentManagement";
 import { WhatsAppManagement } from "@/components/whatsappManagement";
@@ -40,7 +42,9 @@ interface User {
 interface Servico {
   id: string;
   nome: string;
+  title?: string;
   valor: number;
+  price?: number;
   ativo: boolean;
 }
 
@@ -54,11 +58,11 @@ export default function AdminDashboardPage() {
   const [servicos, setServicos] = useState<Servico[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [showServicos, setShowServicos] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [showWhatsApp, setShowWhatsApp] = useState(false);
   const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
   const [calendarDate, setCalendarDate] = useState(new Date());
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Função para forçar refresh da lista
   const handleRefresh = () => {
@@ -126,13 +130,24 @@ export default function AdminDashboardPage() {
           headers.Authorization = `Bearer ${token}`;
         }
 
-        const res = await fetch(`${API_URL}/api/servicos`, {
+        const res = await fetch(`${API_URL}/api/services`, {
           headers,
         });
 
         if (res.ok) {
           const data = await res.json();
-          setServicos(data.data || []);
+
+          // Mapear dados de services para o formato esperado
+          const servicosMapeados = (data.data || []).map((service: any) => ({
+            id: service.id || service.service_id,
+            nome: service.title || service.nome,
+            title: service.title,
+            valor: Number(service.price || service.valor || 0),
+            price: service.price || service.valor,
+            ativo: true // services são sempre ativos
+          }));
+
+          setServicos(servicosMapeados);
         }
       } catch (error) {
         console.error("Erro ao carregar serviços:", error);
@@ -210,10 +225,12 @@ export default function AdminDashboardPage() {
             const servicoInfo = servicos.find(
               (s) =>
                 s.nome === item.servico ||
-                (item.servico_nome && s.nome === item.servico_nome)
+                s.nome === item.servico_nome ||
+                s.title === item.servico ||
+                s.title === item.servico_nome
             );
             // Usa o valor do backend se disponível, senão busca na lista de serviços, senão usa valor padrão
-            const valor = Number(item.servico_valor) || Number(servicoInfo?.valor) || 50;
+            const valor = Number(item.servico_valor) || Number(servicoInfo?.valor) || Number(servicoInfo?.price) || 50;
 
             return {
               id: item.id,
@@ -333,69 +350,142 @@ export default function AdminDashboardPage() {
       <header className="border-b border-[var(--border)] bg-[var(--card)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
+            {/* Logo e Título */}
             <div className="flex items-center space-x-2 sm:space-x-4">
               <CarLogo />
               <div>
                 <h1 className="text-lg sm:text-xl font-semibold text-[var(--foreground)]">
-                  <span className="hidden sm:inline">Alpha Clean - Administração</span>
-                  <span className="sm:hidden">Alpha Clean</span>
+                  Alpha Clean
                 </h1>
                 <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
-                  <span className="hidden sm:inline">Bem-vindo, {user.nome}!</span>
-                  <span className="sm:hidden">Admin</span>
+                  {user.nome}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Menu Desktop (hidden em mobile) */}
+            <div className="hidden md:flex items-center space-x-3">
               <button
                 onClick={() => router.push('/admin/clientes')}
-                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
+                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
                 <Users size={16} />
-                <span className="hidden sm:inline">Clientes</span>
+                <span>Clientes</span>
+              </button>
+
+              <button
+                onClick={() => router.push('/admin/relatorios')}
+                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
+                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                <BarChart3 size={16} />
+                <span>Relatórios</span>
               </button>
 
               <button
                 onClick={() => setShowWhatsApp(!showWhatsApp)}
-                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
+                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
                 <MessageCircle size={16} />
-                <span className="hidden sm:inline">WhatsApp</span>
+                <span>WhatsApp</span>
               </button>
 
               <button
-                onClick={() => setShowContent(!showContent)}
-                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
+                onClick={() => router.push('/admin/servicos-site')}
+                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
-                <Edit3 size={16} />
-                <span className="hidden sm:inline">Editar Conteúdo</span>
-                <span className="sm:hidden">Conteúdo</span>
-              </button>
-
-              <button
-                onClick={() => setShowServicos(!showServicos)}
-                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
-                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-              >
-                <Settings size={16} />
-                <span className="hidden sm:inline">Gerenciar Serviços</span>
-                <span className="sm:hidden">Serviços</span>
+                <Briefcase size={16} />
+                <span>Serviços</span>
               </button>
 
               <button
                 onClick={handleLogout}
-                className="flex items-center space-x-1 sm:space-x-2 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm text-[var(--muted-foreground)]
+                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
                            hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
                 <LogOut size={16} />
-                <span className="hidden sm:inline">Sair</span>
+                <span>Sair</span>
               </button>
             </div>
+
+            {/* Botão Hamburguer Mobile */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
+
+          {/* Menu Mobile Dropdown */}
+          {mobileMenuOpen && (
+            <div className="md:hidden py-4 border-t border-[var(--border)]">
+              <div className="flex flex-col space-y-2">
+                <button
+                  onClick={() => {
+                    router.push('/admin/clientes');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
+                             hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+                >
+                  <Users size={18} />
+                  <span>Clientes</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    router.push('/admin/relatorios');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
+                             hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+                >
+                  <BarChart3 size={18} />
+                  <span>Relatórios</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setShowWhatsApp(!showWhatsApp);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
+                             hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+                >
+                  <MessageCircle size={18} />
+                  <span>WhatsApp</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    router.push('/admin/servicos-site');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
+                             hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+                >
+                  <Briefcase size={18} />
+                  <span>Serviços</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-red-600
+                             hover:bg-red-50 transition-colors border-t border-[var(--border)] mt-2 pt-4"
+                >
+                  <LogOut size={18} />
+                  <span>Sair</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
@@ -408,12 +498,6 @@ export default function AdminDashboardPage() {
         ) : showContent ? (
           <ContentManagement
             onClose={() => setShowContent(false)}
-          />
-        ) : showServicos ? (
-          <ServicosManagement
-            servicos={servicos}
-            onServicoChange={() => setRefreshKey((prev) => prev + 1)}
-            onClose={() => setShowServicos(false)}
           />
         ) : (
           <>

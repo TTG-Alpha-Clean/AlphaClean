@@ -16,7 +16,7 @@ export default function SocialCard() {
 
         <div className="space-y-3">
           <a
-            href="https://wa.me/5511123456789"
+            href="https://wa.me/5571983584393"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
@@ -33,7 +33,7 @@ export default function SocialCard() {
           </a>
 
           <a
-            href="https://instagram.com/alphaclean"
+            href="https://instagram.com/alphacleanauto"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"

@@ -1,17 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  Save,
-  RefreshCw,
-  Home,
-  Settings,
-  Edit3,
-  Eye,
-  Plus,
-  Trash2,
-  X,
-} from "lucide-react";
+import { Save, RefreshCw, Home, Settings, Edit3, Eye, X } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 // Tipos para o conteúdo editável
