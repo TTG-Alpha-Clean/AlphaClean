@@ -14,6 +14,13 @@ import { toast } from "react-hot-toast";
 import { getToken, removeToken, apiGet } from "@/utils/api";
 import { CarLogo } from "@/components/ui/carLogo";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   BarChart,
   Bar,
   LineChart,
@@ -264,30 +271,26 @@ export default function RelatoriosPage() {
             Dashboard Financeiro
           </h2>
 
-          <div className="flex items-center gap-3 bg-white rounded-lg px-4 py-2.5 shadow-md border border-gray-200 hover:border-gray-300 transition-all hover:shadow-lg">
+          <div className="flex items-center gap-3">
             <Calendar size={18} className="text-blue-600" />
-            <select
-              id="year"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              className="year-select bg-transparent border-none outline-none text-base font-semibold text-gray-800 cursor-pointer hover:text-blue-600 transition-colors pr-2"
-              style={{
-                appearance: 'none',
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233b82f6' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'right center',
-                paddingRight: '1.5rem',
-              }}
+            <Select
+              value={selectedYear.toString()}
+              onValueChange={(value) => setSelectedYear(parseInt(value))}
             >
-              {Array.from(
-                { length: 5 },
-                (_, i) => new Date().getFullYear() - i
-              ).map((year) => (
-                <option key={year} value={year} className="year-option">
-                  {year}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-[140px] bg-white shadow-md border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all">
+                <SelectValue placeholder="Selecione o ano" />
+              </SelectTrigger>
+              <SelectContent>
+                {Array.from(
+                  { length: 5 },
+                  (_, i) => new Date().getFullYear() - i
+                ).map((year) => (
+                  <SelectItem key={year} value={year.toString()}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
