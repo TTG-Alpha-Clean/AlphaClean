@@ -270,7 +270,7 @@ export default function RelatoriosPage() {
               id="year"
               value={selectedYear}
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              className="bg-transparent border-none outline-none text-base font-semibold text-gray-800 cursor-pointer hover:text-blue-600 transition-colors pr-2"
+              className="year-select bg-transparent border-none outline-none text-base font-semibold text-gray-800 cursor-pointer hover:text-blue-600 transition-colors pr-2"
               style={{
                 appearance: 'none',
                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233b82f6' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
@@ -283,7 +283,7 @@ export default function RelatoriosPage() {
                 { length: 5 },
                 (_, i) => new Date().getFullYear() - i
               ).map((year) => (
-                <option key={year} value={year}>
+                <option key={year} value={year} className="year-option">
                   {year}
                 </option>
               ))}
