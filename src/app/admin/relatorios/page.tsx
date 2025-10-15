@@ -13,6 +13,7 @@ import {
 import { toast } from "react-hot-toast";
 import { getToken, removeToken, apiGet } from "@/utils/api";
 import { CarLogo } from "@/components/ui/carLogo";
+import AdminHeader from "@/components/navigation/adminHeader";
 import {
   Select,
   SelectContent,
@@ -227,41 +228,12 @@ export default function RelatoriosPage() {
 
   return (
     <main className="min-h-screen bg-[var(--background)]">
-      {/* Header */}
-      <header className="border-b border-[var(--border)] bg-[var(--card)]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex min-h-16 items-center justify-between gap-3 py-3">
-            <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
-              <button
-                onClick={() => router.push("/admin")}
-                className="flex-shrink-0 p-2 hover:bg-[var(--muted)] rounded-lg transition-colors"
-              >
-                <ArrowLeft size={20} />
-              </button>
-              <div className="hidden sm:block flex-shrink-0">
-                <CarLogo />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h1 className="text-base sm:text-xl font-semibold text-[var(--foreground)] truncate">
-                  Relatórios e Estatísticas
-                </h1>
-                <p className="hidden sm:block text-sm text-[var(--muted-foreground)] truncate">
-                  Análise de desempenho e faturamento
-                </p>
-              </div>
-            </div>
-
-            <button
-              onClick={handleLogout}
-              className="flex-shrink-0 flex items-center gap-2 rounded-lg px-2 sm:px-3 py-2 text-sm text-[var(--muted-foreground)]
-                         hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-            >
-              <LogOut size={16} />
-              <span className="hidden sm:inline">Sair</span>
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminHeader
+        currentPage="relatorios"
+        userName={user.nome}
+        title="Relatórios e Estatísticas"
+        subtitle="Análise de desempenho e faturamento"
+      />
 
       {/* Conteúdo */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
@@ -271,27 +243,24 @@ export default function RelatoriosPage() {
             Dashboard Financeiro
           </h2>
 
-          <div className="flex items-center gap-3">
-            <Calendar size={18} className="text-blue-600" />
-            <Select
-              value={selectedYear.toString()}
-              onValueChange={(value) => setSelectedYear(parseInt(value))}
-            >
-              <SelectTrigger className="w-[140px] bg-white shadow-md border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all">
-                <SelectValue placeholder="Selecione o ano" />
-              </SelectTrigger>
-              <SelectContent>
-                {Array.from(
-                  { length: 5 },
-                  (_, i) => new Date().getFullYear() - i
-                ).map((year) => (
-                  <SelectItem key={year} value={year.toString()}>
-                    {year}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <Select
+            value={selectedYear.toString()}
+            onValueChange={(value) => setSelectedYear(parseInt(value))}
+          >
+            <SelectTrigger className="w-[140px] h-10 bg-white shadow-md border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all">
+              <SelectValue placeholder="Selecione o ano" />
+            </SelectTrigger>
+            <SelectContent>
+              {Array.from(
+                { length: 5 },
+                (_, i) => new Date().getFullYear() - i
+              ).map((year) => (
+                <SelectItem key={year} value={year.toString()}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {loading ? (

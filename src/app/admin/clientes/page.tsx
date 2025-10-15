@@ -13,6 +13,8 @@ import {
   ArrowLeft
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import AdminHeader from "@/components/navigation/adminHeader";
+import { getToken } from "@/utils/api";
 
 interface Car {
   _id: string;
@@ -52,7 +54,7 @@ export default function ClientsPage() {
   const fetchClients = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = getToken();
       const response = await fetch(`${API_URL}/api/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -121,31 +123,15 @@ export default function ClientsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <button
-              onClick={() => router.push('/admin')}
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span>Voltar para Admin</span>
-            </button>
-          </div>
+    <div className="min-h-screen bg-gray-50">
+      <AdminHeader
+        currentPage="clientes"
+        title="Clientes Cadastrados"
+        subtitle={`Total: ${filteredClients.length} ${filteredClients.length === 1 ? "cliente" : "clientes"}`}
+      />
 
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-                <Users className="w-8 h-8 text-orange-600 mr-3" />
-                Clientes Cadastrados
-              </h1>
-              <p className="mt-2 text-gray-600">
-                Total: {filteredClients.length} {filteredClients.length === 1 ? "cliente" : "clientes"}
-              </p>
-            </div>
-          </div>
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
 
           {/* Search Bar */}
           <div className="mt-6">

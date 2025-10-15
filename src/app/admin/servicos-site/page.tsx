@@ -9,6 +9,7 @@ import Image from "next/image";
 import { CarLogo } from "@/components/ui/carLogo";
 import Button from "@/components/ui/button";
 import { ServiceFormModal } from "@/components/modals/serviceFormModal";
+import AdminHeader from "@/components/navigation/adminHeader";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 const SERVICES_API_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL || 'http://localhost:3002';
@@ -207,41 +208,12 @@ export default function AdminServicesPage() {
 
   return (
     <main className="min-h-screen bg-[var(--background)]">
-      {/* Header */}
-      <header className="border-b border-[var(--border)] bg-[var(--card)]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex min-h-16 items-center justify-between gap-3 py-3">
-            <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
-              <button
-                onClick={() => router.push("/admin")}
-                className="flex-shrink-0 p-2 hover:bg-[var(--muted)] rounded-lg transition-colors"
-              >
-                <ArrowLeft size={20} />
-              </button>
-              <div className="hidden sm:block flex-shrink-0">
-                <CarLogo />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h1 className="text-base sm:text-xl font-semibold text-[var(--foreground)] truncate">
-                  Gerenciar Serviços do Site
-                </h1>
-                <p className="hidden sm:block text-sm text-[var(--muted-foreground)] truncate">
-                  Configure os serviços exibidos no site
-                </p>
-              </div>
-            </div>
-
-            <button
-              onClick={handleLogout}
-              className="flex-shrink-0 flex items-center gap-2 rounded-lg px-2 sm:px-3 py-2 text-sm text-[var(--muted-foreground)]
-                         hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-            >
-              <LogOut size={16} />
-              <span className="hidden sm:inline">Sair</span>
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminHeader
+        currentPage="servicos-site"
+        userName={user.nome}
+        title="Gerenciar Serviços do Site"
+        subtitle="Configure os serviços exibidos no site"
+      />
 
       {/* Conteúdo */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
