@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import * as Dialog from "@radix-ui/react-dialog";
-import { LogOut } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken } from "@/utils/api";
 
@@ -256,13 +256,21 @@ export default function ClienteDashboardPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 sm:gap-6">
             <div className="hidden text-right sm:block">
               <p className="text-sm font-medium">{user?.nome || "Cliente"}</p>
               <p className="text-xs text-[color:var(--muted-foreground)]">
                 {user?.email || "cliente@exemplo.com"}
               </p>
             </div>
+            <button
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
+              aria-label="Configurações"
+              onClick={() => router.push("/cliente/configuracoes")}
+            >
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Configurações</span>
+            </button>
             <button
               className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
               aria-label="Sair"

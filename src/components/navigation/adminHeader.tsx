@@ -11,6 +11,7 @@ import {
   X,
   Home,
   MessageCircle,
+  Settings,
 } from "lucide-react";
 import { CarLogo } from "@/components/ui/carLogo";
 import { removeToken } from "@/utils/api";
@@ -117,6 +118,15 @@ export default function AdminHeader({
             )}
 
             <button
+              onClick={() => router.push("/admin/configuracoes")}
+              className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
+                         hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+            >
+              <Settings size={16} />
+              <span>Configurações</span>
+            </button>
+
+            <button
               onClick={handleLogout}
               className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
                          hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
@@ -174,6 +184,18 @@ export default function AdminHeader({
                   <span>WhatsApp</span>
                 </button>
               )}
+
+              <button
+                onClick={() => {
+                  router.push("/admin/configuracoes");
+                  setMobileMenuOpen(false);
+                }}
+                className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
+                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                <Settings size={18} />
+                <span>Configurações</span>
+              </button>
 
               <button
                 onClick={() => {
