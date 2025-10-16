@@ -4,7 +4,7 @@ import { CarLogo } from "../ui/carLogo";
 import Link from "next/link";
 import { useState } from "react";
 
-type CurrentPage = "home" | "servicos";
+type CurrentPage = "home" | "servicos" | "configuracoes";
 
 interface HeaderProps {
   currentPage?: CurrentPage;
