@@ -155,7 +155,7 @@ export default function AdminConfiguracoesPage() {
   return (
     <main className="min-h-screen bg-[var(--background)]">
       <AdminHeader
-        currentPage="dashboard"
+        currentPage="configuracoes"
         userName={user.nome}
         title="Configurações"
         subtitle="Gerencie suas informações de conta"

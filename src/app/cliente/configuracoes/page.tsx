@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Phone, Save, Loader2 } from "lucide-react";
+import { Lock, Phone, Save, Loader2, LogOut, Calendar } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken } from "@/utils/api";
-import Header from "@/components/navigation/header";
-import Footer from "@/components/navigation/footer";
+import { CarLogo } from "@/components/ui/carLogo";
 import Button from "@/components/ui/button";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
@@ -185,10 +184,73 @@ export default function ClienteConfiguracoesPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--background)]">
-      <Header currentPage="configuracoes" />
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+      {/* Topbar igual ao dashboard do cliente */}
+      <header className="sticky top-0 z-10 h-16 border-b border-[var(--card-border)] bg-[color:var(--card-bg)]/90 backdrop-blur">
+        <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <CarLogo />
+            <div className="leading-tight">
+              <p className="font-semibold">Alpha Clean</p>
+              <p className="text-sm text-[color:var(--muted-foreground)]">
+                Área do Cliente
+              </p>
+            </div>
+          </div>
 
-      <section className="container mx-auto max-w-4xl px-4 py-8 mt-20">
+          <div className="flex items-center gap-3 sm:gap-6">
+            <div className="hidden text-right sm:block">
+              <p className="text-sm font-medium">{user?.nome || "Cliente"}</p>
+              <p className="text-xs text-[color:var(--muted-foreground)]">
+                {user?.email || "cliente@exemplo.com"}
+              </p>
+            </div>
+            <button
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
+              aria-label="Voltar ao Dashboard"
+              onClick={() => router.push("/cliente")}
+            >
+              <Calendar className="h-4 w-4" />
+              <span className="hidden sm:inline">Dashboard</span>
+            </button>
+            <button
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
+              aria-label="Sair"
+              onClick={async () => {
+                const toastId = toast.loading("Fazendo logout...");
+                try {
+                  const token = getToken();
+                  const headers: HeadersInit = {
+                    "Content-Type": "application/json"
+                  };
+                  if (token) {
+                    headers.Authorization = `Bearer ${token}`;
+                  }
+
+                  await fetch(`${API_URL}/auth/logout`, {
+                    method: "POST",
+                    headers,
+                  });
+
+                  toast.success("Logout realizado com sucesso!", { id: toastId });
+                } catch {
+                  toast.dismiss(toastId);
+                } finally {
+                  document.cookie = "has_session=; Max-Age=0; Path=/; SameSite=Lax";
+                  document.cookie = "role=; Max-Age=0; Path=/; SameSite=Lax";
+                  removeToken();
+                  router.push("/login");
+                }
+              }}
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline">Sair</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <section className="mx-auto w-full max-w-4xl px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">
             Configurações
@@ -344,8 +406,6 @@ export default function ClienteConfiguracoesPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </main>
   );
 }

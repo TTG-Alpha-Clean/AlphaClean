@@ -16,7 +16,7 @@ import {
 import { CarLogo } from "@/components/ui/carLogo";
 import { removeToken } from "@/utils/api";
 
-type CurrentPage = "dashboard" | "clientes" | "relatorios" | "servicos-site";
+type CurrentPage = "dashboard" | "clientes" | "relatorios" | "servicos-site" | "configuracoes";
 
 interface AdminHeaderProps {
   currentPage?: CurrentPage;
