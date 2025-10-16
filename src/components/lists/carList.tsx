@@ -2,7 +2,9 @@
 "use client";
 
 import { Car } from "@/hooks/useCars";
-import { Car as CarIcon, Edit2, Trash2, Star, StarOff } from "lucide-react";
+import { Car as CarIcon, Star, StarOff } from "lucide-react";
+import EditButton from "@/components/ui/editButton";
+import DeleteButton from "@/components/ui/deleteButton";
 
 interface CarListProps {
   cars: Car[];
@@ -116,21 +118,15 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
                 )}
               </button>
 
-              <button
+              <EditButton
                 onClick={() => onEditCar(car)}
-                className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded-lg transition-colors"
                 title="Editar carro"
-              >
-                <Edit2 className="w-5 h-5" />
-              </button>
+                size="sm"
+              />
 
-              <button
+              <DeleteButton
                 onClick={() => onDeleteCar(car.id)}
-                className="p-2 text-red-600 hover:text-red-800 hover:bg-red-100 rounded-lg transition-colors"
-                title="Excluir carro"
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
+              />
             </div>
           </div>
         </div>

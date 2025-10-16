@@ -3,8 +3,10 @@
 
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { Plus, Edit, Trash2, Save, X, DollarSign } from "lucide-react";
+import { Plus, Save, X, DollarSign } from "lucide-react";
 import { apiPost, apiDelete, apiPut } from "@/utils/api";
+import EditButton from "@/components/ui/editButton";
+import DeleteButton from "@/components/ui/deleteButton";
 
 interface Servico {
   id: string;
@@ -294,25 +296,17 @@ export function ServicosManagement({
                         </span>
                       </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <button
+                    <div className="flex items-center gap-2">
+                      <EditButton
                         onClick={() => startEditing(servico)}
                         disabled={loading || isCreating}
-                        className="flex items-center gap-1 px-3 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50
-                                   rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full sm:w-auto"
-                      >
-                        <Edit size={16} />
-                        Editar
-                      </button>
-                      <button
+                        title="Editar serviço"
+                        size="sm"
+                      />
+                      <DeleteButton
                         onClick={() => handleDelete(servico)}
                         disabled={loading || isCreating}
-                        className="flex items-center gap-1 px-3 py-2 text-red-600 hover:text-red-800 hover:bg-red-50
-                                   rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full sm:w-auto"
-                      >
-                        <Trash2 size={16} />
-                        Excluir
-                      </button>
+                      />
                     </div>
                   </>
                 )}

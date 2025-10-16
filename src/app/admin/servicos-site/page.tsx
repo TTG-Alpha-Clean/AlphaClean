@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { LogOut, Plus, Edit, Trash2, ArrowLeft } from "lucide-react";
+import { Plus } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken } from "@/utils/api";
 import Image from "next/image";
-import { CarLogo } from "@/components/ui/carLogo";
 import Button from "@/components/ui/button";
 import { ServiceFormModal } from "@/components/modals/serviceFormModal";
 import AdminHeader from "@/components/navigation/adminHeader";
+import EditButton from "@/components/ui/editButton";
+import DeleteButton from "@/components/ui/deleteButton";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 const SERVICES_API_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL || 'http://localhost:3002';
@@ -298,24 +299,18 @@ export default function AdminServicesPage() {
                     >
                       {service.type}
                     </span>
-                    <div className="flex items-center space-x-2">
-                      <button
+                    <div className="flex items-center space-x-1">
+                      <EditButton
                         onClick={() => {
                           setEditingService(service);
                           setShowModal(true);
                         }}
-                        className="p-1.5 hover:bg-[var(--muted)] rounded-lg transition-colors"
-                        title="Editar"
-                      >
-                        <Edit size={16} className="text-blue-600" />
-                      </button>
-                      <button
+                        title="Editar serviço"
+                        size="sm"
+                      />
+                      <DeleteButton
                         onClick={() => handleDelete(service.service_id)}
-                        className="p-1.5 hover:bg-[var(--muted)] rounded-lg transition-colors"
-                        title="Excluir"
-                      >
-                        <Trash2 size={16} className="text-red-600" />
-                      </button>
+                      />
                     </div>
                   </div>
 
