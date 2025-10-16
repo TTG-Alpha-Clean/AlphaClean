@@ -119,8 +119,11 @@ export default function AdminHeader({
 
             <button
               onClick={() => router.push("/admin/configuracoes")}
-              className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
-                         hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              className={`flex items-center space-x-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                currentPage === "configuracoes"
+                  ? "bg-[var(--primary)] text-white"
+                  : "text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]"
+              }`}
             >
               <Settings size={16} />
               <span>Configurações</span>
@@ -190,8 +193,11 @@ export default function AdminHeader({
                   router.push("/admin/configuracoes");
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
-                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+                className={`flex items-center space-x-3 rounded-lg px-3 py-3 text-sm transition-colors ${
+                  currentPage === "configuracoes"
+                    ? "bg-[var(--primary)] text-white"
+                    : "text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]"
+                }`}
               >
                 <Settings size={18} />
                 <span>Configurações</span>
