@@ -22,6 +22,7 @@ interface AdminHeaderProps {
   userName?: string;
   title?: string;
   subtitle?: string;
+  onWhatsAppClick?: () => void;
 }
 
 export default function AdminHeader({
@@ -29,6 +30,7 @@ export default function AdminHeader({
   userName = "Admin",
   title,
   subtitle,
+  onWhatsAppClick,
 }: AdminHeaderProps) {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -103,6 +105,17 @@ export default function AdminHeader({
               );
             })}
 
+            {onWhatsAppClick && (
+              <button
+                onClick={onWhatsAppClick}
+                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
+                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                <MessageCircle size={16} />
+                <span>WhatsApp</span>
+              </button>
+            )}
+
             <button
               onClick={handleLogout}
               className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
@@ -147,6 +160,20 @@ export default function AdminHeader({
                   </button>
                 );
               })}
+
+              {onWhatsAppClick && (
+                <button
+                  onClick={() => {
+                    onWhatsAppClick();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
+                             hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+                >
+                  <MessageCircle size={18} />
+                  <span>WhatsApp</span>
+                </button>
+              )}
 
               <button
                 onClick={() => {

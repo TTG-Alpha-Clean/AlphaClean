@@ -4,18 +4,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  LogOut,
   Users,
   Calendar,
   TrendingUp,
   DollarSign,
   Clock,
   List,
-  MessageCircle,
-  Briefcase,
-  Menu,
-  X,
-  BarChart3,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken } from "@/utils/api";
@@ -24,10 +18,10 @@ import {
   AdminServiceList,
   type AdminServiceItem,
 } from "@/components/lists/adminServiceList";
-import { CarLogo } from "@/components/ui/carLogo";
 import { AdminCalendar } from "@/components/adminCalendar";
 import { ContentManagement } from "@/components/contentManagement";
 import { WhatsAppManagement } from "@/components/whatsappManagement";
+import AdminHeader from "@/components/navigation/adminHeader";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
@@ -61,7 +55,6 @@ export default function AdminDashboardPage() {
   const [showWhatsApp, setShowWhatsApp] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
   const [calendarDate, setCalendarDate] = useState(new Date());
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Função para forçar refresh da lista
   const handleRefresh = () => {
@@ -275,32 +268,6 @@ export default function AdminDashboardPage() {
     fetchAgendamentos();
   }, [user, refreshKey, router, servicos]);
 
-  // Logout
-  const handleLogout = async () => {
-    const toastId = toast.loading("Fazendo logout...");
-
-    try {
-      const token = getToken();
-      const headers: Record<string, string> = {};
-      if (token) {
-        headers.Authorization = `Bearer ${token}`;
-      }
-
-      await fetch(`${API_URL}/auth/logout`, {
-        method: "POST",
-        headers,
-      });
-
-      removeToken();
-      toast.success("Logout realizado com sucesso!", { id: toastId });
-
-      router.push("/login");
-    } catch (error) {
-      console.error("Erro no logout:", error);
-      toast.error("Erro ao fazer logout", { id: toastId });
-    }
-  };
-
   // Loading inicial
   if (checking) {
     return (
@@ -352,147 +319,11 @@ export default function AdminDashboardPage() {
   return (
     <main className="min-h-screen bg-[var(--background)]">
       {/* Header */}
-      <header className="border-b border-[var(--border)] bg-[var(--card)]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            {/* Logo e Título */}
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <CarLogo />
-              <div>
-                <h1 className="text-lg sm:text-xl font-semibold text-[var(--foreground)]">
-                  Alpha Clean
-                </h1>
-                <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
-                  {user.nome}
-                </p>
-              </div>
-            </div>
-
-            {/* Menu Desktop (hidden em mobile) */}
-            <div className="hidden md:flex items-center space-x-3">
-              <button
-                onClick={() => router.push("/admin/clientes")}
-                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
-                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-              >
-                <Users size={16} />
-                <span>Clientes</span>
-              </button>
-
-              <button
-                onClick={() => router.push("/admin/relatorios")}
-                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
-                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-              >
-                <BarChart3 size={16} />
-                <span>Relatórios</span>
-              </button>
-
-              <button
-                onClick={() => setShowWhatsApp(!showWhatsApp)}
-                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
-                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-              >
-                <MessageCircle size={16} />
-                <span>WhatsApp</span>
-              </button>
-
-              <button
-                onClick={() => router.push("/admin/servicos-site")}
-                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
-                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-              >
-                <Briefcase size={16} />
-                <span>Serviços</span>
-              </button>
-
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-[var(--muted-foreground)]
-                           hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-              >
-                <LogOut size={16} />
-                <span>Sair</span>
-              </button>
-            </div>
-
-            {/* Botão Hamburguer Mobile */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-
-          {/* Menu Mobile Dropdown */}
-          {mobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-[var(--border)]">
-              <div className="flex flex-col space-y-2">
-                <button
-                  onClick={() => {
-                    router.push("/admin/clientes");
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
-                             hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-                >
-                  <Users size={18} />
-                  <span>Clientes</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    router.push("/admin/relatorios");
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
-                             hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-                >
-                  <BarChart3 size={18} />
-                  <span>Relatórios</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setShowWhatsApp(!showWhatsApp);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
-                             hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-                >
-                  <MessageCircle size={18} />
-                  <span>WhatsApp</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    router.push("/admin/servicos-site");
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-[var(--muted-foreground)]
-                             hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-                >
-                  <Briefcase size={18} />
-                  <span>Serviços</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center space-x-3 rounded-lg px-3 py-3 text-sm text-red-600
-                             hover:bg-red-50 transition-colors border-t border-[var(--border)] mt-2 pt-4"
-                >
-                  <LogOut size={18} />
-                  <span>Sair</span>
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </header>
+      <AdminHeader
+        currentPage="dashboard"
+        userName={user.nome}
+        onWhatsAppClick={() => setShowWhatsApp(!showWhatsApp)}
+      />
 
       {/* Conteúdo Principal */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">

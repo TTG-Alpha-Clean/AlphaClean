@@ -9,7 +9,7 @@ const Footer: FC = () => {
       role="contentinfo"
       className="w-full bg-[var(--primary)] text-white"
     >
-      <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="w-full max-w-[1380px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 justify-items-center sm:justify-items-start">
           {/* Coluna 1 - Alpha Clean */}
           <div className="min-w-0 text-center sm:text-left">
