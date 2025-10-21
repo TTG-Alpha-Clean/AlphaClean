@@ -38,7 +38,7 @@ export function CompleteServiceModal({
     const toastId = toast.loading('Finalizando serviço...');
 
     try {
-      // Finalizar o serviço no backend com controle integrado de WhatsApp
+      // Finalizar o serviço no backend (não mais dependente do WhatsApp)
       const token = localStorage.getItem('token');
       const completeResponse = await fetch(`${API_URL}/api/agendamentos/${appointment.id}/complete`, {
         method: 'PATCH',
@@ -49,7 +49,7 @@ export function CompleteServiceModal({
         body: JSON.stringify({
           status: 'finalizado',
           notes: notes.trim(),
-          sendWhatsApp: sendWhatsApp
+          sendWhatsApp: sendWhatsApp && isWhatsAppAvailable
         }),
       });
 
@@ -57,15 +57,9 @@ export function CompleteServiceModal({
         throw new Error('Erro ao finalizar serviço');
       }
 
-      const responseData = await completeResponse.json();
-
-      // Exibir toast baseado na resposta do backend
+      // Serviço finalizado com sucesso - WhatsApp será enviado em background se habilitado
       if (sendWhatsApp && isWhatsAppAvailable) {
-        if (responseData.whatsappSent) {
-          toast.success('Serviço finalizado e notificação WhatsApp enviada!', { id: toastId });
-        } else {
-          toast.success('Serviço finalizado! (Problema no envio da notificação)', { id: toastId });
-        }
+        toast.success('Serviço finalizado! Notificação WhatsApp sendo enviada...', { id: toastId });
       } else {
         toast.success('Serviço finalizado com sucesso!', { id: toastId });
       }

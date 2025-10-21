@@ -339,19 +339,19 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col">
-        {/* Header */}
+      <div className="bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[90vh] flex flex-col">
+        {/* Header Simplificado */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <MessageCircle className="w-5 h-5 text-green-600" />
+            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+              <MessageCircle className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">
-                WhatsApp Manager
+              <h2 className="text-2xl font-bold text-gray-900">
+                WhatsApp
               </h2>
               <p className="text-sm text-gray-500">
-                Gerenciar conexão e envio de mensagens
+                Notificações Automáticas
               </p>
             </div>
           </div>
@@ -364,212 +364,166 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
           </button>
         </div>
 
-        {/* Content */}
+        {/* Content Simplificado */}
         <div className="p-6 space-y-6 overflow-y-auto flex-1">
-          {/* Status atual */}
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Status da Conexão
-              </h3>
-              <button
-                onClick={checkStatus}
-                disabled={loading}
-                className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-lg transition-colors disabled:opacity-50"
-              >
-                <RefreshCw
-                  className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
-                />
-                <span>Atualizar</span>
-              </button>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              {status.connected ? (
-                <>
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <Wifi className="w-5 h-5 text-green-600" />
-                  <span className="text-green-700 font-medium">Conectado</span>
-                </>
-              ) : (
-                <>
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <WifiOff className="w-5 h-5 text-red-600" />
-                  <span className="text-red-700 font-medium">Desconectado</span>
-                </>
-              )}
-            </div>
-
-            <p className="text-sm text-gray-600 mt-2">{status.message}</p>
-
-            {/* QR Code Display */}
-            {!status.connected && qrCode && (
-              <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg text-center">
-                <div className="flex flex-col items-center space-y-3">
-                  <QrCode className="w-6 h-6 text-green-600" />
-                  <h4 className="font-medium text-gray-900">
-                    QR Code para Conexão
-                  </h4>
-                  <canvas
-                    ref={qrCanvasRef}
-                    className="border border-gray-300 rounded-lg"
-                  />
-                  <p className="text-sm text-gray-600">
-                    Escaneie este QR code com seu WhatsApp
-                  </p>
-                  <button
-                    onClick={fetchQRCode}
-                    disabled={loadingQR}
-                    className="flex items-center space-x-2 px-3 py-2 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
-                  >
-                    <RefreshCw
-                      className={`w-4 h-4 ${loadingQR ? "animate-spin" : ""}`}
-                    />
-                    <span>Atualizar QR Code</span>
-                  </button>
+          {/* Status Visual Maior */}
+          <div className="text-center py-4">
+            {status.connected ? (
+              <div className="space-y-3">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                  <Wifi className="w-10 h-10 text-green-600" />
                 </div>
+                <div>
+                  <h3 className="text-xl font-bold text-green-700">Conectado</h3>
+                  <p className="text-sm text-gray-600 mt-1">WhatsApp pronto para enviar notificações</p>
+                </div>
+                <button
+                  onClick={disconnectWhatsApp}
+                  disabled={loading}
+                  className="mx-auto flex items-center space-x-2 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors text-base font-medium"
+                >
+                  <PowerOff className="w-5 h-5" />
+                  <span>{loading ? "Desconectando..." : "Desconectar"}</span>
+                </button>
               </div>
-            )}
-
-            {!status.connected && !qrCode && (
-              <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <div className="flex items-start space-x-2">
-                  <AlertTriangle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm text-yellow-800">
-                    <p className="font-medium mb-1">Como conectar:</p>
-                    <ol className="list-decimal list-inside space-y-1">
-                      <li>Clique em Conectar WhatsApp</li>
-                      <li>Aguarde o QR code aparecer aqui</li>
-                      <li>Escaneie o QR code com seu WhatsApp</li>
-                      <li>Aguarde a confirmação de conexão</li>
-                    </ol>
-                  </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
+                  <WifiOff className="w-10 h-10 text-gray-400" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-700">Desconectado</h3>
+                  <p className="text-sm text-gray-600 mt-1">Conecte seu WhatsApp para começar</p>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Controles de conexão */}
-          <div className="flex flex-wrap gap-3">
-            {!status.connected ? (
-              <>
+          {/* Área do QR Code - Simplificada */}
+          {!status.connected && (
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-2 border-green-200">
+              <div className="text-center space-y-4">
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-green-600 font-bold">
+                    1
+                  </div>
+                  <p className="text-base font-semibold text-gray-900">
+                    Clique no botão abaixo
+                  </p>
+                </div>
+
                 <button
                   onClick={initializeWhatsApp}
                   disabled={loading}
-                  className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
+                  className="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 disabled:opacity-50 transition-colors text-lg font-bold shadow-lg"
                 >
-                  <Power className="w-4 h-4" />
+                  <Power className="w-6 h-6" />
                   <span>{loading ? "Conectando..." : "Conectar WhatsApp"}</span>
                 </button>
 
-                <button
-                  onClick={fetchQRCode}
-                  disabled={loadingQR}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
-                >
-                  <QrCode className="w-4 h-4" />
-                  <span>{loadingQR ? "Carregando..." : "Buscar QR Code"}</span>
-                </button>
-              </>
-            ) : (
-              <button
-                onClick={disconnectWhatsApp}
-                disabled={loading}
-                className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
-              >
-                <PowerOff className="w-4 h-4" />
-                <span>{loading ? "Desconectando..." : "Desconectar"}</span>
-              </button>
-            )}
-          </div>
+                {qrCode ? (
+                  <div className="bg-white rounded-xl p-4 shadow-inner">
+                    <div className="flex items-center justify-center space-x-2 mb-3">
+                      <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
+                        2
+                      </div>
+                      <p className="text-base font-semibold text-gray-900">
+                        Escaneie o código abaixo
+                      </p>
+                    </div>
+                    <canvas
+                      ref={qrCanvasRef}
+                      className="mx-auto border-4 border-gray-200 rounded-xl"
+                    />
+                    <button
+                      onClick={fetchQRCode}
+                      disabled={loadingQR}
+                      className="mt-3 mx-auto flex items-center space-x-2 px-4 py-2 text-sm text-green-700 hover:text-green-900 hover:bg-green-50 rounded-lg transition-colors font-medium"
+                    >
+                      <RefreshCw className={`w-4 h-4 ${loadingQR ? "animate-spin" : ""}`} />
+                      <span>Gerar novo código</span>
+                    </button>
+                    <div className="mt-4 bg-blue-50 rounded-lg p-3">
+                      <p className="text-sm text-blue-800 font-medium flex items-start space-x-2">
+                        <span className="text-lg">💡</span>
+                        <span>No seu celular, abra WhatsApp → Configurações → Aparelhos conectados → Conectar aparelho</span>
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-white rounded-xl p-4">
+                    <div className="flex items-start space-x-3 text-left">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-blue-600 text-lg">ℹ️</span>
+                      </div>
+                      <div className="text-sm text-gray-700">
+                        <p className="font-semibold mb-2">Como conectar:</p>
+                        <ol className="list-decimal list-inside space-y-1.5 text-gray-600">
+                          <li>Clique em "Conectar WhatsApp"</li>
+                          <li>Aguarde o código QR aparecer (3-5 segundos)</li>
+                          <li>Abra WhatsApp no seu celular</li>
+                          <li>Vá em: Menu → Aparelhos conectados</li>
+                          <li>Escaneie o código QR que aparecer aqui</li>
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
-          {/* Teste de envio */}
+          {/* Teste de Mensagem - Só se conectado */}
           {status.connected && (
-            <div className="bg-blue-50 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center space-x-2">
+            <div className="bg-blue-50 rounded-xl p-5 border-2 border-blue-200">
+              <div className="flex items-center space-x-2 mb-4">
                 <TestTube className="w-5 h-5 text-blue-600" />
-                <span>Teste de Envio</span>
-              </h3>
+                <h3 className="text-lg font-bold text-gray-900">Testar Envio</h3>
+              </div>
 
               <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Número de telefone (com DDD)
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Número de telefone
                   </label>
                   <input
                     type="text"
                     value={testPhone}
                     onChange={handlePhoneChange}
                     placeholder="Ex: +55 (11) 99999-9999"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                   />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Digite apenas números. A formatação será aplicada
-                    automaticamente.
-                  </p>
                 </div>
 
                 <button
                   onClick={sendTestMessage}
                   disabled={sendingTest || !testPhone.trim()}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                  className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors font-semibold"
                 >
-                  <Send className="w-4 h-4" />
-                  <span>{sendingTest ? "Enviando..." : "Enviar Teste"}</span>
+                  <Send className="w-5 h-5" />
+                  <span>{sendingTest ? "Enviando..." : "Enviar Mensagem de Teste"}</span>
                 </button>
               </div>
             </div>
           )}
 
-          {/* Informações importantes */}
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">
-              ℹ️ Informações Importantes
-            </h3>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li className="flex items-start space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span>
-                  As notificações são enviadas automaticamente quando um serviço
-                  é finalizado
-                </span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span>
-                  O WhatsApp deve permanecer conectado no servidor para
-                  funcionar
-                </span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span>
-                  Use apenas para notificações relacionadas aos serviços
-                </span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <AlertTriangle className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
-                <span>
-                  Não envie spam ou mensagens não relacionadas ao negócio
-                </span>
-              </li>
-            </ul>
+          {/* Informações Simplificadas */}
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <p className="text-sm text-gray-600 text-center">
+              <CheckCircle className="w-4 h-4 text-green-500 inline mr-1" />
+              Notificações automáticas são enviadas quando você finalizar um serviço
+            </p>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 p-6 bg-gray-50 flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-500">
-              Sistema de notificações WhatsApp - Alpha Clean
-            </p>
-            <button
-              onClick={onClose}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-lg transition-colors"
-            >
-              Fechar
-            </button>
-          </div>
+        <div className="border-t border-gray-200 p-4 bg-gray-50 flex-shrink-0">
+          <button
+            onClick={onClose}
+            className="w-full px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-lg transition-colors font-medium"
+          >
+            Fechar
+          </button>
         </div>
       </div>
     </div>
