@@ -62,7 +62,11 @@ export function CompleteServiceModal({
 
       console.log('📤 Enviando requisição com body:', bodyData);
 
-      const completeResponse = await fetch(`${API_URL}/api/agendamentos/${appointment.id}/complete`, {
+      const url = `${API_URL}/api/agendamentos/${appointment.id}/complete`;
+      console.log('🔗 URL da requisição:', url);
+      console.log('🔑 Token:', token ? 'Presente' : 'Ausente');
+
+      const completeResponse = await fetch(url, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -70,6 +74,8 @@ export function CompleteServiceModal({
         },
         body: JSON.stringify(bodyData),
       });
+
+      console.log('📡 Status da resposta:', completeResponse.status, completeResponse.statusText);
 
       if (!completeResponse.ok) {
         throw new Error('Erro ao finalizar serviço');
