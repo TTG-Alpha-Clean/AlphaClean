@@ -30,6 +30,10 @@ export function CompleteServiceModal({
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const WHATSAPP_SERVICE_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL;
 
+  // Log das variáveis de ambiente ao carregar o componente
+  console.log('🌐 ENVIRONMENT - API_URL:', API_URL);
+  console.log('🌐 ENVIRONMENT - WHATSAPP_SERVICE_URL:', WHATSAPP_SERVICE_URL);
+
   // Verificar se o WhatsApp está disponível (apenas em desenvolvimento local)
   const isWhatsAppAvailable = !!WHATSAPP_SERVICE_URL && WHATSAPP_SERVICE_URL.includes('localhost');
 
