@@ -34,8 +34,8 @@ export function CompleteServiceModal({
   console.log('🌐 ENVIRONMENT - API_URL:', API_URL);
   console.log('🌐 ENVIRONMENT - WHATSAPP_SERVICE_URL:', WHATSAPP_SERVICE_URL);
 
-  // Verificar se o WhatsApp está disponível (apenas em desenvolvimento local)
-  const isWhatsAppAvailable = !!WHATSAPP_SERVICE_URL && WHATSAPP_SERVICE_URL.includes('localhost');
+  // Verificar se o WhatsApp está disponível
+  const isWhatsAppAvailable = !!WHATSAPP_SERVICE_URL;
 
   const handleComplete = async () => {
     setCompleting(true);
