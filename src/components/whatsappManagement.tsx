@@ -347,12 +347,8 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
               <MessageCircle className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">
-                WhatsApp
-              </h2>
-              <p className="text-sm text-gray-500">
-                Notificações Automáticas
-              </p>
+              <h2 className="text-2xl font-bold text-gray-900">WhatsApp</h2>
+              <p className="text-sm text-gray-500">Notificações Automáticas</p>
             </div>
           </div>
 
@@ -374,8 +370,12 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                   <Wifi className="w-10 h-10 text-green-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-green-700">Conectado</h3>
-                  <p className="text-sm text-gray-600 mt-1">WhatsApp pronto para enviar notificações</p>
+                  <h3 className="text-xl font-bold text-green-700">
+                    Conectado
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    WhatsApp pronto para enviar notificações
+                  </p>
                 </div>
                 <button
                   onClick={disconnectWhatsApp}
@@ -392,8 +392,12 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                   <WifiOff className="w-10 h-10 text-gray-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-700">Desconectado</h3>
-                  <p className="text-sm text-gray-600 mt-1">Conecte seu WhatsApp para começar</p>
+                  <h3 className="text-xl font-bold text-gray-700">
+                    Desconectado
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Conecte seu WhatsApp para começar
+                  </p>
                 </div>
               </div>
             )}
@@ -440,13 +444,18 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                       disabled={loadingQR}
                       className="mt-3 mx-auto flex items-center space-x-2 px-4 py-2 text-sm text-green-700 hover:text-green-900 hover:bg-green-50 rounded-lg transition-colors font-medium"
                     >
-                      <RefreshCw className={`w-4 h-4 ${loadingQR ? "animate-spin" : ""}`} />
+                      <RefreshCw
+                        className={`w-4 h-4 ${loadingQR ? "animate-spin" : ""}`}
+                      />
                       <span>Gerar novo código</span>
                     </button>
                     <div className="mt-4 bg-blue-50 rounded-lg p-3">
                       <p className="text-sm text-blue-800 font-medium flex items-start space-x-2">
                         <span className="text-lg">💡</span>
-                        <span>No seu celular, abra WhatsApp → Configurações → Aparelhos conectados → Conectar aparelho</span>
+                        <span>
+                          No seu celular, abra WhatsApp → Configurações →
+                          Aparelhos conectados → Conectar aparelho
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -459,7 +468,7 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                       <div className="text-sm text-gray-700">
                         <p className="font-semibold mb-2">Como conectar:</p>
                         <ol className="list-decimal list-inside space-y-1.5 text-gray-600">
-                          <li>Clique em "Conectar WhatsApp"</li>
+                          <li>Clique em Conectar WhatsApp</li>
                           <li>Aguarde o código QR aparecer (3-5 segundos)</li>
                           <li>Abra WhatsApp no seu celular</li>
                           <li>Vá em: Menu → Aparelhos conectados</li>
@@ -478,7 +487,9 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
             <div className="bg-blue-50 rounded-xl p-5 border-2 border-blue-200">
               <div className="flex items-center space-x-2 mb-4">
                 <TestTube className="w-5 h-5 text-blue-600" />
-                <h3 className="text-lg font-bold text-gray-900">Testar Envio</h3>
+                <h3 className="text-lg font-bold text-gray-900">
+                  Testar Envio
+                </h3>
               </div>
 
               <div className="space-y-3">
@@ -501,7 +512,9 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
                   className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors font-semibold"
                 >
                   <Send className="w-5 h-5" />
-                  <span>{sendingTest ? "Enviando..." : "Enviar Mensagem de Teste"}</span>
+                  <span>
+                    {sendingTest ? "Enviando..." : "Enviar Mensagem de Teste"}
+                  </span>
                 </button>
               </div>
             </div>
@@ -511,7 +524,8 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
           <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
             <p className="text-sm text-gray-600 text-center">
               <CheckCircle className="w-4 h-4 text-green-500 inline mr-1" />
-              Notificações automáticas são enviadas quando você finalizar um serviço
+              Notificações automáticas são enviadas quando você finalizar um
+              serviço
             </p>
           </div>
         </div>
