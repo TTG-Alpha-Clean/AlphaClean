@@ -35,10 +35,16 @@ export function CompleteServiceModal({
 
   const handleComplete = async () => {
     setCompleting(true);
-    const toastId = toast.loading('Finalizando serviço...');
+    let toastId: string;
+
+    // Toast inicial
+    if (sendWhatsApp && isWhatsAppAvailable) {
+      toastId = toast.loading('Finalizando serviço e enviando WhatsApp...');
+    } else {
+      toastId = toast.loading('Finalizando serviço...');
+    }
 
     try {
-      // Finalizar o serviço no backend (não mais dependente do WhatsApp)
       const token = localStorage.getItem('token');
       const completeResponse = await fetch(`${API_URL}/api/agendamentos/${appointment.id}/complete`, {
         method: 'PATCH',
@@ -57,9 +63,26 @@ export function CompleteServiceModal({
         throw new Error('Erro ao finalizar serviço');
       }
 
-      // Serviço finalizado com sucesso - WhatsApp será enviado em background se habilitado
+      const responseData = await completeResponse.json();
+      console.log('📥 Resposta do servidor:', responseData);
+
+      // Verificar se WhatsApp foi enviado
       if (sendWhatsApp && isWhatsAppAvailable) {
-        toast.success('Serviço finalizado! Notificação WhatsApp sendo enviada...', { id: toastId });
+        if (responseData.whatsappSent === true) {
+          toast.success('✅ Serviço finalizado e WhatsApp enviado com sucesso!', {
+            id: toastId,
+            duration: 5000
+          });
+        } else if (responseData.whatsappSent === false) {
+          const errorMsg = responseData.whatsappError || 'Erro desconhecido';
+          toast.error(`⚠️ Serviço finalizado, mas WhatsApp falhou: ${errorMsg}`, {
+            id: toastId,
+            duration: 7000
+          });
+          console.error('❌ Erro WhatsApp:', errorMsg);
+        } else {
+          toast.success('Serviço finalizado com sucesso!', { id: toastId });
+        }
       } else {
         toast.success('Serviço finalizado com sucesso!', { id: toastId });
       }
@@ -69,7 +92,7 @@ export function CompleteServiceModal({
 
     } catch (error) {
       console.error('Erro ao completar serviço:', error);
-      toast.error('Erro ao finalizar serviço', { id: toastId });
+      toast.error('❌ Erro ao finalizar serviço', { id: toastId });
     } finally {
       setCompleting(false);
     }
