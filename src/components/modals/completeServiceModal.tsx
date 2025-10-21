@@ -37,26 +37,38 @@ export function CompleteServiceModal({
     setCompleting(true);
     let toastId: string;
 
+    console.log('🔍 DEBUG - handleComplete iniciado');
+    console.log('🔍 DEBUG - sendWhatsApp:', sendWhatsApp);
+    console.log('🔍 DEBUG - isWhatsAppAvailable:', isWhatsAppAvailable);
+    console.log('🔍 DEBUG - WHATSAPP_SERVICE_URL:', WHATSAPP_SERVICE_URL);
+    console.log('🔍 DEBUG - appointment:', appointment);
+
     // Toast inicial
     if (sendWhatsApp && isWhatsAppAvailable) {
+      console.log('✅ Vai enviar WhatsApp - mostrando toast de loading');
       toastId = toast.loading('Finalizando serviço e enviando WhatsApp...');
     } else {
+      console.log('ℹ️ NÃO vai enviar WhatsApp - sendWhatsApp:', sendWhatsApp, 'isWhatsAppAvailable:', isWhatsAppAvailable);
       toastId = toast.loading('Finalizando serviço...');
     }
 
     try {
       const token = localStorage.getItem('token');
+      const bodyData = {
+        status: 'finalizado',
+        notes: notes.trim(),
+        sendWhatsApp: sendWhatsApp && isWhatsAppAvailable
+      };
+
+      console.log('📤 Enviando requisição com body:', bodyData);
+
       const completeResponse = await fetch(`${API_URL}/api/agendamentos/${appointment.id}/complete`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          status: 'finalizado',
-          notes: notes.trim(),
-          sendWhatsApp: sendWhatsApp && isWhatsAppAvailable
-        }),
+        body: JSON.stringify(bodyData),
       });
 
       if (!completeResponse.ok) {
