@@ -38,6 +38,8 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [loadingQR, setLoadingQR] = useState(false);
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
+  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const previousStatusRef = useRef<boolean>(false);
 
   const WHATSAPP_SERVICE_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL;
 
@@ -77,7 +79,53 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
         message: "WhatsApp Service não configurado",
       });
     }
+
+    // Limpar polling ao desmontar componente
+    return () => {
+      stopStatusPolling();
+    };
   }, [isWhatsAppAvailable]);
+
+  // Função para iniciar polling de status
+  const startStatusPolling = () => {
+    // Limpar qualquer polling existente
+    stopStatusPolling();
+
+    // Verificar status a cada 3 segundos
+    pollingIntervalRef.current = setInterval(async () => {
+      try {
+        const response = await fetch(`${WHATSAPP_SERVICE_URL}/whatsapp/status`);
+        const data = await response.json();
+
+        const wasConnected = previousStatusRef.current;
+        const isNowConnected = data.connected || false;
+
+        setStatus({
+          connected: isNowConnected,
+          message: data.message || "Status desconhecido",
+        });
+
+        previousStatusRef.current = isNowConnected;
+
+        // Se acabou de conectar, mostrar toast e parar polling
+        if (!wasConnected && isNowConnected) {
+          toast.success("WhatsApp conectado com sucesso!");
+          setQrCode(null); // Limpar QR code
+          stopStatusPolling();
+        }
+      } catch (error) {
+        console.error("Erro no polling de status:", error);
+      }
+    }, 3000);
+  };
+
+  // Função para parar polling de status
+  const stopStatusPolling = () => {
+    if (pollingIntervalRef.current) {
+      clearInterval(pollingIntervalRef.current);
+      pollingIntervalRef.current = null;
+    }
+  };
 
   const fetchQRCode = async () => {
     if (!isWhatsAppAvailable) return;
@@ -137,15 +185,20 @@ export function WhatsAppManagement({ onClose }: WhatsAppManagementProps) {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success("WhatsApp inicializando! Escaneie o QR code abaixo.", {
+        toast.success("WhatsApp inicializando! Buscando QR code...", {
           id: toastId,
         });
 
-        // Aguardar um pouco e buscar QR code
-        setTimeout(() => {
-          fetchQRCode();
-          checkStatus();
-        }, 3000);
+        // Buscar QR code imediatamente e continuar tentando
+        fetchQRCode();
+
+        // Tentar buscar QR code novamente após 2s, 4s e 6s
+        setTimeout(() => fetchQRCode(), 2000);
+        setTimeout(() => fetchQRCode(), 4000);
+        setTimeout(() => fetchQRCode(), 6000);
+
+        // Iniciar polling do status para detectar quando conectar
+        startStatusPolling();
       } else {
         toast.error(data.message || "Erro ao inicializar WhatsApp", {
           id: toastId,
