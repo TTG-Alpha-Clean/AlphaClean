@@ -53,47 +53,47 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {cars.map((car) => (
         <div
           key={car.id}
           className={`bg-white rounded-lg border ${
             car.is_default ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
-          } p-4 transition-colors hover:bg-gray-50`}
+          } p-3 sm:p-4 transition-colors hover:bg-gray-50`}
         >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className={`p-3 rounded-lg ${
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
+            <div className="flex items-start space-x-3 sm:space-x-4 flex-1 min-w-0">
+              <div className={`p-2 sm:p-3 rounded-lg flex-shrink-0 ${
                 car.is_default ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'
               }`}>
-                <CarIcon className="w-6 h-6" />
+                <CarIcon className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
 
-              <div className="flex-1">
-                <div className="flex items-center space-x-2">
-                  <h3 className="text-lg font-semibold text-gray-900">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center space-x-2 flex-wrap">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                     {car.modelo_veiculo}
                   </h3>
                   {car.is_default && (
-                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full">
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full whitespace-nowrap">
                       Padrão
                     </span>
                   )}
                 </div>
 
-                <div className="text-sm text-gray-600 space-y-1">
-                  <div className="flex items-center space-x-4">
+                <div className="text-xs sm:text-sm text-gray-600 space-y-1 mt-1">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                     <span className="font-medium">Placa: {car.placa}</span>
                     {car.cor && <span>Cor: {car.cor}</span>}
                   </div>
 
-                  <div className="flex items-center space-x-4">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                     {car.marca && <span>Marca: {car.marca}</span>}
                     {car.ano && <span>Ano: {car.ano}</span>}
                   </div>
 
                   {car.observacoes && (
-                    <div className="text-gray-500 text-sm mt-2">
+                    <div className="text-gray-500 text-xs sm:text-sm mt-2 line-clamp-2">
                       <strong>Observações:</strong> {car.observacoes}
                     </div>
                   )}
@@ -101,10 +101,10 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
               </div>
             </div>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center justify-end space-x-2 sm:ml-4 flex-shrink-0">
               <button
                 onClick={() => onSetDefault(car.id)}
-                className={`p-2 rounded-lg transition-colors ${
+                className={`p-1.5 sm:p-2 rounded-lg transition-colors ${
                   car.is_default
                     ? 'text-yellow-600 bg-yellow-100 hover:bg-yellow-200'
                     : 'text-gray-400 hover:text-yellow-600 hover:bg-yellow-100'
@@ -112,9 +112,9 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
                 title={car.is_default ? 'Remover como padrão' : 'Definir como padrão'}
               >
                 {car.is_default ? (
-                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                 ) : (
-                  <StarOff className="w-5 h-5" />
+                  <StarOff className="w-4 h-4 sm:w-5 sm:h-5" />
                 )}
               </button>
 

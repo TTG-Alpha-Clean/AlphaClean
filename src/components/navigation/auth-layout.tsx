@@ -80,18 +80,19 @@ export default function AuthLayout({
       {/* Container principal */}
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header só com botão voltar animado */}
-        <div className="px-6 py-4">
+        <div className="px-4 sm:px-6 py-3 sm:py-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-3 text-white/80 hover:text-white transition-all duration-300 group hover:scale-105"
+            className="inline-flex items-center gap-2 sm:gap-3 text-white/80 hover:text-white transition-all duration-300 group hover:scale-105"
           >
-            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-[#9BD60C]/20 group-hover:to-[#9BD60C]/10 group-hover:border-[#9BD60C]/30 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#9BD60C]/20">
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-[#9BD60C]/20 group-hover:to-[#9BD60C]/10 group-hover:border-[#9BD60C]/30 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#9BD60C]/20">
               <div className="w-full h-full flex items-center justify-center">
-                <span className="text-lg font-bold group-hover:text-[#9BD60C] transition-colors duration-300 group-hover:scale-110 transform leading-none">←</span>
+                <span className="text-base sm:text-lg font-bold group-hover:text-[#9BD60C] transition-colors duration-300 group-hover:scale-110 transform leading-none">←</span>
               </div>
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-300"></div>
+              <div className="absolute inset-0 rounded-lg sm:rounded-xl bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-300"></div>
             </div>
-            <span className="font-semibold hidden sm:block group-hover:text-[#9BD60C] transition-colors duration-300">Voltar ao site</span>
+            <span className="font-semibold text-sm sm:text-base hidden sm:block group-hover:text-[#9BD60C] transition-colors duration-300">Voltar ao site</span>
+            <span className="font-semibold text-sm sm:hidden group-hover:text-[#9BD60C] transition-colors duration-300">Voltar</span>
           </Link>
         </div>
 
