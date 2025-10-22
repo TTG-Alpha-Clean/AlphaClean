@@ -12,11 +12,12 @@ import {
   Home,
   MessageCircle,
   Settings,
+  BookOpen,
 } from "lucide-react";
 import { CarLogo } from "@/components/ui/carLogo";
 import { removeToken } from "@/utils/api";
 
-type CurrentPage = "dashboard" | "clientes" | "relatorios" | "servicos-site" | "configuracoes";
+type CurrentPage = "dashboard" | "clientes" | "relatorios" | "servicos-site" | "configuracoes" | "manual";
 
 interface AdminHeaderProps {
   currentPage?: CurrentPage;
@@ -118,6 +119,18 @@ export default function AdminHeader({
             )}
 
             <button
+              onClick={() => router.push("/admin/manual")}
+              className={`flex items-center space-x-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                currentPage === "manual"
+                  ? "bg-[var(--primary)] text-white"
+                  : "text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]"
+              }`}
+            >
+              <BookOpen size={16} />
+              <span>Manual</span>
+            </button>
+
+            <button
               onClick={() => router.push("/admin/configuracoes")}
               className={`flex items-center space-x-2 rounded-lg px-3 py-2 text-sm transition-colors ${
                 currentPage === "configuracoes"
@@ -187,6 +200,21 @@ export default function AdminHeader({
                   <span>WhatsApp</span>
                 </button>
               )}
+
+              <button
+                onClick={() => {
+                  router.push("/admin/manual");
+                  setMobileMenuOpen(false);
+                }}
+                className={`flex items-center space-x-3 rounded-lg px-3 py-3 text-sm transition-colors ${
+                  currentPage === "manual"
+                    ? "bg-[var(--primary)] text-white"
+                    : "text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]"
+                }`}
+              >
+                <BookOpen size={18} />
+                <span>Manual</span>
+              </button>
 
               <button
                 onClick={() => {
