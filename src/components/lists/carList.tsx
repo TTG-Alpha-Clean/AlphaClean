@@ -121,7 +121,7 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
               <EditButton
                 onClick={() => onEditCar(car)}
                 title="Editar carro"
-                size="sm"
+                size="md"
               />
 
               <DeleteButton
