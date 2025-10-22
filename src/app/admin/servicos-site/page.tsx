@@ -299,14 +299,14 @@ export default function AdminServicesPage() {
                     >
                       {service.type}
                     </span>
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center space-x-2 sm:space-x-1">
                       <EditButton
                         onClick={() => {
                           setEditingService(service);
                           setShowModal(true);
                         }}
                         title="Editar serviço"
-                        size="sm"
+                        size="md"
                       />
                       <DeleteButton
                         onClick={() => handleDelete(service.service_id)}

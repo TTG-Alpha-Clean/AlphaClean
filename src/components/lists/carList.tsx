@@ -61,7 +61,7 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
             car.is_default ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
           } p-3 sm:p-4 transition-colors hover:bg-gray-50`}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
+          <div className="flex items-start justify-between gap-3">
             <div className="flex items-start space-x-3 sm:space-x-4 flex-1 min-w-0">
               <div className={`p-2 sm:p-3 rounded-lg flex-shrink-0 ${
                 car.is_default ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'
@@ -83,12 +83,12 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
 
                 <div className="text-xs sm:text-sm text-gray-600 space-y-1 mt-1">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                    {car.marca && <span>Marca: {car.marca}</span>}
                     <span className="font-medium">Placa: {car.placa}</span>
-                    {car.cor && <span>Cor: {car.cor}</span>}
                   </div>
 
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                    {car.marca && <span>Marca: {car.marca}</span>}
+                    {car.cor && <span>Cor: {car.cor}</span>}
                     {car.ano && <span>Ano: {car.ano}</span>}
                   </div>
 
@@ -101,7 +101,7 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
               </div>
             </div>
 
-            <div className="flex items-center justify-center sm:justify-end space-x-2 sm:space-x-2 sm:ml-4 flex-shrink-0 w-full sm:w-auto">
+            <div className="flex items-start space-x-2 flex-shrink-0">
               <button
                 onClick={() => onSetDefault(car.id)}
                 className={`p-2 sm:p-2 rounded-lg transition-colors ${
