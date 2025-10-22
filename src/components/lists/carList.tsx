@@ -101,10 +101,10 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
               </div>
             </div>
 
-            <div className="flex items-center justify-end space-x-2 sm:ml-4 flex-shrink-0">
+            <div className="flex items-center justify-center sm:justify-end space-x-2 sm:space-x-2 sm:ml-4 flex-shrink-0 w-full sm:w-auto">
               <button
                 onClick={() => onSetDefault(car.id)}
-                className={`p-1.5 sm:p-2 rounded-lg transition-colors ${
+                className={`p-2 sm:p-2 rounded-lg transition-colors ${
                   car.is_default
                     ? 'text-yellow-600 bg-yellow-100 hover:bg-yellow-200'
                     : 'text-gray-400 hover:text-yellow-600 hover:bg-yellow-100'
@@ -112,9 +112,9 @@ export function CarList({ cars, loading, onEditCar, onDeleteCar, onSetDefault }:
                 title={car.is_default ? 'Remover como padrão' : 'Definir como padrão'}
               >
                 {car.is_default ? (
-                  <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
+                  <Star className="w-5 h-5 sm:w-5 sm:h-5 fill-current" />
                 ) : (
-                  <StarOff className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <StarOff className="w-5 h-5 sm:w-5 sm:h-5" />
                 )}
               </button>
 

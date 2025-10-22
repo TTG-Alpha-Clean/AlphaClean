@@ -13,13 +13,13 @@ export default function DeleteButton({ onClick, disabled }: DeleteButtonProps) {
       aria-label="Excluir"
       title="Excluir"
       className={cn(
-        "group relative p-2 bg-transparent border-none cursor-pointer transition-transform duration-200 ease-in-out",
+        "group relative p-2 sm:p-2 bg-transparent border-none cursor-pointer transition-transform duration-200 ease-in-out",
         disabled && "opacity-50 cursor-not-allowed"
       )}
     >
       <svg
         className={cn(
-          "w-7 h-7 lg:w-8 lg:h-8",
+          "w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8",
           "transition-transform duration-[300ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]",
           "drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] overflow-visible",
           "group-hover:scale-[1.08] group-hover:rotate-[3deg]",

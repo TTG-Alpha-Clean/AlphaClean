@@ -12,9 +12,15 @@ export default function EditButton({
   disabled = false, // Valor padrão
 }: EditButtonProps) {
   const sizeClasses = {
-    sm: "w-4 h-4 lg:w-5 lg:h-5",
-    md: "w-6 h-6 lg:w-8 lg:h-8",
-    lg: "w-8 h-8 lg:w-10 lg:h-10",
+    sm: "w-5 h-5 sm:w-5 sm:h-5",
+    md: "w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8",
+    lg: "w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10",
+  };
+
+  const paddingClasses = {
+    sm: "p-2 sm:p-2",
+    md: "p-2.5 sm:p-2 lg:p-2",
+    lg: "p-3 sm:p-2.5 lg:p-3",
   };
 
   return (
@@ -24,7 +30,7 @@ export default function EditButton({
       aria-label={title}
       title={title}
       className={`
-        group p-2 bg-transparent border-none cursor-pointer transition-transform duration-200 ease-in-out
+        group ${paddingClasses[size]} bg-transparent border-none cursor-pointer transition-transform duration-200 ease-in-out
         ${disabled ? "opacity-50 cursor-not-allowed" : ""}
       `}
     >
