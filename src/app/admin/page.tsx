@@ -290,8 +290,6 @@ export default function AdminDashboardPage() {
   const stats = {
     total: agendamentos.length,
     agendados: agendamentos.filter((a) => a.status === "agendado").length,
-    em_andamento: agendamentos.filter((a) => a.status === "em_andamento")
-      .length,
     concluidos: agendamentos.filter((a) => a.status === "finalizado").length,
     cancelados: agendamentos.filter((a) => a.status === "cancelado").length,
   };
@@ -333,10 +331,10 @@ export default function AdminDashboardPage() {
           <ContentManagement onClose={() => setShowContent(false)} />
         ) : (
           <>
-            {/* ✅ ESTATÍSTICAS - LAYOUT 2 LINHAS: 4 + 3 CARDS */}
-            <div className="space-y-4 mb-8">
-              {/* Primeira linha - 4 cards */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+            {/* ✅ ESTATÍSTICAS - LAYOUT RESPONSIVO */}
+            <div className="space-y-3 sm:space-y-4 mb-8">
+              {/* Primeira linha - 3 cards principais */}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4">
                 <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -369,23 +367,7 @@ export default function AdminDashboardPage() {
                   </div>
                 </div>
 
-                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
-                  <div className="flex items-center space-x-2 sm:space-x-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                      <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
-                        Andamento
-                      </p>
-                      <p className="text-lg sm:text-2xl font-bold text-[var(--foreground)]">
-                        {stats.em_andamento}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
+                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)] col-span-2 md:col-span-1">
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-lg flex items-center justify-center">
                       <Users className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
@@ -402,8 +384,8 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
 
-              {/* Segunda linha - 3 cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4">
+              {/* Segunda linha - Cancelados e Receitas */}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4">
                 <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 bg-red-100 rounded-lg flex items-center justify-center">
@@ -436,7 +418,7 @@ export default function AdminDashboardPage() {
                   </div>
                 </div>
 
-                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)]">
+                <div className="bg-[var(--card-bg)] rounded-xl p-3 sm:p-4 shadow-sm border border-[var(--card-border)] col-span-2 md:col-span-1">
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
                       <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
