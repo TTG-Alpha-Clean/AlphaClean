@@ -11,7 +11,7 @@ import DeleteButton from "@/components/ui/deleteButton";
 import { formatDatePtBr, formatHour } from "@/lib/date";
 import { toast } from "react-hot-toast";
 import { CompleteServiceModal } from "@/components/modals/completeServiceModal";
-import { User, Car, Phone, CheckCircle, X } from "lucide-react";
+import { User, Car, Phone, Mail, CheckCircle, X } from "lucide-react";
 
 export type AdminServiceItem = {
   id: string;
@@ -219,20 +219,21 @@ export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
               </div>
 
               {/* Linha 2: Cliente - MOBILE: Vertical, DESKTOP: Horizontal */}
-              <div className="space-y-1 sm:space-y-0 sm:flex sm:items-center sm:gap-2 text-sm text-[#597891]">
+              <div className="space-y-1.5 sm:space-y-0 sm:flex sm:items-center sm:gap-2 text-sm text-[#597891]">
                 {/* Nome do cliente */}
                 <div className="flex items-center gap-2">
-                  <User size={18} className="text-[#597891] flex-shrink-0 sm:w-4 sm:h-4" />
-                  <span className="font-medium text-[#022744]">{item.cliente.nome}</span>
+                  <User size={16} className="text-[#597891] flex-shrink-0" />
+                  <span className="font-medium text-[#022744] text-sm">{item.cliente.nome}</span>
                 </div>
 
-                {/* Email - Mobile: nova linha, Desktop: inline */}
+                {/* Email - Mobile: nova linha com ícone, Desktop: inline */}
                 {item.cliente.email && (
                   <>
                     <span className="hidden sm:inline text-[#8a9ba8]">•</span>
-                    <span className="text-[#597891] text-xs sm:text-sm pl-7 sm:pl-0 block sm:inline">
-                      {item.cliente.email}
-                    </span>
+                    <div className="flex items-center gap-2 sm:gap-1">
+                      <Mail size={16} className="text-[#597891] flex-shrink-0" />
+                      <span className="text-[#597891] text-sm">{item.cliente.email}</span>
+                    </div>
                   </>
                 )}
 
@@ -240,16 +241,16 @@ export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
                 {item.cliente.telefone && (
                   <>
                     <span className="hidden sm:inline text-[#8a9ba8]">•</span>
-                    <div className="flex items-center gap-2 pl-7 sm:pl-0">
-                      <Phone size={16} className="text-[#597891] sm:w-3.5 sm:h-3.5" />
-                      <span className="text-xs sm:text-sm">{item.cliente.telefone}</span>
+                    <div className="flex items-center gap-2 sm:gap-1">
+                      <Phone size={16} className="text-[#597891] flex-shrink-0" />
+                      <span className="text-sm">{item.cliente.telefone}</span>
                     </div>
                   </>
                 )}
               </div>
 
               {/* Linha 3: Data + Hora + Veículo */}
-              <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 text-xs sm:text-sm text-[#597891]">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-sm text-[#597891]">
                 <span className="font-medium">
                   {item.data
                     ? formatDateSafe(item.data)
@@ -258,8 +259,8 @@ export function AdminServiceList({ items, onRefresh }: AdminServiceListProps) {
                 <span className="text-[#8a9ba8]">•</span>
                 <span>{item.horario || formatHourSafe(item.datetime)}</span>
                 <span className="text-[#8a9ba8]">•</span>
-                <div className="flex items-center gap-1">
-                  <Car size={16} className="text-[#597891] sm:w-3.5 sm:h-3.5" />
+                <div className="flex items-center gap-2 sm:gap-1">
+                  <Car size={16} className="text-[#597891] flex-shrink-0" />
                   <span>
                     {item.modelo_veiculo || item.veiculo}
                     {item.placa && ` - ${item.placa}`}
