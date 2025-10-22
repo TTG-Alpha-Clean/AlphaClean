@@ -1,8 +1,8 @@
-// src/app/layout.tsx - LIMPO SEM PWA
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { RegisterSW } from "./register-sw";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,10 +28,19 @@ export const metadata: Metadata = {
   authors: [{ name: "Alpha Clean Team" }],
   creator: "Alpha Clean",
   publisher: "Alpha Clean",
-  // ❌ REMOVER: manifest: "/manifest.json",
+  applicationName: "AlphaClean",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "AlphaClean",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
     icon: "/favicon.ico",
-    // ❌ REMOVER: apple: "/apple-touch-icon.png",
+    apple: "/apple-touch-icon.svg",
   },
   openGraph: {
     type: "website",
@@ -73,12 +82,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#9BD60C" },
-    { media: "(prefers-color-scheme: dark)", color: "#022744" },
-  ],
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#022744",
 };
 
 export default function RootLayout({
@@ -88,18 +94,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={inter.variable}>
-      <head>
-        {/* ❌ REMOVER TODOS OS PWA Meta Tags */}
-        {/* ❌ REMOVER: meta name="application-name" */}
-        {/* ❌ REMOVER: meta name="apple-mobile-web-app-capable" */}
-        {/* ❌ REMOVER: meta name="mobile-web-app-capable" */}
-        {/* ❌ REMOVER: Apple Touch Icons */}
-        {/* ❌ REMOVER: link rel="manifest" */}
-
-        {/* Basic favicon only */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
+        <RegisterSW />
         {children}
 
         {/* Toast Notifications */}
@@ -160,10 +156,6 @@ export default function RootLayout({
             },
           }}
         />
-
-        {/* ❌ REMOVER TODO O SCRIPT PWA */}
-        {/* ❌ REMOVER: Service Worker Registration */}
-        {/* ❌ REMOVER: PWA Install Prompt */}
       </body>
     </html>
   );
