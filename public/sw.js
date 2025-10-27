@@ -1,8 +1,8 @@
 // AlphaClean Service Worker
-// Version: 1.0.0
+// Version: 2.0.0 - Updated icons to PNG
 
-const CACHE_NAME = 'alphaclean-v1';
-const RUNTIME_CACHE = 'alphaclean-runtime';
+const CACHE_NAME = 'alphaclean-v2';
+const RUNTIME_CACHE = 'alphaclean-runtime-v2';
 
 // Assets to cache on install
 const PRECACHE_URLS = [
@@ -11,8 +11,11 @@ const PRECACHE_URLS = [
   '/register',
   '/servicos',
   '/manifest.json',
-  '/icon-192x192.svg',
-  '/icon-512x512.svg',
+  '/icon-blue-192x192.png',
+  '/icon-blue-512x512.png',
+  '/icon-green-apple-touch-icon.png',
+  '/alpha-logo-blue.png',
+  '/alpha-logo-green.png',
 ];
 
 // Install event - cache initial assets
