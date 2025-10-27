@@ -142,14 +142,18 @@ export default function AdminServicesPage() {
       });
 
       if (!res.ok) {
-        throw new Error("Erro ao excluir serviço");
+        // Tenta pegar a mensagem de erro do backend
+        const errorData = await res.json().catch(() => null);
+        const errorMessage = errorData?.error || errorData?.message || "Erro ao excluir serviço";
+        throw new Error(errorMessage);
       }
 
       toast.success("Serviço excluído com sucesso!", { id: toastId });
       fetchServices();
     } catch (error) {
       console.error("Erro ao excluir serviço:", error);
-      toast.error("Erro ao excluir serviço", { id: toastId });
+      const errorMessage = error instanceof Error ? error.message : "Erro ao excluir serviço";
+      toast.error(errorMessage, { id: toastId });
     }
   };
 
