@@ -90,8 +90,14 @@ export function EditAgendamentoForm({
     () => [
       { id: "lavagem_express", nome: "Lavagem Express" },
       { id: "lavagem_completa", nome: "Lavagem Completa" },
+      { id: "lavagem_premium", nome: "Lavagem Premium" },
       { id: "higienizacao_interna", nome: "Higienização Interna" },
+      { id: "polimento", nome: "Polimento" },
       { id: "polimento_cristal", nome: "Polimento Cristalizado" },
+      { id: "polimento_cristalizado", nome: "Polimento Cristalizado" },
+      { id: "enceramento", nome: "Enceramento" },
+      { id: "limpeza_motor", nome: "Limpeza de Motor" },
+      { id: "vitrificacao", nome: "Vitrificação" },
     ],
     []
   );
@@ -313,6 +319,12 @@ export function EditAgendamentoForm({
               <SelectValue placeholder="Selecione um serviço" />
             </SelectTrigger>
             <SelectContent>
+              {/* Se o serviço atual não está na lista, adiciona como primeira opção */}
+              {servico && !servicos.find(s => s.nome === servico) && (
+                <SelectItem key="current" value={servico}>
+                  {servico} (atual)
+                </SelectItem>
+              )}
               {servicos.map((s) => (
                 <SelectItem key={s.id} value={s.nome}>
                   {s.nome}

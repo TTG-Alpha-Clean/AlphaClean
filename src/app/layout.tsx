@@ -39,8 +39,13 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.svg",
+    icon: [
+      { url: "/icon-blue-favicon.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-blue-192x192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icon-green-apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   openGraph: {
     type: "website",
