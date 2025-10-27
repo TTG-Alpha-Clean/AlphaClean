@@ -1,8 +1,8 @@
 // AlphaClean Service Worker
-// Version: 2.0.0 - Updated icons to PNG
+// Version: 3.0.0 - Square logos for app icons
 
-const CACHE_NAME = 'alphaclean-v2';
-const RUNTIME_CACHE = 'alphaclean-runtime-v2';
+const CACHE_NAME = 'alphaclean-v3';
+const RUNTIME_CACHE = 'alphaclean-runtime-v3';
 
 // Assets to cache on install
 const PRECACHE_URLS = [
