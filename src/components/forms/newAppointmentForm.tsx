@@ -35,11 +35,26 @@ interface SlotInfo {
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-const PLACA_REGEX_MERCOSUL = /^[A-Z]{3}\d[A-Z]\d{2}$/;
+const PLACA_REGEX_ANTIGA = /^[A-Z]{3}-?\d{4}$/; // AAA-9999 ou AAA9999
+const PLACA_REGEX_MERCOSUL = /^[A-Z]{3}\d[A-Z]\d{2}$/; // ABC1D23
 
-function normalizePlacaMercosul(v: string): string {
-  const raw = v.toUpperCase().replace(/[^A-Za-z0-9]/g, "");
+// Normaliza placa (aceita formato antigo e Mercosul)
+function normalizePlaca(v: string): string {
+  const raw = v.toUpperCase().replace(/[^A-Z0-9]/g, "");
 
+  // Se tem 7 caracteres e 3 letras no início
+  if (raw.length === 7 && /^[A-Z]{3}/.test(raw)) {
+    // Verifica se é Mercosul (ABC1D23)
+    if (/^[A-Z]{3}\d[A-Z]\d{2}$/.test(raw)) {
+      return raw; // Mercosul válido
+    }
+    // Verifica se é antiga (ABC1234)
+    if (/^[A-Z]{3}\d{4}$/.test(raw)) {
+      return raw; // Antiga sem hífen
+    }
+  }
+
+  // Tenta formatar como Mercosul
   let formatted = "";
   for (let i = 0; i < raw.length && i < 7; i++) {
     if (i < 3) {
@@ -53,8 +68,8 @@ function normalizePlacaMercosul(v: string): string {
         formatted += raw[i];
       }
     } else if (i === 4) {
-      // 5ª posição: letra
-      if (/[A-Z]/.test(raw[i])) {
+      // 5ª posição: letra ou número (aceita ambos para compatibilidade)
+      if (/[A-Z0-9]/.test(raw[i])) {
         formatted += raw[i];
       }
     } else {
@@ -66,6 +81,12 @@ function normalizePlacaMercosul(v: string): string {
   }
 
   return formatted;
+}
+
+// Valida se a placa está em formato correto (antiga ou Mercosul)
+function isPlacaValida(placa: string): boolean {
+  const normalized = placa.toUpperCase().replace(/-/g, "");
+  return PLACA_REGEX_ANTIGA.test(placa) || PLACA_REGEX_MERCOSUL.test(normalized);
 }
 
 function todayISO() {
@@ -215,9 +236,9 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
       return false;
     }
 
-    if (!PLACA_REGEX_MERCOSUL.test(placa)) {
+    if (!isPlacaValida(placa)) {
       toast.error(
-        "Placa inválida. Use o formato Mercosul ABC1D23 (ex.: ABC1E23)."
+        "Placa inválida. Use formato Antiga (AAA-9999) ou Mercosul (ABC1D23)."
       );
       return false;
     }
@@ -357,17 +378,17 @@ export function NewAgendamentoForm({ onClose, onCreated }: Props) {
       {/* Placa + Serviço */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <Label>Placa Mercosul (ABC1D23) *</Label>
+          <Label>Placa (Antiga ou Mercosul) *</Label>
           <Input
-            placeholder="ABC1E23"
+            placeholder="ABC-1234 ou ABC1E23"
             value={placa}
-            onChange={(e) => setPlaca(normalizePlacaMercosul(e.target.value))}
+            onChange={(e) => setPlaca(normalizePlaca(e.target.value))}
             maxLength={7}
             disabled={submitting}
             className="font-mono"
           />
           <p className="text-xs text-[var(--muted-foreground)] mt-1">
-            Formato: 3 letras + 1 número + 1 letra + 2 números
+            Antiga: AAA-9999 | Mercosul: ABC1D23
           </p>
         </div>
 

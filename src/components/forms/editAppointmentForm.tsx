@@ -43,13 +43,32 @@ interface Props {
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-const PLACA_REGEX_DB = /^[A-Z]{3}-\d{4}$/; // AAA-9999 (igual ao CHECK do DB)
+const PLACA_REGEX_ANTIGA = /^[A-Z]{3}-?\d{4}$/; // AAA-9999 ou AAA9999
+const PLACA_REGEX_MERCOSUL = /^[A-Z]{3}\d[A-Z]\d{2}$/; // ABC1D23
 
-function normalizePlacaDB(v: string) {
+// Normaliza placa para formato aceito (remove hífens e converte para maiúsculas)
+function normalizePlaca(v: string): string {
   const raw = v.toUpperCase().replace(/[^A-Z0-9]/g, "");
-  const L = raw.slice(0, 3).replace(/[^A-Z]/g, "");
-  const N = raw.slice(3, 7).replace(/[^0-9]/g, "");
-  return N ? `${L}-${N}` : L;
+
+  // Se tem 7 caracteres, tenta detectar o formato
+  if (raw.length === 7) {
+    // Verifica se é Mercosul (ABC1D23)
+    if (/^[A-Z]{3}\d[A-Z]\d{2}$/.test(raw)) {
+      return raw; // Mercosul
+    }
+    // Verifica se é antiga (ABC1234)
+    if (/^[A-Z]{3}\d{4}$/.test(raw)) {
+      return raw; // Antiga sem hífen
+    }
+  }
+
+  return raw;
+}
+
+// Valida se a placa está em formato correto (antiga ou Mercosul)
+function isPlacaValida(placa: string): boolean {
+  const normalized = placa.toUpperCase().replace(/-/g, "");
+  return PLACA_REGEX_ANTIGA.test(placa) || PLACA_REGEX_MERCOSUL.test(normalized);
 }
 
 function todayISO() {
@@ -176,8 +195,8 @@ export function EditAgendamentoForm({
       return false;
     }
 
-    if (!PLACA_REGEX_DB.test(placa)) {
-      toast.error("Placa inválida. Use o formato AAA-9999 (ex.: ABC-1234).");
+    if (!isPlacaValida(placa)) {
+      toast.error("Placa inválida. Use formato Antiga (AAA-9999) ou Mercosul (ABC1D23).");
       return false;
     }
 
@@ -306,12 +325,12 @@ export function EditAgendamentoForm({
       {/* Placa + Serviço */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <Label>Placa (AAA-9999) *</Label>
+          <Label>Placa (Antiga ou Mercosul) *</Label>
           <Input
-            placeholder="ABC-1234"
+            placeholder="ABC-1234 ou ABC1D23"
             value={placa}
-            onChange={(e) => setPlaca(normalizePlacaDB(e.target.value))}
-            maxLength={8}
+            onChange={(e) => setPlaca(normalizePlaca(e.target.value))}
+            maxLength={7}
             disabled={!canEditCompletely || submitting}
             className={
               !canEditCompletely ? "bg-gray-100 cursor-not-allowed" : ""
