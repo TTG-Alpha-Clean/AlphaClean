@@ -8,6 +8,9 @@ import { toast } from "react-hot-toast";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
+// Regex para validar senha: mínimo 6 caracteres, pelo menos 1 maiúscula e 1 número
+const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+
 function RedefinirSenhaContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -64,6 +67,11 @@ function RedefinirSenhaContent() {
 
     if (newPassword.length < 6) {
       toast.error("A senha deve ter no mínimo 6 caracteres");
+      return;
+    }
+
+    if (!PASSWORD_REGEX.test(newPassword)) {
+      toast.error("Senha deve conter pelo menos 1 letra maiúscula e 1 número");
       return;
     }
 
@@ -229,7 +237,7 @@ function RedefinirSenhaContent() {
                   id="newPassword"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="Mínimo 6 caracteres"
+                  placeholder="Min. 6 caracteres, 1 maiúscula, 1 número"
                   disabled={loading}
                   className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#034a7a] focus:border-transparent outline-none transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                   required
@@ -320,10 +328,14 @@ function RedefinirSenhaContent() {
           </form>
 
           <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-900">
-              <strong>Dica de Segurança:</strong> Use uma senha com pelo menos 8
-              caracteres, incluindo letras maiúsculas, minúsculas e números.
+            <p className="text-sm text-blue-900 mb-2">
+              <strong>Requisitos da Senha:</strong>
             </p>
+            <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+              <li>Mínimo de 6 caracteres</li>
+              <li>Pelo menos 1 letra maiúscula</li>
+              <li>Pelo menos 1 número</li>
+            </ul>
           </div>
         </div>
       </div>

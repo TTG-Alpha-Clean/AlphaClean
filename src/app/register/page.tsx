@@ -77,7 +77,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthLayout>
+    <AuthLayout maxWidth="max-w-2xl">
       {/* Card Header */}
       <div className="px-8 pt-6 pb-4 border-b border-gray-100/50">
         <div className="text-center">
@@ -98,31 +98,34 @@ export default function RegisterPage() {
         <form onSubmit={onSubmit} className="space-y-4">
           {/* Informações pessoais - Compactas */}
           <div className="space-y-3">
-            <div>
-              <Label className="text-xs font-medium text-[#022744] mb-1 block">
-                Nome completo
-              </Label>
-              <Input
-                placeholder="Seu nome completo"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
-                required
-              />
-            </div>
+            {/* Nome e Email lado a lado no desktop, empilhados no mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <Label className="text-xs font-medium text-[#022744] mb-1 block">
+                  Nome completo
+                </Label>
+                <Input
+                  placeholder="Seu nome completo"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
+                  required
+                />
+              </div>
 
-            <div>
-              <Label className="text-xs font-medium text-[#022744] mb-1 block">
-                Email
-              </Label>
-              <Input
-                type="email"
-                placeholder="seu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
-                required
-              />
+              <div>
+                <Label className="text-xs font-medium text-[#022744] mb-1 block">
+                  Email
+                </Label>
+                <Input
+                  type="email"
+                  placeholder="seu@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
+                  required
+                />
+              </div>
             </div>
 
             {/* Senhas em uma linha */}

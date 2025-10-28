@@ -3,8 +3,10 @@ import Link from "next/link";
 
 export default function AuthLayout({
   children,
+  maxWidth = "max-w-lg", // Default 512px, pode ser customizado
 }: {
   children: React.ReactNode;
+  maxWidth?: string;
 }) {
   return (
     <div className="min-h-[100dvh] relative overflow-hidden bg-gradient-to-br from-[#0a1420] via-[#152640] to-[#022744]">
@@ -98,7 +100,7 @@ export default function AuthLayout({
 
         {/* Forms bem próximos do topo */}
         <div className="px-4">
-          <div className="w-full max-w-lg mx-auto">
+          <div className={`w-full ${maxWidth} mx-auto`}>
 
             {/* Card principal com melhor proporção */}
             <div className="relative">
