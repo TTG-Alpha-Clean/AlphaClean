@@ -20,7 +20,8 @@ interface Agendamento {
   modelo_veiculo: string;
   cor: string;
   placa: string;
-  servico: string;
+  servico_id: number;
+  servico_nome?: string;
   data: string;
   horario: string;
   observacoes: string;
@@ -76,31 +77,48 @@ export function EditAgendamentoForm({
   const [modelo_veiculo, setModelo] = useState(agendamento.modelo_veiculo);
   const [cor, setCor] = useState(agendamento.cor || "");
   const [placa, setPlaca] = useState(agendamento.placa);
-  const [servico, setServico] = useState(agendamento.servico);
+  const [servicoId, setServicoId] = useState(String(agendamento.servico_id));
   const [data, setData] = useState(agendamento.data);
   const [horario, setHorario] = useState(agendamento.horario);
   const [observacoes, setObservacoes] = useState(agendamento.observacoes || "");
 
-  // Estados para slots disponíveis
+  // Estados para slots disponíveis e serviços
+  const [servicos, setServicos] = useState<ServicoOption[]>([]);
   const [slots, setSlots] = useState<SlotInfo[]>([]);
+  const [loadingServicos, setLoadingServicos] = useState(false);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const servicos: ServicoOption[] = useMemo(
-    () => [
-      { id: "lavagem_express", nome: "Lavagem Express" },
-      { id: "lavagem_completa", nome: "Lavagem Completa" },
-      { id: "lavagem_premium", nome: "Lavagem Premium" },
-      { id: "higienizacao_interna", nome: "Higienização Interna" },
-      { id: "polimento", nome: "Polimento" },
-      { id: "polimento_cristal", nome: "Polimento Cristalizado" },
-      { id: "polimento_cristalizado", nome: "Polimento Cristalizado" },
-      { id: "enceramento", nome: "Enceramento" },
-      { id: "limpeza_motor", nome: "Limpeza de Motor" },
-      { id: "vitrificacao", nome: "Vitrificação" },
-    ],
-    []
-  );
+  // Carregar serviços disponíveis
+  useEffect(() => {
+    const loadServicos = async () => {
+      setLoadingServicos(true);
+      try {
+        const res = await fetch(`${API_URL}/api/services`);
+        if (!res.ok) throw new Error("Erro ao carregar serviços");
+
+        const data = await res.json();
+
+        // Mapear dados de services para o formato esperado
+        const servicosMapeados: ServicoOption[] = Array.isArray(data.data)
+          ? data.data.map((service: any) => ({
+              id: String(service.id || service.service_id || 0),
+              nome: String(service.title || service.nome || ""),
+            }))
+          : [];
+
+        setServicos(servicosMapeados);
+      } catch (error) {
+        console.error("Erro ao carregar serviços:", error);
+        toast.error("Erro ao carregar serviços disponíveis");
+        setServicos([]);
+      } finally {
+        setLoadingServicos(false);
+      }
+    };
+
+    loadServicos();
+  }, []);
 
   // Função para carregar slots disponíveis
   const loadSlots = async (selectedDate: string) => {
@@ -147,7 +165,7 @@ export function EditAgendamentoForm({
       return false;
     }
 
-    if (!servico.trim()) {
+    if (!servicoId.trim()) {
       toast.error("Serviço é obrigatório.");
       return false;
     }
@@ -193,7 +211,7 @@ export function EditAgendamentoForm({
         modelo_veiculo !== agendamento.modelo_veiculo ||
         cor !== (agendamento.cor || "") ||
         placa !== agendamento.placa ||
-        servico !== agendamento.servico ||
+        servicoId !== String(agendamento.servico_id) ||
         data !== agendamento.data ||
         horario !== agendamento.horario ||
         observacoes !== (agendamento.observacoes || "");
@@ -213,7 +231,7 @@ export function EditAgendamentoForm({
           modelo_veiculo,
           cor: cor || null,
           placa,
-          servico,
+          servico_id: servicoId,
           data,
           horario,
           observacoes: observacoes || null,
@@ -307,8 +325,8 @@ export function EditAgendamentoForm({
         <div>
           <Label>Serviço *</Label>
           <Select
-            value={servico}
-            onValueChange={setServico}
+            value={servicoId}
+            onValueChange={setServicoId}
             disabled={!canEditCompletely || submitting}
           >
             <SelectTrigger
@@ -319,14 +337,8 @@ export function EditAgendamentoForm({
               <SelectValue placeholder="Selecione um serviço" />
             </SelectTrigger>
             <SelectContent>
-              {/* Se o serviço atual não está na lista, adiciona como primeira opção */}
-              {servico && !servicos.find(s => s.nome === servico) && (
-                <SelectItem key="current" value={servico}>
-                  {servico} (atual)
-                </SelectItem>
-              )}
               {servicos.map((s) => (
-                <SelectItem key={s.id} value={s.nome}>
+                <SelectItem key={s.id} value={s.id}>
                   {s.nome}
                 </SelectItem>
               ))}
