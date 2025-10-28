@@ -81,25 +81,39 @@ export default function AuthLayout({
 
       {/* Container principal */}
       <div className="relative z-10 min-h-screen">
-        {/* Header com botão voltar - posição absoluta */}
-        <div className="absolute top-0 left-0 px-4 sm:px-6 py-3 sm:py-4 z-20">
+        {/* Botão voltar animado com hover */}
+        <div className="px-4 sm:px-6 py-3 sm:py-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 sm:gap-3 text-white/80 hover:text-white transition-all duration-300 group hover:scale-105"
+            className="group relative inline-flex items-center gap-0 overflow-hidden rounded-xl transition-all duration-300 hover:gap-3"
           >
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-[#9BD60C]/20 group-hover:to-[#9BD60C]/10 group-hover:border-[#9BD60C]/30 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#9BD60C]/20">
-              <div className="w-full h-full flex items-center justify-center">
-                <span className="text-base sm:text-lg font-bold group-hover:text-[#9BD60C] transition-colors duration-300 group-hover:scale-110 transform leading-none">←</span>
-              </div>
-              <div className="absolute inset-0 rounded-lg sm:rounded-xl bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-300"></div>
+            {/* Seta */}
+            <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm transition-all duration-300 group-hover:border-[#9BD60C]/50 group-hover:bg-[#9BD60C]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-white transition-transform duration-300 group-hover:-translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                />
+              </svg>
             </div>
-            <span className="font-semibold text-sm sm:text-base hidden sm:block group-hover:text-[#9BD60C] transition-colors duration-300">Voltar ao site</span>
-            <span className="font-semibold text-sm sm:hidden group-hover:text-[#9BD60C] transition-colors duration-300">Voltar</span>
+
+            {/* Texto que aparece no hover */}
+            <div className="max-w-0 overflow-hidden whitespace-nowrap rounded-r-xl bg-[#9BD60C] text-sm font-semibold text-[#022744] opacity-0 transition-all duration-300 group-hover:max-w-xs group-hover:px-4 group-hover:py-2.5 group-hover:opacity-100">
+              Voltar ao site
+            </div>
           </Link>
         </div>
 
-        {/* Forms centralizados horizontalmente */}
-        <div className="flex items-center justify-center min-h-screen px-4 py-16">
+        {/* Forms centralizados horizontalmente, alinhados ao topo */}
+        <div className="flex justify-center px-4">
           <div className={`w-full ${maxWidth}`}>
 
             {/* Card principal com melhor proporção */}
@@ -116,7 +130,7 @@ export default function AuthLayout({
         </div>
 
         {/* Footer minimalista */}
-        <div className="absolute bottom-0 left-0 right-0 pb-6 flex justify-center z-20">
+        <div className="mt-8 pb-6 flex justify-center">
           <div className="flex items-center gap-2 text-white/30 text-xs">
             <div className="w-1 h-1 bg-[#9BD60C]/50 rounded-full animate-pulse" />
             <span>Sistema seguro</span>
