@@ -1,7 +1,7 @@
 // src/components/forms/editAgendamentoForm.tsx
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textArea";
@@ -85,14 +85,12 @@ export function EditAgendamentoForm({
   // Estados para slots disponíveis e serviços
   const [servicos, setServicos] = useState<ServicoOption[]>([]);
   const [slots, setSlots] = useState<SlotInfo[]>([]);
-  const [loadingServicos, setLoadingServicos] = useState(false);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   // Carregar serviços disponíveis
   useEffect(() => {
     const loadServicos = async () => {
-      setLoadingServicos(true);
       try {
         const res = await fetch(`${API_URL}/api/services`);
         if (!res.ok) throw new Error("Erro ao carregar serviços");
@@ -101,7 +99,7 @@ export function EditAgendamentoForm({
 
         // Mapear dados de services para o formato esperado
         const servicosMapeados: ServicoOption[] = Array.isArray(data.data)
-          ? data.data.map((service: any) => ({
+          ? data.data.map((service: Record<string, unknown>) => ({
               id: String(service.id || service.service_id || 0),
               nome: String(service.title || service.nome || ""),
             }))
@@ -112,8 +110,6 @@ export function EditAgendamentoForm({
         console.error("Erro ao carregar serviços:", error);
         toast.error("Erro ao carregar serviços disponíveis");
         setServicos([]);
-      } finally {
-        setLoadingServicos(false);
       }
     };
 
