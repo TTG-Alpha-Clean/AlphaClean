@@ -8,9 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "../../components/ui/toggle";
 import Link from "next/link";
-import { User } from "lucide-react";
+import { User, Eye, EyeOff } from "lucide-react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
+
+// Regex para validar senha: mínimo 6 caracteres, pelo menos 1 maiúscula e 1 número
+const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -26,12 +29,24 @@ export default function RegisterPage() {
   const [whats, setWhats] = useState(false);
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (senha.length < 6)
+
+    // Validação de senha com regex
+    if (senha.length < 6) {
       return toast.error("Senha deve ter pelo menos 6 caracteres.");
-    if (senha !== confirm) return toast.error("As senhas não coincidem.");
+    }
+
+    if (!PASSWORD_REGEX.test(senha)) {
+      return toast.error("Senha deve conter pelo menos 1 letra maiúscula e 1 número.");
+    }
+
+    if (senha !== confirm) {
+      return toast.error("As senhas não coincidem.");
+    }
 
     const tid = toast.loading("Cadastrando...");
     setLoading(true);
@@ -66,11 +81,6 @@ export default function RegisterPage() {
       {/* Card Header */}
       <div className="px-8 pt-6 pb-4 border-b border-gray-100/50">
         <div className="text-center">
-          <div className="mb-4">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9BD60C]/10 to-[#9BD60C]/5 border border-[#9BD60C]/20">
-              <User className="w-8 h-8 text-[#9BD60C]" />
-            </div>
-          </div>
           <div className="text-2xl font-bold text-[#022744] mb-3">
             Alpha Clean
           </div>
@@ -121,29 +131,60 @@ export default function RegisterPage() {
                 <Label className="text-xs font-medium text-[#022744] mb-1 block">
                   Senha
                 </Label>
-                <Input
-                  type="password"
-                  placeholder="Min. 6 caracteres"
-                  value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
-                  className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
-                  required
-                  minLength={6}
-                />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Min. 6 caracteres"
+                    value={senha}
+                    onChange={(e) => setSenha(e.target.value)}
+                    className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200 pr-10"
+                    required
+                    minLength={6}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#022744]/40 hover:text-[#022744]/70 transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? (
+                      <EyeOff size={16} />
+                    ) : (
+                      <Eye size={16} />
+                    )}
+                  </button>
+                </div>
+                <p className="text-[10px] text-[#022744]/50 mt-1">
+                  1 maiúscula e 1 número
+                </p>
               </div>
               <div>
                 <Label className="text-xs font-medium text-[#022744] mb-1 block">
                   Confirmar
                 </Label>
-                <Input
-                  type="password"
-                  placeholder="Repita a senha"
-                  value={confirm}
-                  onChange={(e) => setConfirm(e.target.value)}
-                  className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
-                  required
-                  minLength={6}
-                />
+                <div className="relative">
+                  <Input
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Repita a senha"
+                    value={confirm}
+                    onChange={(e) => setConfirm(e.target.value)}
+                    className="h-10 border-[#022744]/15 rounded-lg focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200 pr-10"
+                    required
+                    minLength={6}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#022744]/40 hover:text-[#022744]/70 transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff size={16} />
+                    ) : (
+                      <Eye size={16} />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
