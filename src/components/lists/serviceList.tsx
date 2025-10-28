@@ -16,6 +16,7 @@ export type ServiceItem = {
   id: string;
   datetime: string | Date; // ISO
   servico: string;
+  servico_id?: number;
   veiculo: string;
   modelo_veiculo?: string;
   cor?: string;
@@ -32,7 +33,8 @@ type AgendamentoEdit = {
   modelo_veiculo: string;
   cor: string;
   placa: string;
-  servico: string;
+  servico_id: number;
+  servico_nome?: string;
   data: string;
   horario: string;
   observacoes: string;
@@ -193,7 +195,8 @@ export function ServiceList({ items, onRefresh }: ServiceListProps) {
       modelo_veiculo: item.modelo_veiculo || item.veiculo || "",
       cor: item.cor || "",
       placa: item.placa || "",
-      servico: item.servico || "",
+      servico_id: item.servico_id || 0,
+      servico_nome: item.servico || "",
       data: dataFormatada,
       horario: horarioFormatado,
       observacoes: item.observacoes || "",

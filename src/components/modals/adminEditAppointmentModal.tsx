@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import * as Dialog from "@radix-ui/react-dialog";
-import { X, User, Car, Calendar, Clock } from "lucide-react";
+import { X, User, Car, Calendar } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { StatusBadgeProps } from "@/components/ui/statusBadge";
@@ -83,7 +83,7 @@ export function AdminEditAgendamentoModal({
     try {
       const res = await fetch(`${API_URL}/api/agendamentos/${agendamento.id}`, {
         method: "PUT",
-        
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -109,7 +109,7 @@ export function AdminEditAgendamentoModal({
           `${API_URL}/api/agendamentos/${agendamento.id}/status`,
           {
             method: "PATCH",
-            
+
             headers: {
               "Content-Type": "application/json",
             },

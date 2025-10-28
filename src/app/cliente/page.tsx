@@ -27,7 +27,8 @@ interface ApiAppointmentItem {
   id: string;
   data: string;
   horario: string;
-  servico: string;
+  servico_id: number;
+  servico_nome?: string;
   modelo_veiculo: string;
   cor: string;
   placa: string;
@@ -136,7 +137,8 @@ export default function ClienteDashboardPage() {
             return {
               id: item.id,
               datetime: `${dataLimpa}T${item.horario || "09:00"}`, // ✅ Usa data limpa
-              servico: item.servico,
+              servico: item.servico_nome || "Serviço não informado",
+              servico_id: item.servico_id,
               veiculo: item.modelo_veiculo,
               modelo_veiculo: item.modelo_veiculo,
               cor: item.cor,

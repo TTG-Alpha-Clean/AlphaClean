@@ -10,7 +10,8 @@ interface Agendamento {
   modelo_veiculo: string;
   cor: string;
   placa: string;
-  servico: string;
+  servico_id: number;
+  servico_nome?: string;
   data: string;
   horario: string;
   observacoes: string;

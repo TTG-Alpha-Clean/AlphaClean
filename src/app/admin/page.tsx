@@ -3,14 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Users,
-  Calendar,
-  TrendingUp,
-  DollarSign,
-  Clock,
-  List,
-} from "lucide-react";
+import { Users, Calendar, DollarSign, Clock, List } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken } from "@/utils/api";
 
@@ -33,7 +26,7 @@ interface User {
 }
 
 interface Servico {
-  id: string;
+  id: number;
   nome: string;
   title?: string;
   valor: number;
@@ -132,9 +125,9 @@ export default function AdminDashboardPage() {
           // Mapear dados de services para o formato esperado
           const servicosMapeados = (data.data || []).map(
             (service: Record<string, unknown>) => ({
-              id: service.id || service.service_id,
-              nome: service.title || service.nome,
-              title: service.title,
+              id: Number(service.id || service.service_id || 0),
+              nome: String(service.title || service.nome || ""),
+              title: String(service.title || ""),
               valor: Number(service.price || service.valor || 0),
               price: service.price || service.valor,
               ativo: true, // services são sempre ativos
@@ -189,7 +182,7 @@ export default function AdminDashboardPage() {
           id: string;
           data: string;
           horario: string;
-          servico: string;
+          servico_id: number;
           servico_nome?: string;
           servico_valor?: number;
           modelo_veiculo: string;
@@ -215,12 +208,11 @@ export default function AdminDashboardPage() {
               dataLimpa = item.data.split("T")[0];
             }
 
-            // Busca o valor do serviço na lista de serviços
+            // Busca o valor do serviço na lista de serviços (s.id agora é number)
             const servicoInfo = servicos.find(
               (s) =>
-                s.nome === item.servico ||
+                s.id === item.servico_id ||
                 s.nome === item.servico_nome ||
-                s.title === item.servico ||
                 s.title === item.servico_nome
             );
             // Usa o valor do backend se disponível, senão busca na lista de serviços, senão usa valor padrão
@@ -233,7 +225,7 @@ export default function AdminDashboardPage() {
             return {
               id: item.id,
               datetime: `${dataLimpa}T${item.horario || "09:00"}`,
-              servico: item.servico_nome || item.servico, // Nome do serviço
+              servico: item.servico_nome || servicoInfo?.title || servicoInfo?.nome || "Serviço não informado", // Nome do serviço
               veiculo: item.modelo_veiculo,
               modelo_veiculo: item.modelo_veiculo,
               cor: item.cor,

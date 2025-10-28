@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Save, Loader2, User } from "lucide-react";
+import { Lock, Loader2, User } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken } from "@/utils/api";
 import AdminHeader from "@/components/navigation/adminHeader";

@@ -10,7 +10,6 @@ import {
   Search,
   Calendar,
   Package,
-  ArrowLeft
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import AdminHeader from "@/components/navigation/adminHeader";
@@ -127,12 +126,13 @@ export default function ClientsPage() {
       <AdminHeader
         currentPage="clientes"
         title="Clientes Cadastrados"
-        subtitle={`Total: ${filteredClients.length} ${filteredClients.length === 1 ? "cliente" : "clientes"}`}
+        subtitle={`Total: ${filteredClients.length} ${
+          filteredClients.length === 1 ? "cliente" : "clientes"
+        }`}
       />
 
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-
           {/* Search Bar */}
           <div className="mt-6">
             <div className="relative">
@@ -156,7 +156,9 @@ export default function ClientsPage() {
               Nenhum cliente encontrado
             </h3>
             <p className="text-gray-500">
-              {searchTerm ? "Tente buscar com outros termos" : "Ainda não há clientes cadastrados"}
+              {searchTerm
+                ? "Tente buscar com outros termos"
+                : "Ainda não há clientes cadastrados"}
             </p>
           </div>
         ) : (
@@ -193,7 +195,9 @@ export default function ClientsPage() {
                         <Package className="w-4 h-4 mr-2 text-gray-400 flex-shrink-0" />
                         <span>
                           {client.totalAppointments}{" "}
-                          {client.totalAppointments === 1 ? "agendamento" : "agendamentos"}
+                          {client.totalAppointments === 1
+                            ? "agendamento"
+                            : "agendamentos"}
                         </span>
                       </div>
                     )}
@@ -208,7 +212,9 @@ export default function ClientsPage() {
                   </h4>
 
                   {client.cars.length === 0 ? (
-                    <p className="text-sm text-gray-500 italic">Nenhum veículo cadastrado</p>
+                    <p className="text-sm text-gray-500 italic">
+                      Nenhum veículo cadastrado
+                    </p>
                   ) : (
                     <div className="space-y-2">
                       {client.cars.map((car) => (

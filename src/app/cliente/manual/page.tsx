@@ -15,7 +15,6 @@ import {
   ChevronDown,
   ChevronUp,
   Smartphone,
-  CreditCard,
   Bell,
   HelpCircle,
 } from "lucide-react";

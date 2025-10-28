@@ -2,14 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  LogOut,
-  ArrowLeft,
-  TrendingUp,
-  Users,
-  DollarSign,
-  Calendar,
-} from "lucide-react";
+import { TrendingUp, Users, DollarSign, Calendar } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken, apiGet } from "@/utils/api";
 import { CarLogo } from "@/components/ui/carLogo";
@@ -88,19 +81,6 @@ const MONTHS = [
   "Out",
   "Nov",
   "Dez",
-];
-
-const COLORS = [
-  "#3b82f6",
-  "#10b981",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
-  "#ec4899",
-  "#14b8a6",
-  "#f97316",
-  "#06b6d4",
-  "#84cc16",
 ];
 
 export default function RelatoriosPage() {
