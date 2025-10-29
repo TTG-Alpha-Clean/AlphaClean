@@ -80,58 +80,54 @@ export default function AuthLayout({
       />
 
       {/* Container principal */}
-      <div className="relative z-10 min-h-screen">
-        {/* Layout com botão e form alinhados no topo */}
-        <div className="px-4 sm:px-6 py-3 sm:py-4">
-          <div className="flex items-start gap-4 lg:gap-8">
-            {/* Botão voltar animado estilo uiverse */}
-            <Link
-              href="/"
-              className="group relative flex h-14 w-48 items-center justify-center rounded-2xl bg-white/95 backdrop-blur-sm text-center text-xl font-semibold text-[#022744] transition-all hover:shadow-xl shrink-0"
-            >
-              {/* Fundo verde que expande */}
-              <div className="absolute left-1 top-[4px] z-10 flex h-12 w-12 items-center justify-center rounded-xl bg-[#9BD60C] transition-all duration-500 group-hover:w-[184px]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 1024 1024"
-                  height="25px"
-                  width="25px"
-                  className="shrink-0"
-                >
-                  <path
-                    d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
-                    fill="#000000"
-                  ></path>
-                  <path
-                    d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
-                    fill="#000000"
-                  ></path>
-                </svg>
-              </div>
-              <p className="translate-x-2">Voltar</p>
-            </Link>
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Botão voltar - posicionado absolutamente no desktop, relativo no mobile */}
+        <div className="relative sm:absolute left-0 sm:left-6 top-0 sm:top-4 z-20 px-4 sm:px-0 pt-3 sm:pt-0">
+          <Link
+            href="/"
+            className="group relative flex h-14 w-48 items-center justify-center rounded-2xl bg-white/95 backdrop-blur-sm text-center text-xl font-semibold text-[#022744] transition-all hover:shadow-xl shrink-0"
+          >
+            {/* Fundo verde que expande */}
+            <div className="absolute left-1 top-[4px] z-10 flex h-12 w-12 items-center justify-center rounded-xl bg-[#9BD60C] transition-all duration-500 group-hover:w-[184px]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1024 1024"
+                height="25px"
+                width="25px"
+                className="shrink-0"
+              >
+                <path
+                  d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                  fill="#000000"
+                ></path>
+                <path
+                  d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                  fill="#000000"
+                ></path>
+              </svg>
+            </div>
+            <p className="translate-x-2">Voltar</p>
+          </Link>
+        </div>
 
-            {/* Forms centralizados horizontalmente, alinhados ao topo do botão */}
-            <div className="flex-1 flex justify-center">
-              <div className={`w-full ${maxWidth}`}>
+        {/* Forms centralizados horizontalmente e verticalmente */}
+        <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-6">
+          <div className={`w-full ${maxWidth}`}>
+            {/* Card principal com melhor proporção */}
+            <div className="relative">
+              {/* Glow effect mais sutil */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#9BD60C]/15 to-[#c4ff57]/15 rounded-3xl blur-xl opacity-60" />
 
-                {/* Card principal com melhor proporção */}
-                <div className="relative">
-                  {/* Glow effect mais sutil */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#9BD60C]/15 to-[#c4ff57]/15 rounded-3xl blur-xl opacity-60" />
-
-                  {/* Card principal */}
-                  <div className="relative rounded-3xl bg-white/98 backdrop-blur-xl shadow-2xl border border-white/30 overflow-hidden">
-                    {children}
-                  </div>
-                </div>
+              {/* Card principal */}
+              <div className="relative rounded-3xl bg-white/98 backdrop-blur-xl shadow-2xl border border-white/30 overflow-hidden">
+                {children}
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer minimalista */}
-        <div className="mt-8 pb-6 flex justify-center">
+        <div className="pb-4 flex justify-center">
           <div className="flex items-center gap-2 text-white/30 text-xs">
             <div className="w-1 h-1 bg-[#9BD60C]/50 rounded-full animate-pulse" />
             <span>Sistema seguro</span>

@@ -81,27 +81,27 @@ function LoginForm() {
   return (
     <AuthLayout>
       {/* Card Header com melhor visual */}
-      <div className="px-8 pt-8 pb-6 border-b border-gray-100/50">
+      <div className="px-4 sm:px-8 pt-6 sm:pt-8 pb-4 sm:pb-6 border-b border-gray-100/50">
         <div className="text-center">
-          <div className="mb-4"></div>
-          <div className="text-2xl font-bold text-[#022744] mb-3">
+          <div className="mb-3 sm:mb-4"></div>
+          <div className="text-xl sm:text-2xl font-bold text-[#022744] mb-2 sm:mb-3">
             Alpha Clean
           </div>
-          <h1 className="text-xl font-semibold text-[#022744] mb-2">
+          <h1 className="text-lg sm:text-xl font-semibold text-[#022744] mb-1 sm:mb-2">
             Bem-vindo de volta
           </h1>
-          <p className="text-[#022744]/60 text-sm">
+          <p className="text-[#022744]/60 text-xs sm:text-sm">
             Entre em sua conta para acessar seus agendamentos
           </p>
         </div>
       </div>
 
       {/* Form Section */}
-      <div className="px-8 py-6">
-        <form onSubmit={onSubmit} className="space-y-5">
-          <div className="space-y-4">
+      <div className="px-4 sm:px-8 py-4 sm:py-6">
+        <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
+          <div className="space-y-3 sm:space-y-4">
             <div>
-              <Label className="text-sm font-medium text-[#022744] mb-2 block">
+              <Label className="text-xs sm:text-sm font-medium text-[#022744] mb-1.5 sm:mb-2 block">
                 Email
               </Label>
               <Input
@@ -109,19 +109,19 @@ function LoginForm() {
                 placeholder="seu@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-12 border-[#022744]/15 rounded-xl focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200"
+                className="h-11 sm:h-12 border-[#022744]/15 rounded-xl focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] transition-all duration-200 text-sm sm:text-base"
                 required
               />
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <Label className="text-sm font-medium text-[#022744]">
+              <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                <Label className="text-xs sm:text-sm font-medium text-[#022744]">
                   Senha
                 </Label>
                 <Link
                   href="/esqueci-senha"
-                  className="text-xs text-[#9BD60C] hover:text-[#8BC34A] font-medium transition-colors"
+                  className="text-[10px] sm:text-xs text-[#9BD60C] hover:text-[#8BC34A] font-medium transition-colors"
                 >
                   Esqueci minha senha
                 </Link>
@@ -132,33 +132,33 @@ function LoginForm() {
                   placeholder="Digite sua senha"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
-                  className="h-12 border-[#022744]/15 rounded-xl focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] pr-12 transition-all duration-200"
+                  className="h-11 sm:h-12 border-[#022744]/15 rounded-xl focus:ring-2 focus:ring-[#9BD60C] focus:border-[#9BD60C] pr-10 sm:pr-12 transition-all duration-200 text-sm sm:text-base"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#022744]/50 hover:text-[#022744] transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center text-[#022744]/50 hover:text-[#022744] transition-colors"
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
+                    <EyeOff className="h-4 w-4 sm:h-5 sm:w-5" />
                   ) : (
-                    <Eye className="h-5 w-5" />
+                    <Eye className="h-4 w-4 sm:h-5 sm:w-5" />
                   )}
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="pt-2">
+          <div className="pt-1 sm:pt-2">
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#022744] to-[#033a5c] text-white font-semibold hover:shadow-lg hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100 transition-all duration-200 shadow-md"
+              className="w-full h-11 sm:h-12 rounded-xl bg-gradient-to-r from-[#022744] to-[#033a5c] text-white text-sm sm:text-base font-semibold hover:shadow-lg hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100 transition-all duration-200 shadow-md"
             >
               {loading ? (
                 <div className="flex items-center justify-center space-x-2">
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   <span>Entrando...</span>
                 </div>
               ) : (
@@ -170,14 +170,14 @@ function LoginForm() {
       </div>
 
       {/* Footer Section */}
-      <div className="px-8 pb-8 pt-4 border-t border-gray-100/50">
+      <div className="px-4 sm:px-8 pb-6 sm:pb-8 pt-3 sm:pt-4 border-t border-gray-100/50">
         <div className="text-center">
-          <p className="text-[#022744]/60 text-sm mb-3">
+          <p className="text-[#022744]/60 text-xs sm:text-sm mb-2 sm:mb-3">
             Ainda não tem uma conta?
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center justify-center w-full h-11 rounded-xl border-2 border-[#9BD60C]/20 text-[#9BD60C] font-semibold hover:bg-[#9BD60C]/5 hover:border-[#9BD60C]/40 transition-all duration-200"
+            className="inline-flex items-center justify-center w-full h-10 sm:h-11 rounded-xl border-2 border-[#9BD60C]/20 text-[#9BD60C] text-sm sm:text-base font-semibold hover:bg-[#9BD60C]/5 hover:border-[#9BD60C]/40 transition-all duration-200"
           >
             Criar nova conta
           </Link>
