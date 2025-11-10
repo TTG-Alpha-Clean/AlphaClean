@@ -292,28 +292,28 @@ Este projeto é privado e proprietário da Alpha Clean.
     <td align="center">
       <a href="https://github.com/Leofrancaa">
         <img src="https://github.com/Leofrancaa.png" width="100px;" alt="Leonardo França"/><br />
-        <sub><b>Leonardo França</b></sub>
+        <sub><b>Leonardo Franca</b></sub>
       </a><br />
       <a href="https://github.com/Leofrancaa" title="GitHub">💻</a>
     </td>
     <td align="center">
       <a href="https://github.com/guissx">
         <img src="https://github.com/guissx.png" width="100px;" alt="Guilherme"/><br />
-        <sub><b>Guilherme</b></sub>
+        <sub><b>Gustavo Cabral</b></sub>
       </a><br />
       <a href="https://github.com/guissx" title="GitHub">💻</a>
     </td>
     <td align="center">
       <a href="https://github.com/GustavoCunh4">
         <img src="https://github.com/GustavoCunh4.png" width="100px;" alt="Gustavo Cunha"/><br />
-        <sub><b>Gustavo Cunha</b></sub>
+        <sub><b>Luiz Gustavo Cunha</b></sub>
       </a><br />
       <a href="https://github.com/GustavoCunh4" title="GitHub">💻</a>
     </td>
     <td align="center">
       <a href="https://github.com/GustavoD15">
         <img src="https://github.com/GustavoD15.png" width="100px;" alt="Gustavo Dias"/><br />
-        <sub><b>Gustavo Dias</b></sub>
+        <sub><b>Gustavo Diniz</b></sub>
       </a><br />
       <a href="https://github.com/GustavoD15" title="GitHub">💻</a>
     </td>
