@@ -285,12 +285,60 @@ O Service Worker (`public/sw.js`) gerencia:
 
 Este projeto é privado e proprietário da Alpha Clean.
 
+## Desenvolvedores
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Leofrancaa">
+        <img src="https://github.com/Leofrancaa.png" width="100px;" alt="Leonardo França"/><br />
+        <sub><b>Leonardo França</b></sub>
+      </a><br />
+      <a href="https://github.com/Leofrancaa" title="GitHub">💻</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/guissx">
+        <img src="https://github.com/guissx.png" width="100px;" alt="Guilherme"/><br />
+        <sub><b>Guilherme</b></sub>
+      </a><br />
+      <a href="https://github.com/guissx" title="GitHub">💻</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/GustavoCunh4">
+        <img src="https://github.com/GustavoCunh4.png" width="100px;" alt="Gustavo Cunha"/><br />
+        <sub><b>Gustavo Cunha</b></sub>
+      </a><br />
+      <a href="https://github.com/GustavoCunh4" title="GitHub">💻</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/GustavoD15">
+        <img src="https://github.com/GustavoD15.png" width="100px;" alt="Gustavo Dias"/><br />
+        <sub><b>Gustavo Dias</b></sub>
+      </a><br />
+      <a href="https://github.com/GustavoD15" title="GitHub">💻</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/marialuizaqueiroz">
+        <img src="https://github.com/marialuizaqueiroz.png" width="100px;" alt="Maria Luiza Queiroz"/><br />
+        <sub><b>Maria Luiza Queiroz</b></sub>
+      </a><br />
+      <a href="https://github.com/marialuizaqueiroz" title="GitHub">💻</a>
+    </td>
+  </tr>
+</table>
+
 ## Contato
 
-Alpha Clean Team - [@alphaclean](https://github.com/TTG-Alpha-Clean)
+**Alpha Clean Team** - [@TTG-Alpha-Clean](https://github.com/TTG-Alpha-Clean)
 
-Link do Projeto: [https://github.com/TTG-Alpha-Clean/AlphaClean](https://github.com/TTG-Alpha-Clean/AlphaClean)
+**Link do Projeto:** [AlphaClean](https://github.com/TTG-Alpha-Clean/AlphaClean)
 
 ---
 
-Desenvolvido com pela equipe Alpha Clean
+<div align="center">
+
+**Desenvolvido com 💙 por:**
+
+[Leonardo Franca](https://github.com/Leofrancaa) • [Gustavo Cabral](https://github.com/guissx) • [Luiz Gustavo Cunha](https://github.com/GustavoCunh4) • [Gustavo Diniz](https://github.com/GustavoD15) • [Maria Luiza Queiroz](https://github.com/marialuizaqueiroz)
+
+</div>
