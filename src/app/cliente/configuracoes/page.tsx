@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Phone, Save, Loader2, LogOut, Calendar } from "lucide-react";
+import {
+  Lock,
+  Phone,
+  Save,
+  Loader2,
+  LogOut,
+  Calendar,
+  Home,
+} from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getToken, removeToken } from "@/utils/api";
 import { CarLogo } from "@/components/ui/carLogo";
@@ -210,8 +218,8 @@ export default function ClienteConfiguracoesPage() {
               aria-label="Voltar ao Dashboard"
               onClick={() => router.push("/cliente")}
             >
-              <Calendar className="h-4 w-4" />
-              <span className="hidden sm:inline">Dashboard</span>
+              <Home className="h-4 w-4" />
+              <span className="hidden sm:inline">Home</span>
             </button>
             <button
               className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
@@ -221,7 +229,7 @@ export default function ClienteConfiguracoesPage() {
                 try {
                   const token = getToken();
                   const headers: HeadersInit = {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                   };
                   if (token) {
                     headers.Authorization = `Bearer ${token}`;
@@ -232,11 +240,14 @@ export default function ClienteConfiguracoesPage() {
                     headers,
                   });
 
-                  toast.success("Logout realizado com sucesso!", { id: toastId });
+                  toast.success("Logout realizado com sucesso!", {
+                    id: toastId,
+                  });
                 } catch {
                   toast.dismiss(toastId);
                 } finally {
-                  document.cookie = "has_session=; Max-Age=0; Path=/; SameSite=Lax";
+                  document.cookie =
+                    "has_session=; Max-Age=0; Path=/; SameSite=Lax";
                   document.cookie = "role=; Max-Age=0; Path=/; SameSite=Lax";
                   removeToken();
                   router.push("/login");
@@ -278,6 +289,14 @@ export default function ClienteConfiguracoesPage() {
                   Email
                 </label>
                 <p className="text-[var(--foreground)]">{user.email}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-[var(--muted-foreground)]">
+                  Telefone Atual
+                </label>
+                <p className="text-[var(--foreground)]">
+                  {user.telefone || "Não informado"}
+                </p>
               </div>
             </div>
           </div>
