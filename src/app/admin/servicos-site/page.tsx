@@ -11,6 +11,7 @@ import { ServiceFormModal } from "@/components/modals/serviceFormModal";
 import AdminHeader from "@/components/navigation/adminHeader";
 import EditButton from "@/components/ui/editButton";
 import DeleteButton from "@/components/ui/deleteButton";
+import ConfirmDialog from "@/components/ui/confirmDialog";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 const SERVICES_API_URL = process.env.NEXT_PUBLIC_SERVICES_API_URL || 'http://localhost:3002';
@@ -48,6 +49,8 @@ export default function AdminServicesPage() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [serviceToDelete, setServiceToDelete] = useState<number | null>(null);
 
   // Verificação de autenticação
   useEffect(() => {
@@ -310,9 +313,8 @@ export default function AdminServicesPage() {
                       />
                       <DeleteButton
                         onClick={() => {
-                          if (window.confirm("Tem certeza que deseja excluir este serviço?")) {
-                            handleDelete(service.service_id);
-                          }
+                          setServiceToDelete(service.service_id);
+                          setShowDeleteDialog(true);
                         }}
                       />
                     </div>
@@ -388,6 +390,25 @@ export default function AdminServicesPage() {
           }}
         />
       )}
+
+      {/* Dialog de Confirmação de Exclusão */}
+      <ConfirmDialog
+        open={showDeleteDialog}
+        title="Excluir Serviço"
+        description="Tem certeza que deseja excluir este serviço? Esta ação não poderá ser desfeita."
+        onCancel={() => {
+          setShowDeleteDialog(false);
+          setServiceToDelete(null);
+        }}
+        onConfirm={() => {
+          if (serviceToDelete !== null) {
+            handleDelete(serviceToDelete);
+          }
+          setShowDeleteDialog(false);
+          setServiceToDelete(null);
+        }}
+        onOpenChange={setShowDeleteDialog}
+      />
     </main>
   );
 }
