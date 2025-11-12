@@ -17,8 +17,24 @@ import {
   Smartphone,
   Bell,
   HelpCircle,
+  LogOut,
+  Settings,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getToken, removeToken } from "@/utils/api";
+import { CarLogo } from "@/components/ui/carLogo";
+import { toast } from "react-hot-toast";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL!;
+
+interface User {
+  id: string;
+  nome: string;
+  email: string;
+  role: string;
+  active: boolean;
+}
 
 interface SectionProps {
   title: string;
@@ -59,8 +75,137 @@ function Section({ title, icon, children, defaultOpen = false }: SectionProps) {
 }
 
 export default function ManualCliente() {
+  const router = useRouter();
+  const [checking, setChecking] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+
+  // Verificação de autenticação
+  useEffect(() => {
+    let cancel = false;
+
+    const checkAuth = async () => {
+      try {
+        const token = getToken();
+        if (!token) {
+          throw new Error("No token found");
+        }
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) throw new Error("unauthorized");
+
+        const userData = await res.json();
+        if (!cancel) {
+          setUser(userData.user);
+          setChecking(false);
+        }
+      } catch {
+        if (!cancel) {
+          removeToken();
+          router.replace("/login?next=/cliente");
+        }
+      }
+    };
+
+    checkAuth();
+    return () => {
+      cancel = true;
+    };
+  }, [router]);
+
+  // Logout
+  const handleLogout = async () => {
+    const toastId = toast.loading("Fazendo logout...");
+
+    try {
+      const token = getToken();
+      const headers: HeadersInit = {
+        "Content-Type": "application/json"
+      };
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      await fetch(`${API_URL}/auth/logout`, {
+        method: "POST",
+        headers,
+      });
+
+      toast.success("Logout realizado com sucesso!", { id: toastId });
+    } catch {
+      toast.dismiss(toastId);
+    } finally {
+      document.cookie = "has_session=; Max-Age=0; Path=/; SameSite=Lax";
+      document.cookie = "role=; Max-Age=0; Path=/; SameSite=Lax";
+      router.replace("/login");
+    }
+  };
+
+  // Loading de autenticação
+  if (checking) {
+    return (
+      <main className="min-h-screen grid place-items-center bg-[var(--background)] text-[var(--foreground)]">
+        <div className="rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] px-6 py-4 text-sm">
+          Verificando sessão…
+        </div>
+      </main>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="sticky top-0 z-10 h-16 border-b border-[var(--card-border)] bg-[color:var(--card-bg)]/90 backdrop-blur">
+        <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <CarLogo />
+            <div className="leading-tight">
+              <p className="font-semibold">Alpha Clean</p>
+              <p className="text-sm text-[color:var(--muted-foreground)]">
+                Área do Cliente
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="hidden text-right sm:block">
+              <p className="text-sm font-medium">{user?.nome || "Cliente"}</p>
+              <p className="text-xs text-[color:var(--muted-foreground)]">
+                {user?.email || "cliente@exemplo.com"}
+              </p>
+            </div>
+            <button
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
+              aria-label="Manual"
+              onClick={() => router.push("/cliente/manual")}
+            >
+              <BookOpen className="h-4 w-4" />
+              <span className="hidden sm:inline">Manual</span>
+            </button>
+            <button
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
+              aria-label="Configurações"
+              onClick={() => router.push("/cliente/configuracoes")}
+            >
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Configurações</span>
+            </button>
+            <button
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
+              aria-label="Sair"
+              onClick={handleLogout}
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline">Sair</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
       <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg p-6 sm:p-8 mb-6 text-white">
@@ -852,6 +997,7 @@ export default function ManualCliente() {
           <p>AlphaClean © 2024 - Manual do Cliente v1.0</p>
           <p className="mt-1">Última atualização: Outubro 2024</p>
         </div>
+      </div>
       </div>
     </div>
   );

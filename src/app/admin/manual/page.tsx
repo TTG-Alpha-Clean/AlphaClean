@@ -13,7 +13,17 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import AdminHeader from "@/components/navigation/adminHeader";
+import { getToken, removeToken } from "@/utils/api";
+
+interface User {
+  id: string;
+  nome: string;
+  email: string;
+  role: string;
+}
 
 interface SectionProps {
   title: string;
@@ -54,8 +64,84 @@ function Section({ title, icon, children, defaultOpen = false }: SectionProps) {
 }
 
 export default function ManualAdmin() {
+  const router = useRouter();
+  const [checking, setChecking] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+
+  // Verificação de autenticação
+  useEffect(() => {
+    let cancel = false;
+
+    const checkAuth = async () => {
+      try {
+        const token = getToken();
+        if (!token) {
+          throw new Error("No token found");
+        }
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error("unauthorized");
+        }
+
+        const userData = await res.json();
+
+        if (!userData.user?.role || userData.user.role !== "admin") {
+          if (!cancel) {
+            router.replace("/cliente");
+          }
+          return;
+        }
+
+        if (!cancel) {
+          setUser(userData.user);
+          setChecking(false);
+        }
+      } catch {
+        if (!cancel) {
+          removeToken();
+          router.replace("/login?next=/admin");
+        }
+      }
+    };
+
+    checkAuth();
+    return () => {
+      cancel = true;
+    };
+  }, [router]);
+
+  // Loading inicial
+  if (checking) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[var(--background)]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary)] mx-auto mb-4"></div>
+          <p className="text-[var(--muted-foreground)]">
+            Verificando permissões...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <AdminHeader
+        currentPage="manual"
+        userName={user.nome}
+      />
+
       <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg p-6 sm:p-8 mb-6 text-white">
@@ -849,6 +935,7 @@ export default function ManualAdmin() {
           <p>AlphaClean © 2024 - Manual do Administrador v1.0</p>
           <p className="mt-1">Última atualização: Outubro 2024</p>
         </div>
+      </div>
       </div>
     </div>
   );
