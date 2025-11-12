@@ -124,7 +124,7 @@ export default function ManualCliente() {
     try {
       const token = getToken();
       const headers: HeadersInit = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       };
       if (token) {
         headers.Authorization = `Bearer ${token}`;
@@ -997,7 +997,6 @@ export default function ManualCliente() {
           <p>AlphaClean © 2024 - Manual do Cliente v1.0</p>
           <p className="mt-1">Última atualização: Outubro 2024</p>
         </div>
-      </div>
       </div>
     </div>
   );

@@ -137,10 +137,7 @@ export default function ManualAdmin() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <AdminHeader
-        currentPage="manual"
-        userName={user.nome}
-      />
+      <AdminHeader currentPage="manual" userName={user.nome} />
 
       <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
         {/* Header */}
@@ -935,7 +932,6 @@ export default function ManualAdmin() {
           <p>AlphaClean © 2024 - Manual do Administrador v1.0</p>
           <p className="mt-1">Última atualização: Outubro 2024</p>
         </div>
-      </div>
       </div>
     </div>
   );
