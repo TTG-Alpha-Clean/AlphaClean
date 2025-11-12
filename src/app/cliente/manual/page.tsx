@@ -19,6 +19,7 @@ import {
   HelpCircle,
   LogOut,
   Settings,
+  Home,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -178,6 +179,14 @@ export default function ManualCliente() {
                 {user?.email || "cliente@exemplo.com"}
               </p>
             </div>
+            <button
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
+              aria-label="Home"
+              onClick={() => router.push("/cliente")}
+            >
+              <Home className="h-4 w-4" />
+              <span className="hidden sm:inline">Home</span>
+            </button>
             <button
               className="inline-flex items-center gap-2 rounded-xl border border-[var(--card-border)] px-3 py-2 text-sm transition hover:bg-[var(--muted)]"
               aria-label="Manual"
