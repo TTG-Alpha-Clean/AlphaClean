@@ -126,10 +126,6 @@ export default function AdminServicesPage() {
 
   // Deletar serviço
   const handleDelete = async (serviceId: number) => {
-    if (!confirm("Tem certeza que deseja excluir este serviço?")) {
-      return;
-    }
-
     const toastId = toast.loading("Excluindo serviço...");
 
     try {
@@ -313,7 +309,11 @@ export default function AdminServicesPage() {
                         size="md"
                       />
                       <DeleteButton
-                        onClick={() => handleDelete(service.service_id)}
+                        onClick={() => {
+                          if (window.confirm("Tem certeza que deseja excluir este serviço?")) {
+                            handleDelete(service.service_id);
+                          }
+                        }}
                       />
                     </div>
                   </div>
