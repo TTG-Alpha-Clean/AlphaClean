@@ -161,40 +161,125 @@ export default function ManualAdmin() {
             Índice
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+            <a href="#credenciais" className="text-blue-600 hover:underline">
+              1. Credenciais do Sistema
+            </a>
             <a href="#dashboard" className="text-blue-600 hover:underline">
-              1. Dashboard e Visão Geral
+              2. Dashboard e Visão Geral
             </a>
             <a href="#agendamentos" className="text-blue-600 hover:underline">
-              2. Gestão de Agendamentos
+              3. Gestão de Agendamentos
             </a>
             <a href="#clientes" className="text-blue-600 hover:underline">
-              3. Gestão de Clientes
+              4. Gestão de Clientes
             </a>
             <a href="#servicos" className="text-blue-600 hover:underline">
-              4. Gestão de Serviços
+              5. Gestão de Serviços
             </a>
             <a href="#relatorios" className="text-blue-600 hover:underline">
-              5. Relatórios e Análises
+              6. Relatórios e Análises
             </a>
             <a href="#whatsapp" className="text-blue-600 hover:underline">
-              6. WhatsApp - Configuração VM
+              7. WhatsApp - Configuração VM
             </a>
             <a href="#backend" className="text-blue-600 hover:underline">
-              7. Backend e Banco de Dados
+              8. Backend e Banco de Dados
             </a>
             <a href="#cliente-manual" className="text-blue-600 hover:underline">
-              8. Funcionamento do Cliente
+              9. Funcionamento do Cliente
             </a>
           </div>
         </div>
 
         {/* Sections */}
         <div className="space-y-4">
+          {/* Credenciais */}
+          <Section
+            title="1. Credenciais do Sistema"
+            icon={<Settings className="w-5 h-5" />}
+            defaultOpen={true}
+          >
+            <div className="space-y-4 text-gray-700">
+              <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4">
+                <p className="text-sm font-semibold text-red-800 mb-2">
+                  🔒 CONFIDENCIAL - Mantenha estas informações em segurança
+                </p>
+                <p className="text-xs text-red-600">
+                  Não compartilhe estas credenciais com terceiros. São de uso
+                  exclusivo do administrador do sistema.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3">Gmail</h3>
+                <div className="bg-gray-50 rounded-lg p-4 space-y-2 font-mono text-sm">
+                  <div>
+                    <span className="text-gray-600">Email:</span>{" "}
+                    <span className="text-gray-900">alphaclean335@gmail.com</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Senha:</span>{" "}
+                    <span className="text-gray-900">Alpha@1234</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Conta principal utilizada para notificações e serviços
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3">Supabase</h3>
+                <div className="bg-gray-50 rounded-lg p-4 space-y-2 font-mono text-sm">
+                  <div>
+                    <span className="text-gray-600">Email:</span>{" "}
+                    <span className="text-gray-900">alphaclean335@gmail.com</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Senha:</span>{" "}
+                    <span className="text-gray-900">Alphasup@1234</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Senha do BD:</span>{" "}
+                    <span className="text-gray-900">@Alpha#1234%</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Plataforma de banco de dados PostgreSQL e autenticação
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3">Cloudflare</h3>
+                <div className="bg-gray-50 rounded-lg p-4 font-mono text-sm">
+                  <div>
+                    <span className="text-gray-600">Login:</span>{" "}
+                    <span className="text-gray-900">Via conta Google (Gmail)</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Utilizado para Cloudflare Tunnel (conexão VM com backend)
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3">Cloudinary</h3>
+                <div className="bg-gray-50 rounded-lg p-4 font-mono text-sm">
+                  <div>
+                    <span className="text-gray-600">Login:</span>{" "}
+                    <span className="text-gray-900">Via conta Google (Gmail)</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Plataforma de armazenamento e otimização de imagens
+                </p>
+              </div>
+            </div>
+          </Section>
+
           {/* Dashboard */}
           <Section
-            title="1. Dashboard e Visão Geral"
+            title="2. Dashboard e Visão Geral"
             icon={<LayoutDashboard className="w-5 h-5" />}
-            defaultOpen={true}
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -247,7 +332,7 @@ export default function ManualAdmin() {
 
           {/* Agendamentos */}
           <Section
-            title="2. Gestão de Agendamentos"
+            title="3. Gestão de Agendamentos"
             icon={<Calendar className="w-5 h-5" />}
           >
             <div className="space-y-4 text-gray-700">
@@ -307,7 +392,7 @@ export default function ManualAdmin() {
 
           {/* Clientes */}
           <Section
-            title="3. Gestão de Clientes"
+            title="4. Gestão de Clientes"
             icon={<Users className="w-5 h-5" />}
           >
             <div className="space-y-4 text-gray-700">
@@ -345,7 +430,7 @@ export default function ManualAdmin() {
 
           {/* Serviços */}
           <Section
-            title="4. Gestão de Serviços do Site"
+            title="5. Gestão de Serviços do Site"
             icon={<Settings className="w-5 h-5" />}
           >
             <div className="space-y-4 text-gray-700">
@@ -411,7 +496,7 @@ export default function ManualAdmin() {
 
           {/* Relatórios */}
           <Section
-            title="5. Relatórios e Análises"
+            title="6. Relatórios e Análises"
             icon={<FileText className="w-5 h-5" />}
           >
             <div className="space-y-4 text-gray-700">
@@ -455,7 +540,7 @@ export default function ManualAdmin() {
 
           {/* WhatsApp */}
           <Section
-            title="6. WhatsApp - Configuração e VM"
+            title="7. WhatsApp - Configuração e VM"
             icon={<MessageSquare className="w-5 h-5" />}
           >
             <div className="space-y-4 text-gray-700">
@@ -594,7 +679,7 @@ export default function ManualAdmin() {
 
           {/* Backend */}
           <Section
-            title="7. Backend e Banco de Dados"
+            title="8. Backend e Banco de Dados"
             icon={<Server className="w-5 h-5" />}
           >
             <div className="space-y-4 text-gray-700">
@@ -712,7 +797,7 @@ export default function ManualAdmin() {
 
           {/* Cliente Manual */}
           <Section
-            title="8. Como o Cliente Utiliza o Sistema"
+            title="9. Como o Cliente Utiliza o Sistema"
             icon={<UserCheck className="w-5 h-5" />}
           >
             <div className="space-y-4 text-gray-700">
