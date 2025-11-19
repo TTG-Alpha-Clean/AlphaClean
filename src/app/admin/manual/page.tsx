@@ -30,13 +30,35 @@ interface SectionProps {
   icon: React.ReactNode;
   children: React.ReactNode;
   defaultOpen?: boolean;
+  id?: string;
 }
 
-function Section({ title, icon, children, defaultOpen = false }: SectionProps) {
+function Section({ title, icon, children, defaultOpen = false, id }: SectionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
+  // Observa mudanças no hash da URL para abrir a seção correspondente
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1); // Remove o #
+      if (id === hash) {
+        setIsOpen(true);
+        // Pequeno delay para garantir que a seção esteja renderizada antes do scroll
+        setTimeout(() => {
+          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    };
+
+    // Verifica hash inicial
+    handleHashChange();
+
+    // Escuta mudanças no hash
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [id]);
+
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div id={id} className="bg-white rounded-lg border border-gray-200 overflow-hidden scroll-mt-20">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-4 sm:p-6 hover:bg-gray-50 transition-colors"
@@ -198,6 +220,7 @@ export default function ManualAdmin() {
             title="1. Credenciais do Sistema"
             icon={<Settings className="w-5 h-5" />}
             defaultOpen={true}
+            id="credenciais"
           >
             <div className="space-y-4 text-gray-700">
               <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4">
@@ -280,6 +303,7 @@ export default function ManualAdmin() {
           <Section
             title="2. Dashboard e Visão Geral"
             icon={<LayoutDashboard className="w-5 h-5" />}
+            id="dashboard"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -334,6 +358,7 @@ export default function ManualAdmin() {
           <Section
             title="3. Gestão de Agendamentos"
             icon={<Calendar className="w-5 h-5" />}
+            id="agendamentos"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -394,6 +419,7 @@ export default function ManualAdmin() {
           <Section
             title="4. Gestão de Clientes"
             icon={<Users className="w-5 h-5" />}
+            id="clientes"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -432,6 +458,7 @@ export default function ManualAdmin() {
           <Section
             title="5. Gestão de Serviços do Site"
             icon={<Settings className="w-5 h-5" />}
+            id="servicos"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -498,6 +525,7 @@ export default function ManualAdmin() {
           <Section
             title="6. Relatórios e Análises"
             icon={<FileText className="w-5 h-5" />}
+            id="relatorios"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -542,6 +570,7 @@ export default function ManualAdmin() {
           <Section
             title="7. WhatsApp - Configuração e VM"
             icon={<MessageSquare className="w-5 h-5" />}
+            id="whatsapp"
           >
             <div className="space-y-4 text-gray-700">
               <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -681,6 +710,7 @@ export default function ManualAdmin() {
           <Section
             title="8. Backend e Banco de Dados"
             icon={<Server className="w-5 h-5" />}
+            id="backend"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -799,6 +829,7 @@ export default function ManualAdmin() {
           <Section
             title="9. Como o Cliente Utiliza o Sistema"
             icon={<UserCheck className="w-5 h-5" />}
+            id="cliente-manual"
           >
             <div className="space-y-4 text-gray-700">
               <div>

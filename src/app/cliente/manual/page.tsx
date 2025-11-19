@@ -42,13 +42,35 @@ interface SectionProps {
   icon: React.ReactNode;
   children: React.ReactNode;
   defaultOpen?: boolean;
+  id?: string;
 }
 
-function Section({ title, icon, children, defaultOpen = false }: SectionProps) {
+function Section({ title, icon, children, defaultOpen = false, id }: SectionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
+  // Observa mudanças no hash da URL para abrir a seção correspondente
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1); // Remove o #
+      if (id === hash) {
+        setIsOpen(true);
+        // Pequeno delay para garantir que a seção esteja renderizada antes do scroll
+        setTimeout(() => {
+          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    };
+
+    // Verifica hash inicial
+    handleHashChange();
+
+    // Escuta mudanças no hash
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [id]);
+
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div id={id} className="bg-white rounded-lg border border-gray-200 overflow-hidden scroll-mt-20">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-4 sm:p-6 hover:bg-gray-50 transition-colors"
@@ -273,6 +295,7 @@ export default function ManualCliente() {
             title="1. Como Criar sua Conta"
             icon={<UserPlus className="w-5 h-5" />}
             defaultOpen={true}
+            id="cadastro"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -341,6 +364,7 @@ export default function ManualCliente() {
           <Section
             title="2. Como Fazer Login"
             icon={<CheckCircle className="w-5 h-5" />}
+            id="login"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -388,6 +412,7 @@ export default function ManualCliente() {
           <Section
             title="3. Cadastrar e Gerenciar seus Carros"
             icon={<Car className="w-5 h-5" />}
+            id="carros"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -500,6 +525,7 @@ export default function ManualCliente() {
           <Section
             title="4. Como Fazer um Agendamento"
             icon={<Calendar className="w-5 h-5" />}
+            id="agendamento"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -605,6 +631,7 @@ export default function ManualCliente() {
           <Section
             title="5. Gerenciar Meus Agendamentos"
             icon={<Clock className="w-5 h-5" />}
+            id="gerenciar"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -717,6 +744,7 @@ export default function ManualCliente() {
           <Section
             title="6. Notificações WhatsApp"
             icon={<MessageSquare className="w-5 h-5" />}
+            id="notificacoes"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -813,6 +841,7 @@ export default function ManualCliente() {
           <Section
             title="7. Perguntas Frequentes"
             icon={<HelpCircle className="w-5 h-5" />}
+            id="duvidas"
           >
             <div className="space-y-4 text-gray-700">
               <div>
@@ -928,6 +957,7 @@ export default function ManualCliente() {
           <Section
             title="8. Dicas para Melhor Experiência"
             icon={<Star className="w-5 h-5" />}
+            id="dicas"
           >
             <div className="space-y-4 text-gray-700">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
