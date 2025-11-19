@@ -361,7 +361,7 @@ const ServiceCardDetailed: React.FC<{
   return (
     <article
       className="relative grid grid-cols-1 gap-0 rounded-2xl border shadow-lg transition hover:shadow-xl overflow-hidden
-                 sm:grid-cols-[280px_1fr] sm:max-h-[380px] 2xl:grid-cols-[240px_1fr] 2xl:max-w-[560px] 2xl:max-h-[360px]"
+                 sm:grid-cols-[320px_1fr] sm:max-h-[450px] 2xl:grid-cols-[280px_1fr] 2xl:max-w-[680px] 2xl:max-h-[440px]"
       style={{
         background: "var(--card-bg)",
         borderColor: "var(--card-border)",
