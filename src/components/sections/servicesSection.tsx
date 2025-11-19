@@ -361,7 +361,7 @@ const ServiceCardDetailed: React.FC<{
   return (
     <article
       className="relative grid grid-cols-1 gap-0 rounded-2xl border shadow-lg transition hover:shadow-xl overflow-hidden
-                 sm:grid-cols-[280px_1fr] 2xl:grid-cols-[240px_1fr] 2xl:max-w-[560px]"
+                 sm:grid-cols-[280px_1fr] sm:max-h-[380px] 2xl:grid-cols-[240px_1fr] 2xl:max-w-[560px] 2xl:max-h-[360px]"
       style={{
         background: "var(--card-bg)",
         borderColor: "var(--card-border)",
@@ -380,7 +380,7 @@ const ServiceCardDetailed: React.FC<{
       )}
 
       {/* Coluna da imagem - comprida vertical */}
-      <div className="relative h-[220px] sm:h-[280px] sm:max-h-[280px]">
+      <div className="relative h-[220px] sm:h-full">
         {image_url ? (
           <Image
             src={image_url}
