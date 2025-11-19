@@ -39,7 +39,7 @@ export default function Home() {
             variant="detailed"
             endpoint={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/services`}
             className="mt-12"
-            limit={3}
+            limit={4}
           />
         </section>
       </div>
