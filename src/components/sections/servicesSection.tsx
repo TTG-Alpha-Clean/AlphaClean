@@ -380,7 +380,7 @@ const ServiceCardDetailed: React.FC<{
       )}
 
       {/* Coluna da imagem - comprida vertical */}
-      <div className="relative h-[220px] sm:h-full sm:min-h-[320px]">
+      <div className="relative h-[220px] sm:h-[280px] sm:max-h-[280px]">
         {image_url ? (
           <Image
             src={image_url}
