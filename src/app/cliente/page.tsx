@@ -377,7 +377,7 @@ export default function ClienteDashboardPage() {
             variant="outline"
             iconName="MapPin"
             title="Localização"
-            subtitle="Rua das Palmeiras, 123 – Centro"
+            subtitle="Estrada do coco, Posto Br, Alphaville Litoral Norte 2 BA-099 - Abrantes, Camaçari"
             ctaLabel="Ver no Mapa"
             onClick={handleLocation}
           />
