@@ -11,9 +11,9 @@ import {
   AdminServiceList,
   type AdminServiceItem,
 } from "@/components/lists/adminServiceList";
-import { AdminCalendar } from "@/components/adminCalendar";
-import { ContentManagement } from "@/components/contentManagement";
-import { WhatsAppManagement } from "@/components/whatsappManagement";
+import { AdminCalendar } from "@/components/calendars/adminCalendar";
+import { ContentManagement } from "@/components/management/contentManagement";
+import { WhatsAppManagement } from "@/components/management/whatsappManagement";
 import AdminHeader from "@/components/navigation/adminHeader";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
@@ -225,7 +225,11 @@ export default function AdminDashboardPage() {
             return {
               id: item.id,
               datetime: `${dataLimpa}T${item.horario || "09:00"}`,
-              servico: item.servico_nome || servicoInfo?.title || servicoInfo?.nome || "Serviço não informado", // Nome do serviço
+              servico:
+                item.servico_nome ||
+                servicoInfo?.title ||
+                servicoInfo?.nome ||
+                "Serviço não informado", // Nome do serviço
               veiculo: item.modelo_veiculo,
               modelo_veiculo: item.modelo_veiculo,
               cor: item.cor,

@@ -170,7 +170,7 @@ export default function ClienteDashboardPage() {
     try {
       const token = getToken();
       const headers: HeadersInit = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       };
       if (token) {
         headers.Authorization = `Bearer ${token}`;
@@ -207,7 +207,8 @@ export default function ClienteDashboardPage() {
 
   const handleLocation = () => {
     // Substitua pela localização real
-    const address = "Rua das Palmeiras, 123, Centro";
+    const address =
+      "Estrada do coco, Posto Br, Alphaville Litoral Norte 2 BA-099 - Abrantes, Camaçari";
     window.open(
       `https://maps.google.com/maps?q=${encodeURIComponent(address)}`,
       "_blank"
